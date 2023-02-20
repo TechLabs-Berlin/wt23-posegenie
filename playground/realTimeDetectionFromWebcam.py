@@ -1,37 +1,45 @@
 import mediapipe as mp
 import cv2
+import numpy as np
 
-cap=cv2.VideoCapture(0)
-mp_pose=mp.solutions.pose
-mpDraw=mp.solutions.drawing_utils
-pose=mp_pose.Pose()
+mp_drawing = mp.solutions.drawing_utils
+mp_pose = mp.solutions.pose
+
+cap = cv2.VideoCapture(0)
+## Setup mediapipe instance
+with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+    while cap.isOpened():
+        ret, frame = cap.read()
+
+        # Recolor image to RGB
+        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image.flags.writeable = False
+
+        # Make detection
+        results = pose.process(image)
+
+        # Recolor back to BGR
+        image.flags.writeable = True
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+        # Extract landmarks
+        try:
+            landmarks = results.pose_landmarks.landmark
+            print(landmarks)
+        except:
+            pass
 
 
-while True:
-           success,frame=cap.read()
-           if success==False:
-               break
-#           frame=cam()
-           frame=cv2.resize(frame,(640,480))
-           rgb_frame=cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
-           result=pose.process(rgb_frame)
-           mpDraw.draw_landmarks(frame,result.pose_landmarks,mp_pose.POSE_CONNECTIONS)
-           if not result.pose_landmarks:
-               print("nothing")
-           else:
-               for id,lm in enumerate (result.pose_landmarks.landmark):
-                    x=int(lm.x*640)
-                    y=int(lm.y*480)
-                    cv2.circle(frame,(x,y),1,(255,0,255),-1)
-                    cv2.putText(frame,str(id),(x,y -1),cv2.FONT_HERSHEY_PLAIN,2,(255,0,0),2)
-                    list.append([x,y])
-            print(list[12])
-            x1 = list[12][0]
-            y1 = list[12][1]
-            cv2.circle(frame,(x1,y1),5,(255,0,0),-1)
-            cv2.imshow("Frame", frame);
-            key = cv2.waitKey(1) & 0xFF
-            if key == ord("q"):
-                break
-cap.release()
-cv2.destroyAllWindows()
+        # Render detections
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
+                                mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2),
+                                mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2)
+                                 )
+
+        cv2.imshow('Mediapipe Feed', image)
+
+        if cv2.waitKey(10) & 0xFF == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
