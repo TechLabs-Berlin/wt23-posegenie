@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+/* .wrapper {
+  margin: auto;
+} */
+
+.material-symbols-outlined {
+  background-color: rgb(233, 233, 233);
+  padding: 130px;
+  margin-top: 20px;
+}
+.uploadBtn {
+  margin: auto;
+}
+
+.uploadBtn_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+a {
+  text-decoration: none;
+}
+/* header  */
+
+.header {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 80%;
+  height: 400px;
+  align-items: center;
+  margin: 50px auto;
+}
+.header_element {
+  width: 45%;
+}
+
+@media screen and (max-width: 830px) {
+  .header {
+    flex-direction: column;
+    height: fit-content;
+    padding: 10px auto;
+  }
+  .header_element {
+    width: fit-content;
+    padding: 14px;
+  }
+}
+
+/* card */
+.card {
+  margin: 50px auto;
+  text-align: center;
+  font-size: 40px;
+  font-family: "Figtree", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  width: 70%;
+}
+.card_element span {
+  margin-top: 30px;
+  padding: 280px;
+}
+
+@media screen and (max-width: 830px) {
+  .card_element span {
+    padding: 240px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .card_element span {
+    padding: 200px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    font-size: 30px;
+  }
+  .card_element span {
+    padding: 150px;
+  }
+}
+
+/* about use */
+.card_Aboutus {
+  width: 70%;
+  margin: 40px auto;
+}
+.team_img {
+  width: 100%;
+}
