@@ -17,7 +17,9 @@
 
 .uploadBtn_container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin-top: 40px;
   margin-bottom: 30px;
 }
@@ -97,8 +99,7 @@ a {
 }
 
 .user-auth {
-  border: 1px solid pink;
-  background-color: rgba(179, 211, 211, 0.447);
+  background-color: rgba(206, 216, 216, 0.447);
   text-align: center;
 }
 .user-auth h1 {
@@ -118,3 +119,37 @@ a {
 .status_auth {
   margin: 10px 0;
 }
+
+input[type="file"] {
+  /* position: relative; */
+  display: inline-block;
+  margin: 20px 0 30px 0;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 0;
+  color: #fff;
+  background-color: #969696;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 500px;
+}
+
+input[type="file"]:hover {
+  background-color: #000000;
+}
+
+input[type="file"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+/* input[type="file"]::before {
+  /* content: "Choose a file"; */
+/* display: inline-block;
+  padding: 0 10px;
+  background-color: #fff;
+} */
