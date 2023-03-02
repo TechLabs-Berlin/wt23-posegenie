@@ -1,13 +1,30 @@
 import React, { useRef } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 function UploadVideoButton() {
-  const fileInputRef = useRef(null);
+  const [file, setFile] = useState(null);
 
-  const handleUpload = (event) => {
-    const file = event.target.files[0];
-    console.log("Selected file:", file);
+  const handleFileUpload = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    const formData = new FormData();
+    formData.append("video", file);
+
+    fetch("/videos/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -19,21 +36,24 @@ function UploadVideoButton() {
       }}
     >
       <div className="uploadBtn_container">
-        <input
-          type="file"
-          accept="video/*"
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          onChange={handleUpload}
-        />
-        <Button
-          variant="outlined"
-          size="medium"
-          onClick={() => fileInputRef.current.click()}
-          className="uploadBtn"
-        >
-          Upload Video
-        </Button>
+        <div>
+          <input
+            type="file"
+            id="video-upload"
+            accept=".mp4, .mov, .avi"
+            onChange={handleFileUpload}
+          />
+        </div>
+        <div>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={handleUpload}
+            className="uploadBtn"
+          >
+            Upload Video
+          </Button>
+        </div>
       </div>
     </Box>
   );
