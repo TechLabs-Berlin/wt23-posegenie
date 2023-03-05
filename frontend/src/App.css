@@ -17,7 +17,9 @@
 
 .uploadBtn_container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin-top: 40px;
   margin-bottom: 30px;
 }
@@ -95,3 +97,59 @@ a {
 .team_img {
   width: 100%;
 }
+
+.user-auth {
+  background-color: rgba(206, 216, 216, 0.447);
+  text-align: center;
+}
+.user-auth h1 {
+  font-size: 16px;
+  padding-top: 15px;
+}
+.user-auth input {
+  margin: 0 10px 10px 5px;
+  border-radius: 5px;
+  padding: 2px 4px;
+}
+.user-auth button {
+  padding: 2px 4px;
+  border-radius: 5px;
+  background-color: white;
+}
+.status_auth {
+  margin: 10px 0;
+}
+
+input[type="file"] {
+  /* position: relative; */
+  display: inline-block;
+  margin: 20px 0 30px 0;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 0;
+  color: #fff;
+  background-color: #969696;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 500px;
+}
+
+input[type="file"]:hover {
+  background-color: #000000;
+}
+
+input[type="file"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+/* input[type="file"]::before {
+  /* content: "Choose a file"; */
+/* display: inline-block;
+  padding: 0 10px;
+  background-color: #fff;
+} */

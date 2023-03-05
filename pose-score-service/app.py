@@ -18,13 +18,16 @@ def upload_video():
         # return Response(processed_video_bytes, mimetype='video/mp4')
 
         # Return the saved file for download
-        return send_file('uploaded_videos/' + video_file.filename,
-                         attachment_filename=video_file.filename,
-                         as_attachment=True)
+        # return send_file('uploaded_videos/' + video_file.filename,
+        #                  attachment_filename=video_file.filename,
+        #                  as_attachment=True)
+        success_message = 'video uploaded to flask successfully!'
+        print(success_message)
+        return success_message
 
     # Render the HTML form
     return render_template('index.html')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=6000)
