@@ -19,7 +19,7 @@ router.post("/upload", upload.single("video"), (req, res) => {
     });
 
     // Send the video to flask server
-    url = "http://localhost:6000/process_video";
+    url = "http://localhost:5001/process_video";
     axios
         .post(url, formData, {
             headers: {
