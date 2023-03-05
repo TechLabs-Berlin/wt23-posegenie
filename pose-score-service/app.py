@@ -2,6 +2,10 @@ from flask import Flask, request, send_file, render_template,Response
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return "Hello World"
+
 @app.route('/process_video', methods=['GET', 'POST'])
 def upload_video():
     if request.method == 'POST':
