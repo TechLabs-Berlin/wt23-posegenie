@@ -28,7 +28,7 @@ def upload_video():
 
         # Return the saved file for download
         return send_file('uploaded_videos/' + video_file.filename,
-                         attachment_filename=video_file.filename,
+                         download_name=video_file.filename,
                          as_attachment=True)
         # success_message = 'video uploaded to flask successfully!'
         # print(success_message)
