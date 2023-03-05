@@ -90,8 +90,25 @@ def point_position(point, line_pt_1, line_pt_2):
 #########################################################################
 # MAIN BLOCK OF CODE
 #########################################################################
-# START VIDEO CAPTURE FOR LIVE FEED
-cap = cv2.VideoCapture(0)
+file_or_webcam = 1 # FOR FILE = 0 FOR WEBCAM = 1
+
+video_path = "C:/Users/naiara/TECHLABS_POSE/scripts/video/warrior.mp4"
+#video_path = "warrior.mp4"
+
+if file_or_webcam == 0:
+   # LOAD VIDEO FROM FILE
+   cap = cv2.VideoCapture(video_path) # VIDEO PATH
+elif file_or_webcam == 1:
+   # START VIDEO CAPTURE FOR LIVE FEED
+   cap = cv2.VideoCapture(0) # LIVE FEED
+
+
+
+
+
+
+width  = cap.get(cv2.CAP_PROP_FRAME_WIDTH)   # float `width`
+height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)  # float `height`
 
 with mp_pose.Pose(min_detection_confidence=0.5,min_tracking_confidence=0.5) as pose:
   while cap.isOpened():
@@ -106,19 +123,21 @@ with mp_pose.Pose(min_detection_confidence=0.5,min_tracking_confidence=0.5) as p
     image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    cv2.namedWindow("Mediapipe Feed", cv2.WINDOW_NORMAL)
-    cv2.setWindowProperty("Mediapipe Feed", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    # UNCOMMENT FOR FULL SCREEN VIDEO
+    #cv2.namedWindow("Mediapipe Feed", cv2.WINDOW_NORMAL)
+    #cv2.setWindowProperty("Mediapipe Feed", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
     #DEFINE INITIAL VARIABLES FOR POSTURE DETECTION MESSAGES AND COLORS
     pose_orientation = "WAITING..."
     left_arm_correct = "WAITING..."
-    right_arm_correct = "WITING..."
+    right_arm_correct = "WAITING..."
     right_color_rec = (0,0,0)
     left_color_rec = (0,0,0)
     leg_correction = "WAITING..."
     leg_color_rec = (0,0,0)
     leg_correction_angle = "WAITING..."
     leg_ang_color_rec = (0,0,0)
+    pose_or_color = (0,0,0)
 
     
     try:
@@ -163,51 +182,51 @@ with mp_pose.Pose(min_detection_confidence=0.5,min_tracking_confidence=0.5) as p
       # VISUALIZE LANDMARSK
       # LEFT ARM
       cv2.putText(image, str(left_elbow_angle),
-                  tuple(np.multiply(left_elbow,[640,480]).astype(int)),
+                  tuple(np.multiply(left_elbow,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,155,255),2, cv2.LINE_AA
                   )
       cv2.putText(image, "HOR: " + str(left_elbow_angle_hor),
-                  tuple(np.multiply(left_wrist,[640,480]).astype(int)),
+                  tuple(np.multiply(left_wrist,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,155,255),2, cv2.LINE_AA
                   )
       
       # RIGHT ARM
       cv2.putText(image, str(right_elbow_angle),
-                  tuple(np.multiply(right_elbow,[640,480]).astype(int)),
+                  tuple(np.multiply(right_elbow,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,0),2, cv2.LINE_AA
                   )
       cv2.putText(image, "HOR: " + str(right_elbow_angle_hor),
-                  tuple(np.multiply(right_wrist,[640,480]).astype(int)),
+                  tuple(np.multiply(right_wrist,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,0),2, cv2.LINE_AA
                   )
       
       # LEFT KNEE
       cv2.putText(image, str(left_knee_angle),
-                  tuple(np.multiply(left_knee,[640,480]).astype(int)),
+                  tuple(np.multiply(left_knee,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,0),2, cv2.LINE_AA
                   )
       cv2.putText(image, "VER: " + str(left_knee_angle_ver),
-                  tuple(np.multiply(left_ankle,[640,480]).astype(int)),
+                  tuple(np.multiply(left_ankle,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,0),2, cv2.LINE_AA
                   )
       
       # RIGHT KNEE
       cv2.putText(image, str(right_knee_angle),
-                  tuple(np.multiply(right_knee,[640,480]).astype(int)),
+                  tuple(np.multiply(right_knee,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,0),2, cv2.LINE_AA
                   )
       cv2.putText(image, "VER: " + str(right_knee_angle_ver),
-                  tuple(np.multiply(right_ankle,[640,480]).astype(int)),
+                  tuple(np.multiply(right_ankle,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,0),2, cv2.LINE_AA
                   )
       
       # HIPS
       cv2.putText(image, str(left_hip_angle),
-                  tuple(np.multiply(left_hip,[640,480]).astype(int)),
+                  tuple(np.multiply(left_hip,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,0),2, cv2.LINE_AA
                   )
       cv2.putText(image, str(right_hip_angle),
-                  tuple(np.multiply(right_hip,[640,480]).astype(int)),
+                  tuple(np.multiply(right_hip,[width, height]).astype(int)),
                   cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,0),2, cv2.LINE_AA
                   )
       
@@ -218,31 +237,34 @@ with mp_pose.Pose(min_detection_confidence=0.5,min_tracking_confidence=0.5) as p
       # WARRIOR 2 IS AN ASYMMETRIC POSTURE, SO FIRST WE TRY TO DETECT ORIENTATION
       if ((left_knee_angle > 155 and left_knee_angle < 205) or (left_knee_angle > -25 and left_knee_angle < 25)) and ((right_knee_angle > 60 and right_knee_angle < 130)):
         pose_orientation = "RIGHT WARRIOR"
+        pose_or_color = (0,255,0)
       elif ((right_knee_angle > 155 and right_knee_angle < 205) or (right_knee_angle > -25 and right_knee_angle < 25)) and ((left_knee_angle > 60 and left_knee_angle < 130)):
         pose_orientation = "LEFT WARRIOR"
+        pose_or_color = (0,255,0)
       else:
         pose_orientation = "UNKNOWN"
+        pose_or_color = (0,0,0)
       
       # BOTH ARMS SHOULD BE EXTENDED (WITH ANGLE AT ELBOW ~ 180 DEGREES)
       # BOTH ARMS SHOULD BE HORIZONTAL (WITH ANGLE FROM HORIZONTAL ~ 0)
       # CORRECTIONS LEFT ARM
-      if left_elbow_angle_hor > 15:
+      if left_elbow_angle_hor > 20:
         left_arm_correct = "LEFT ARM TOO LOW"
         left_color_rec = (255,0,0)
-      elif left_elbow_angle_hor < -15:
+      elif left_elbow_angle_hor < -20:
         left_arm_correct = "LEFT ARM TOO HIGH"
         left_color_rec = (255,0,0)
-      elif left_elbow_angle_hor < 15 and left_elbow_angle_hor > -15:
+      elif left_elbow_angle_hor < 15 and left_elbow_angle_hor > -20:
         left_arm_correct = "GOOD"
         left_color_rec = (0,255,0) # GREEN COLOR
       #CORRECTIONS RIGHT ARM
-      if right_elbow_angle_hor > 15:
+      if right_elbow_angle_hor > 20:
         right_arm_correct = "RIGHT ARM TOO HIGH"
         right_color_rec = (255,0,0)
-      elif right_elbow_angle_hor < -15:
+      elif right_elbow_angle_hor < -20:
         right_arm_correct = "RIGHT ARM TOO LOW"
         right_color_rec = (255,0,0)
-      elif right_elbow_angle_hor < 15 and right_elbow_angle_hor > -15:
+      elif right_elbow_angle_hor < 20 and right_elbow_angle_hor > -20:
         right_arm_correct = "GOOD"
         right_color_rec = (0,255,0)  # GREEN COLOR
 
@@ -257,13 +279,13 @@ with mp_pose.Pose(min_detection_confidence=0.5,min_tracking_confidence=0.5) as p
         if right_knee_angle_ver > 110 or right_knee_angle_ver < 70:
           leg_correction = "FORELEG SHOULD BE 90 WITH FLOOR"
           leg_color_rec = (255,0,0)
-        elif right_knee_angle_ver < 100 and right_knee_angle_ver > 80:
+        elif right_knee_angle_ver < 110 and right_knee_angle_ver > 70:
           leg_correction = "GOOD"
           leg_color_rec = (0,255,0)
-        if right_knee_angle > 100 or right_knee_angle < 80:
+        if right_knee_angle > 130 or right_knee_angle < 60:
           leg_correction_angle = "FORE LEG AND TIGHT SHOULD BE AT 90"
           leg_ang_color_rec = (255,0,0)
-        elif right_knee_angle < 100 and right_knee_angle > 80:
+        elif right_knee_angle < 130 and right_knee_angle > 60:
           leg_correction_angle = "GOOD"
           leg_ang_color_rec = (0,255,0)
       
@@ -271,13 +293,13 @@ with mp_pose.Pose(min_detection_confidence=0.5,min_tracking_confidence=0.5) as p
         if left_knee_angle_ver > 110 or left_knee_angle_ver < 70:
           leg_correction = "FORELEG SHOULD BE 90 WITH FLOOR"
           leg_color_rec = (255,0,0)
-        elif left_knee_angle_ver < 100 and left_knee_angle_ver > 80:
+        elif left_knee_angle_ver < 110 and left_knee_angle_ver > 70:
           leg_correction = "GOOD"
           leg_color_rec = (0,255,0)
-        if left_knee_angle > 120 or left_knee_angle < 70:
+        if left_knee_angle > 130 or left_knee_angle < 60:
           leg_correction_angle = "FORELEG AND TIGHT SHOULD BE AT 90"
           leg_ang_color_rec = (255,0,0)
-        elif left_knee_angle < 120 and left_knee_angle > 70:
+        elif left_knee_angle < 130 and left_knee_angle > 60:
           leg_correction_angle = "GOOD"
           leg_ang_color_rec = (0,255,0)
 
@@ -311,9 +333,9 @@ with mp_pose.Pose(min_detection_confidence=0.5,min_tracking_confidence=0.5) as p
 
     #POSE DETECTION
     cv2.putText(image, "POSE:", (450,20),
-                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),1,cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),3,cv2.LINE_AA)
     cv2.putText(image, pose_orientation, (450,60),
-                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),1,cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,pose_or_color,3,cv2.LINE_AA)
     
     #Setup Orientation box
 
