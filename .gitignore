@@ -1,2 +1,4 @@
 node_modules
 model-files-mediapipe/videos/
+model-files-mediapipe/google_images/
+model-files-mediapipe/unseen_images/
