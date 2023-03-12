@@ -1,0 +1,25 @@
+.steps {
+  display: flex;
+  justify-content: center;
+  width: 1000px;
+}
+.step-card {
+  padding-top: 10px;
+  border: 1px solid #f35d6b;
+  border-radius: 10px;
+  width: 220px;
+  height: 120px;
+  margin-bottom: 60px;
+}
+.step-card:nth-child(2) {
+  margin: 0 40px 0 40px;
+}
+.step-title {
+  padding: 7px 0 6px 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+.step-instr {
+  padding: 7px 0 8px 20px;
+  font-size: 16px;
+}

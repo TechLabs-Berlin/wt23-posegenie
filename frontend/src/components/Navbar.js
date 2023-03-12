@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HashLink as Link } from "react-router-hash-link";
+
 import "../navbar_style.css";
 
 function Navbar() {

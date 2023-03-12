@@ -2,16 +2,13 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
+
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import teamPic from "../assets/img_001.jpg";
 
 export default function AboutUs() {
   return (
     <Card className="card_Aboutus" sx={{ maxWidth: 645 }}>
-      {/* <img src={teamPic} alt="team" className="team_img" /> */}
-
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           About us
@@ -23,7 +20,7 @@ export default function AboutUs() {
         </Typography>
       </CardContent>
       <CardActions>
-        <a>
+        <a href="https://bln.techlabs.org">
           <Button size="small" color="secondary">
             Share
           </Button>
