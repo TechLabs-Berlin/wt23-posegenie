@@ -1,0 +1,13 @@
+.start-btn-box {
+  display: flex;
+  justify-content: center;
+}
+.start-btn {
+  color: #f35d6b;
+  width: 210px;
+  height: 60px;
+  margin: auto;
+  font-weight: 700;
+  font-size: 30px;
+  cursor: pointer;
+}

@@ -19,3 +19,38 @@
 .highlight {
   color: #f35d6b;
 }
+
+/* MOBILE */
+
+@media (min-width: 380px) and (max-width: 780px) {
+  .head {
+    height: 280px;
+  }
+  .head-img {
+    width: 160px;
+    top: 40px;
+    right: 0px;
+  }
+  .title {
+    font-size: 76px;
+    line-height: 86px;
+  }
+}
+
+/* TABLET */
+
+@media (min-width: 780px) and (max-width: 1120px) {
+  .head {
+    height: 380px;
+  }
+  .head-img {
+    width: 230px;
+    top: 50px;
+    right: 90px;
+  }
+
+  .title {
+    font-size: 120px;
+    line-height: 128px;
+  }
+}

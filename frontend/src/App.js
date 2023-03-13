@@ -1,21 +1,15 @@
 import "./css/App.css";
 import "./css/dark.css";
 import "./css/light.css";
+
 import React, { useState } from "react";
 
 import Head from "./components/01_header/Head";
 import Quote from "./components/02_quote/Quote";
 import Steps from "./components/03_steps/Steps";
-import StartButton from "./components/StartButton";
-// import Footer from "./components/05_footer/Footer";
-import UploadVideoButton from "./components/UploadVideoButton";
-
-// import Navbar from "./components/Navbar";
-// import Header from "./components/Header";
-// import Card from "./components/Card";
-
-import Footer from "./components/Footer";
-// import AboutUs from "./components/AboutUs";
+import StartButton from "./components/04_start_btn/StartButton";
+import UploadVideoButton from "./components/05_update_video/UploadVideoButton";
+import Footer from "./components/06_footer/Footer";
 
 // import SignIn from "./components/auth/SignIn";
 // import SignUp from "./components/auth/SignUp";
@@ -36,7 +30,6 @@ function App() {
           </button>
           <button>Sign in</button>
         </div>
-
         <Head />
         <Quote />
         <div className="steps wrapper">
@@ -48,22 +41,14 @@ function App() {
           <Steps number={"Step 3"} instruction={"Check results"} />
         </div>
         <StartButton />
-
         <UploadVideoButton />
         <Footer />
-        {/* <Navbar />
-
+        {/* 
         <div className="user-auth">
           <SignIn />
           <SignUp />
           <AuthDetails />
-        </div>
-
-        <Header />
-        <Card />
-       
-        <AboutUs />
-        <Footer /> */}
+        </div> */}
       </div>
     </div>
   );

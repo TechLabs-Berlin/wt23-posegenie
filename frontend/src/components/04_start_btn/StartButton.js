@@ -1,3 +1,5 @@
+import "./startbtn.css";
+
 function StartButton() {
   return (
     <div className="start-btn-box">

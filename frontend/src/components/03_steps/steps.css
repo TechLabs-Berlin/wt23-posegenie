@@ -1,7 +1,7 @@
 .steps {
   display: flex;
   justify-content: center;
-  width: 1000px;
+  flex-wrap: wrap;
 }
 .step-card {
   padding-top: 10px;
@@ -22,4 +22,24 @@
 .step-instr {
   padding: 7px 0 8px 20px;
   font-size: 16px;
+}
+
+/* MOBILE */
+
+@media (min-width: 380px) and (max-width: 780px) {
+  .step-card:nth-child(2) {
+    margin: 0;
+    margin-bottom: 25px;
+  }
+  .step-card {
+    margin-bottom: 25px;
+  }
+  .steps {
+    margin-bottom: 30px;
+  }
+}
+
+/* TABLET */
+
+@media (min-width: 780px) and (max-width: 1120px) {
 }

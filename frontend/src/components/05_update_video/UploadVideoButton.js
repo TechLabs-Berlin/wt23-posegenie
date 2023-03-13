@@ -1,6 +1,6 @@
+import "./uploadvideo.css";
+
 import { React, useState } from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 
 function UploadVideoButton() {
   const [file, setFile] = useState(null);
@@ -24,17 +24,19 @@ function UploadVideoButton() {
         video.src = `http://localhost:4000/videos/${data.filePath}`;
         video.controls = true;
 
+        // video.style.maxWidth = "50%";
+
         const videoContainer = document.createElement("div");
         videoContainer.className = "video_container";
         videoContainer.appendChild(video);
 
-        const uploadBtnContainer = document.querySelector(
-          ".upload_btn_container"
-        );
-        uploadBtnContainer.parentNode.insertBefore(
+        const uploadButton = document.querySelector(".uploadBtn");
+        uploadButton.parentNode.insertBefore(
           videoContainer,
-          uploadBtnContainer.nextSibling
+          uploadButton.nextSibling
         );
+
+        videoContainer.scrollIntoView({ behavior: "smooth" });
       })
       .catch((error) => {
         console.error("Error uploading video: ", error);
@@ -42,34 +44,21 @@ function UploadVideoButton() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "8vh",
-      }}
-    >
-      <div className="uploadBtn_container">
-        <div>
-          <input
-            type="file"
-            id="video-upload"
-            accept=".mp4, .mov, .avi"
-            onChange={handleFileUpload}
-          />
-        </div>
-        <div className="upload_btn_container">
-          <Button
-            variant="outlined"
-            size="medium"
-            onClick={handleUpload}
-            className="uploadBtn"
-          >
-            Upload Video
-          </Button>
-        </div>
+    <div className="uploadBtn_container">
+      <div>
+        <input
+          type="file"
+          id="video-upload"
+          accept=".mp4, .mov, .avi"
+          onChange={handleFileUpload}
+        />
       </div>
-    </Box>
+      <div className="upload_btn_container">
+        <button onClick={handleUpload} className="uploadBtn">
+          Upload Video
+        </button>
+      </div>
+    </div>
   );
 }
 
