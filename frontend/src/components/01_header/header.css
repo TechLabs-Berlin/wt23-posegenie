@@ -1,21 +1,21 @@
 .head {
   height: 660px;
+  position: relative;
 }
-
 .head-img {
   position: absolute;
-  top: 80px;
-  right: 200px;
   width: 460px;
+  top: 70px;
+  right: 100px;
 }
+
 .title {
   font-size: 200px;
   font-weight: 700;
   text-align: center;
   line-height: 200px;
-  position: relative;
 }
 
-.title:last-child {
+.highlight {
   color: #f35d6b;
 }

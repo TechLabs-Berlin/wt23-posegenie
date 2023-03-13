@@ -7,7 +7,7 @@ function Head() {
       <div className="head">
         <div className="nav"></div>
         <h1 className="title">pose</h1>
-        <h1 className="title">Genie</h1>
+        <h1 className="title highlight">Genie</h1>
         <img className="head-img" src={headerImage} alt="man" />
       </div>
     </div>

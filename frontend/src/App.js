@@ -7,13 +7,14 @@ import Head from "./components/01_header/Head";
 import Quote from "./components/02_quote/Quote";
 import Steps from "./components/03_steps/Steps";
 import StartButton from "./components/StartButton";
-import Footer from "./components/05_footer/Footer";
+// import Footer from "./components/05_footer/Footer";
+import UploadVideoButton from "./components/UploadVideoButton";
 
 // import Navbar from "./components/Navbar";
 // import Header from "./components/Header";
 // import Card from "./components/Card";
-// import UploadVideoButton from "./components/UploadVideoButton";
-// import Footer from "./components/Footer";
+
+import Footer from "./components/Footer";
 // import AboutUs from "./components/AboutUs";
 
 // import SignIn from "./components/auth/SignIn";
@@ -47,6 +48,8 @@ function App() {
           <Steps number={"Step 3"} instruction={"Check results"} />
         </div>
         <StartButton />
+
+        <UploadVideoButton />
         <Footer />
         {/* <Navbar />
 
@@ -58,7 +61,7 @@ function App() {
 
         <Header />
         <Card />
-        <UploadVideoButton />
+       
         <AboutUs />
         <Footer /> */}
       </div>
