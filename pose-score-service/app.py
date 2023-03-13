@@ -1,5 +1,6 @@
 from flask import Flask, request, send_file, render_template
 import os
+from hipkneeangle import hipknee
 
 
 app = Flask(__name__)
@@ -25,10 +26,15 @@ def upload_video():
         # processed_video_bytes = video_file.content[::-1]
         # return Response(processed_video_bytes, mimetype='video/mp4')
 
+        hipknee('uploaded_videos/' + video_file.filename)
 
-        # Return the saved file for download
-        return send_file('uploaded_videos/' + video_file.filename,
-                         download_name=video_file.filename,
+
+        # Set the new filename
+        new_filename = video_file.filename.split('.')[0] + '_annotated.mp4'
+
+        # Return the processed file for download with the new filename
+        return send_file('uploaded_videos/' + new_filename,
+                         download_name=new_filename,
                          as_attachment=True)
         # success_message = 'video uploaded to flask successfully!'
         # print(success_message)
