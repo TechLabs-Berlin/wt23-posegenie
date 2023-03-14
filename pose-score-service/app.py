@@ -21,6 +21,7 @@ def upload_video():
         if not os.path.exists(directory):
             os.mkdir(directory)
 
+        
         # Save the file
         video_file.save('uploaded_videos/' + video_file.filename)
         # processed_video_bytes = video_file.content[::-1]
@@ -28,9 +29,12 @@ def upload_video():
 
         hipknee('uploaded_videos/' + video_file.filename)
 
-
         # Set the new filename
-        new_filename = video_file.filename.split('.')[0] + '_annotated.mp4'
+        file_type = video_file.filename.split('.')[-1]
+        filename_without_type = video_file.filename.rsplit('.', 1)[0]
+        new_filename = filename_without_type + '_annotated.' + file_type
+        print(new_filename)
+
 
         # Return the processed file for download with the new filename
         return send_file('uploaded_videos/' + new_filename,
