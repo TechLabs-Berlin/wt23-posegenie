@@ -1,0 +1,21 @@
+.user-auth {
+  background-color: rgba(206, 216, 216, 0.447);
+  text-align: center;
+}
+.user-auth h1 {
+  font-size: 16px;
+  padding-top: 15px;
+}
+.user-auth input {
+  margin: 0 10px 10px 5px;
+  border-radius: 5px;
+  padding: 2px 4px;
+}
+.user-auth button {
+  padding: 2px 4px;
+  border-radius: 5px;
+  background-color: white;
+}
+.status_auth {
+  margin: 10px 0;
+}

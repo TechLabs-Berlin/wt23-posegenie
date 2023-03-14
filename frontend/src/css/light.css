@@ -1,0 +1,5 @@
+.light-mode {
+  background-color: white;
+  color: black;
+  transition: all ease 1s;
+}

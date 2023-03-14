@@ -1,0 +1,45 @@
+.steps {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.step-card {
+  padding-top: 10px;
+  border: 1px solid #f35d6b;
+  border-radius: 10px;
+  width: 220px;
+  height: 120px;
+  margin-bottom: 60px;
+}
+.step-card:nth-child(2) {
+  margin: 0 40px 0 40px;
+}
+.step-title {
+  padding: 7px 0 6px 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+.step-instr {
+  padding: 7px 0 8px 20px;
+  font-size: 16px;
+}
+
+/* MOBILE */
+
+@media (min-width: 380px) and (max-width: 780px) {
+  .step-card:nth-child(2) {
+    margin: 0;
+    margin-bottom: 25px;
+  }
+  .step-card {
+    margin-bottom: 25px;
+  }
+  .steps {
+    margin-bottom: 30px;
+  }
+}
+
+/* TABLET */
+
+@media (min-width: 780px) and (max-width: 1120px) {
+}

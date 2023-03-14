@@ -26,10 +26,13 @@ router.post("/upload", upload.single("video"), (req, res) => {
                 "Content-Type": "multipart/form-data",
             },
         })
-        .then((res) => console.log(res.data));
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    res.send(video.buffer);
 
     // Send the response to frontend
-    res.send(video);
 });
 
 router.post("/upload-feedback", upload.single("video"), (req, res) => {
