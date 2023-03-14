@@ -1,0 +1,25 @@
+.quote {
+  font-size: 36px;
+  font-weight: 600;
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+/* MOBILE */
+
+@media (min-width: 380px) and (max-width: 780px) {
+  .quote {
+    font-size: 22px;
+    margin-bottom: 60px;
+  }
+}
+
+/* TABLET */
+
+@media (min-width: 780px) and (max-width: 1120px) {
+  .quote {
+    font-size: 28px;
+    margin-bottom: 60px;
+  }
+}
