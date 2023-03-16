@@ -1,5 +1,5 @@
-from angle_calcs import Calculations
-from read_upload import readUpload 
+from .angle_calcs import Calculations
+from .read_upload import readUpload 
 import mediapipe as mp
 import numpy as np
 import cv2
@@ -92,7 +92,7 @@ class Lunge():
         # Render rep counter
         # Setup status box
         cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
-        cv2.rectangle(image, (0,self.height-73), (self.height-585,self.height), (245,117,16), -1)
+        cv2.rectangle(image, (0,self.height-73), (self.height-570,self.height), (245,117,16), -1)
         
         # Rep data
         cv2.putText(image, 'REPS', (15,12), 
