@@ -13,10 +13,6 @@ import Footer from "./components/06_footer/Footer";
 
 import Modal from "./components/00_modal/Modal";
 
-// import SignIn from "./components/auth/SignIn";
-// import SignUp from "./components/auth/SignUp";
-// import AuthDetails from "./components/auth/AuthDetails";
-
 function App() {
   //MODAL WINDOW
 
@@ -39,16 +35,18 @@ function App() {
   }
   return (
     <div className="body">
-      <div>
-        {!isModalOpen && <button onClick={handleOpenModal}>Open Modal</button>}
-        <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
-      </div>
       <div className={isLightkMode ? "light-mode" : "dark-mode"}>
         <div className="top_bar wrapper">
           <button onClick={toggleTheme}>
             {isLightkMode ? "Dark Mode" : "Light Mode"}
           </button>
-          <button>Sign in</button>
+          {/* <button>Sign in</button> */}
+          <div>
+            {!isModalOpen && (
+              <button onClick={handleOpenModal}>Open Modal</button>
+            )}
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+          </div>
         </div>
         <Head />
         <Quote />
@@ -63,12 +61,6 @@ function App() {
         <StartButton />
         <UploadVideoButton />
         <Footer />
-        {/* 
-        <div className="user-auth">
-          <SignIn />
-          <SignUp />
-          <AuthDetails />
-        </div> */}
       </div>
     </div>
   );

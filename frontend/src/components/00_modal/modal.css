@@ -9,6 +9,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: rgb(17, 17, 17);
+  border: 1px solid pink;
 }
 
 .modal-content {
