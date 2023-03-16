@@ -11,11 +11,27 @@ import StartButton from "./components/04_start_btn/StartButton";
 import UploadVideoButton from "./components/05_update_video/UploadVideoButton";
 import Footer from "./components/06_footer/Footer";
 
+import Modal from "./components/00_modal/Modal";
+
 // import SignIn from "./components/auth/SignIn";
 // import SignUp from "./components/auth/SignUp";
 // import AuthDetails from "./components/auth/AuthDetails";
 
 function App() {
+  //MODAL WINDOW
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  //MODE
+
   const [isLightkMode, setisLightkMode] = useState(false);
 
   function toggleTheme() {
@@ -23,6 +39,10 @@ function App() {
   }
   return (
     <div className="body">
+      <div>
+        {!isModalOpen && <button onClick={handleOpenModal}>Open Modal</button>}
+        <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+      </div>
       <div className={isLightkMode ? "light-mode" : "dark-mode"}>
         <div className="top_bar wrapper">
           <button onClick={toggleTheme}>
