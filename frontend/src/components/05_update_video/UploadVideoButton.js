@@ -1,4 +1,5 @@
 import "./uploadvideo.css";
+import axios from "axios";
 
 import { React, useState } from "react";
 
@@ -13,15 +14,19 @@ function UploadVideoButton() {
     const formData = new FormData();
     formData.append("video", file);
 
-    fetch("/videos/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    axios
+      .post("/videos/upload", formData, {
+        responseType: "arraybuffer",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        const buffer = new Uint8Array(res.data);
+        const blob = new Blob([buffer], { type: "video/mp4" });
+        const url = URL.createObjectURL(blob);
         const video = document.createElement("video");
-        video.src = `http://localhost:4000/videos/${data.filePath}`;
+        video.src = url;
         video.controls = true;
 
         // video.style.maxWidth = "50%";

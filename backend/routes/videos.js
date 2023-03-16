@@ -3,44 +3,42 @@ const fs = require("fs");
 const router = express.Router();
 
 const multer = require("multer");
-
-const storage = multer.diskStorage({
-  destination: "./uploads",
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
+const upload = multer();
+const axios = require("axios");
+const FormData = require("form-data");
 
 router.post("/upload", upload.single("video"), (req, res) => {
-  const content = {
-    filePath: req.file.path,
-  };
+  console.log("/videos/upload POST request");
+  video = req.file;
+  console.log(video);
 
-  res.end(JSON.stringify(content));
+  // create FormData object and append the file data to it
+  const formData = new FormData();
+  formData.append("file", video.buffer, {
+    filename: video.originalname,
+    contentType: video.mimetype,
+  });
+
+  // Send the video to flask server
+  url = "http://localhost:5001/process_video";
+  axios
+    .post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
+  res.send(video.buffer);
+
+  // Send the response to frontend
 });
 
 router.post("/upload-feedback", upload.single("video"), (req, res) => {
   console.log("/videos/upload-feedback POST request");
-  console.log(req.file);
-  res.send(req.file.path);
-});
-
-router.get("/uploads/:filename", (req, res) => {
-  const filePath = `./uploads/${req.params.filename}`;
-  if (!filePath) {
-    return res.status(404).send("File not found");
-  }
-
-  const stat = fs.statSync(filePath);
-  const fileSize = stat.size;
-  const head = {
-    "Content-Length": fileSize,
-    "Content-Type": "video/mp4",
-  };
-  res.writeHead(200, head);
-  fs.createReadStream(filePath).pipe(res);
+  res.send(req.body);
 });
 
 module.exports = router;
