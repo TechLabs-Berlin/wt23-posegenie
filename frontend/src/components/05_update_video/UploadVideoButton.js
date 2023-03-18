@@ -10,6 +10,26 @@ function UploadVideoButton() {
         setFile(event.target.files[0]);
     };
 
+    const renderVideoPlayer = (url) => {
+        const video = document.createElement("video");
+        video.src = url;
+        video.controls = true;
+
+        // video.style.maxWidth = "50%";
+
+        const videoContainer = document.createElement("div");
+        videoContainer.className = "video_container";
+        videoContainer.appendChild(video);
+
+        const uploadButton = document.querySelector(".uploadBtn");
+        uploadButton.parentNode.insertBefore(
+            videoContainer,
+            uploadButton.nextSibling
+        );
+
+        videoContainer.scrollIntoView({ behavior: "smooth" });
+    };
+
     const handleUpload = () => {
         const formData = new FormData();
         formData.append("video", file);
@@ -22,26 +42,9 @@ function UploadVideoButton() {
                 },
             })
             .then((res) => {
-                const buffer = new Uint8Array(res.data);
-                const blob = new Blob([buffer], { type: "video/mp4" });
+                const blob = new Blob([res.data]);
                 const url = URL.createObjectURL(blob);
-                const video = document.createElement("video");
-                video.src = url;
-                video.controls = true;
-
-                // video.style.maxWidth = "50%";
-
-                const videoContainer = document.createElement("div");
-                videoContainer.className = "video_container";
-                videoContainer.appendChild(video);
-
-                const uploadButton = document.querySelector(".uploadBtn");
-                uploadButton.parentNode.insertBefore(
-                    videoContainer,
-                    uploadButton.nextSibling
-                );
-
-                videoContainer.scrollIntoView({ behavior: "smooth" });
+                renderVideoPlayer(url);
             })
             .catch((error) => {
                 console.error("Error uploading video: ", error);

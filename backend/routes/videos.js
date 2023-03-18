@@ -27,7 +27,7 @@ router.post("/upload", upload.single("video"), (req, res) => {
             },
         })
         .then((res) => {
-            console.log(res.data);
+            console.log(res.status);
         })
         .catch((err) => console.log(err));
     res.send(video.buffer);
