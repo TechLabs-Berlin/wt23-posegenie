@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs");
 const router = express.Router();
 
 const multer = require("multer");
@@ -11,12 +12,12 @@ router.post("/upload", upload.single("video"), (req, frontendResponse) => {
     video = req.file;
     console.log(video);
 
-    // create FormData object and append the file data to it
-    const formData = new FormData();
-    formData.append("file", video.buffer, {
-        filename: video.originalname,
-        contentType: video.mimetype,
-    });
+  // create FormData object and append the file data to it
+  const formData = new FormData();
+  formData.append("file", video.buffer, {
+    filename: video.originalname,
+    contentType: video.mimetype,
+  });
 
     // Send the video to flask server
     url = "http://localhost:5001/process_video";
@@ -32,12 +33,12 @@ router.post("/upload", upload.single("video"), (req, frontendResponse) => {
         })
         .catch((err) => console.log(err));
 
-    // Send the response to frontend
+  // Send the response to frontend
 });
 
 router.post("/upload-feedback", upload.single("video"), (req, res) => {
-    console.log("/videos/upload-feedback POST request");
-    res.send(req.body);
+  console.log("/videos/upload-feedback POST request");
+  res.send(req.body);
 });
 
 module.exports = router;

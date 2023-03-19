@@ -4,11 +4,11 @@ import axios from "axios";
 import { React, useState } from "react";
 
 function UploadVideoButton() {
-    const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null);
 
-    const handleFileUpload = (event) => {
-        setFile(event.target.files[0]);
-    };
+  const handleFileUpload = (event) => {
+    setFile(event.target.files[0]);
+  };
 
     const renderVideoPlayer = (url) => {
         const video = document.createElement("video");
@@ -53,23 +53,24 @@ function UploadVideoButton() {
             });
     };
 
-    return (
-        <div className="uploadBtn_container">
-            <div>
-                <input
-                    type="file"
-                    id="video-upload"
-                    accept=".mp4, .mov, .avi"
-                    onChange={handleFileUpload}
-                />
-            </div>
-            <div className="upload_btn_container">
-                <button onClick={handleUpload} className="uploadBtn">
-                    Upload Video
-                </button>
-            </div>
-        </div>
-    );
+
+  return (
+    <div className="uploadBtn_container">
+      <div>
+        <input
+          type="file"
+          id="video-upload"
+          accept=".mp4, .mov, .avi"
+          onChange={handleFileUpload}
+        />
+      </div>
+      <div className="upload_btn_container">
+        <button onClick={handleUpload} className="uploadBtn">
+          Upload Video
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default UploadVideoButton;
