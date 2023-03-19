@@ -1,6 +1,7 @@
 .start-btn-box {
   display: flex;
   justify-content: center;
+  margin-bottom: 30px;
 }
 .start-btn {
   color: #f35d6b;

@@ -1,9 +1,11 @@
 import "./startbtn.css";
 
-function StartButton() {
+function StartButton({ handleOpenModal }) {
   return (
     <div className="start-btn-box">
-      <button className="start-btn">Start now</button>
+      <button className="start-btn" onClick={handleOpenModal}>
+        Start now
+      </button>
     </div>
   );
 }

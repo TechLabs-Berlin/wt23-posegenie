@@ -1,6 +1,6 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { auth } from "../../firebase";
+import { auth } from "./firebase";
 import "./auth.css";
 
 const AuthDetails = () => {
@@ -20,7 +20,7 @@ const AuthDetails = () => {
     };
   }, []);
 
-  const userSignOut = () => {
+  const handleSignOut = () => {
     signOut(auth)
       .then(() => {
         console.log("sign out successful");
@@ -33,7 +33,7 @@ const AuthDetails = () => {
       {authUser ? (
         <>
           <p>{`Signed In as ${authUser.email}`}</p>
-          <button onClick={userSignOut}>Sign Out</button>
+          <button onClick={handleSignOut}>Sign Out</button>
         </>
       ) : (
         <p className="status_auth">Signed Out</p>

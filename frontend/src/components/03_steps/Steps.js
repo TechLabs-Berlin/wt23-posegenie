@@ -1,9 +1,10 @@
-import "./steps.css";
-function Steps({ number, instruction }) {
+import Step from "./Step";
+function Steps() {
   return (
-    <div className="step-card">
-      <p className="step-title">{number}</p>
-      <p className="step-instr">{instruction}</p>
+    <div className="steps wrapper">
+      <Step number={"Step 1"} instruction={"Create an account"} />
+      <Step number={"Step 2"} instruction={"Record and upload the video"} />
+      <Step number={"Step 3"} instruction={"Check results"} />
     </div>
   );
 }
