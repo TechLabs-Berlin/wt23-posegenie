@@ -7,10 +7,10 @@ const upload = multer();
 const axios = require("axios");
 const FormData = require("form-data");
 
-router.post("/upload", upload.single("video"), (req, res) => {
-  console.log("/videos/upload POST request");
-  video = req.file;
-  console.log(video);
+router.post("/upload", upload.single("video"), (req, frontendResponse) => {
+    console.log("/videos/upload POST request");
+    video = req.file;
+    console.log(video);
 
   // create FormData object and append the file data to it
   const formData = new FormData();
@@ -19,19 +19,19 @@ router.post("/upload", upload.single("video"), (req, res) => {
     contentType: video.mimetype,
   });
 
-  // Send the video to flask server
-  url = "http://localhost:5001/process_video";
-  axios
-    .post(url, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-  res.send(video.buffer);
+    // Send the video to flask server
+    url = "http://localhost:5001/process_video";
+    axios
+        .post(url, formData, {
+            responseType: "arraybuffer",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
+        .then((res) => {
+            frontendResponse.send(res.data);
+        })
+        .catch((err) => console.log(err));
 
   // Send the response to frontend
 });

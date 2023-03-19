@@ -65,10 +65,10 @@ def hipknee(input_video):
     frame_height = int(cap.get(4))
 
     outdir, inputflnm = "",input_video
-    inflnm = inputflnm.split('.')
+    inflnm = inputflnm.rsplit('.', 1)
     inflext = inputflnm.split('.')
     print(f"Input file name: {inputflnm}")
-    out_filename = f'{inflnm[0]}_annotated.{inflext[1]}'
+    out_filename = f'{inflnm[0]}_annotated.{inflext[-1]}'
     out = cv2.VideoWriter(out_filename, cv2.VideoWriter_fourcc(
         'm', 'p', '4', 'v'), 10, (frame_width, frame_height))
 
