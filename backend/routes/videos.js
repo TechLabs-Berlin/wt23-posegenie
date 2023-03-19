@@ -6,7 +6,7 @@ const upload = multer();
 const axios = require("axios");
 const FormData = require("form-data");
 
-router.post("/upload", upload.single("video"), (req, res) => {
+router.post("/upload", upload.single("video"), (req, frontendResponse) => {
     console.log("/videos/upload POST request");
     video = req.file;
     console.log(video);
@@ -22,15 +22,15 @@ router.post("/upload", upload.single("video"), (req, res) => {
     url = "http://localhost:5001/process_video";
     axios
         .post(url, formData, {
+            responseType: "arraybuffer",
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         })
         .then((res) => {
-            console.log(res.status);
+            frontendResponse.send(res.data);
         })
         .catch((err) => console.log(err));
-    res.send(video.buffer);
 
     // Send the response to frontend
 });

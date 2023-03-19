@@ -14,6 +14,7 @@ function UploadVideoButton() {
         const video = document.createElement("video");
         video.src = url;
         video.controls = true;
+        video.type = "video/mp4";
 
         // video.style.maxWidth = "50%";
 
@@ -42,6 +43,7 @@ function UploadVideoButton() {
                 },
             })
             .then((res) => {
+                console.log(res);
                 const blob = new Blob([res.data]);
                 const url = URL.createObjectURL(blob);
                 renderVideoPlayer(url);
