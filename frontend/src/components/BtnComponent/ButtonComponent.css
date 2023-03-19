@@ -1,0 +1,17 @@
+.container {
+  margin: 40px auto 40px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.active {
+  border: 1px solid rgb(115, 243, 36);
+  color: rgb(214, 227, 75);
+  box-shadow: #86d744 0px 7px 29px 0px;
+}
+
+.container button {
+  margin: 15px 20px;
+}
