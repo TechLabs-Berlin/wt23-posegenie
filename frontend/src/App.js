@@ -11,17 +11,18 @@ import Head from "./components/01_header/Head";
 import Quote from "./components/02_quote/Quote";
 import Steps from "./components/03_steps/Steps";
 import StartButton from "./components/04_start_btn/StartButton";
-import UploadVideoButton from "./components/05_update_video/UploadVideoButton";
 import Footer from "./components/06_footer/Footer";
 
 import Modal from "./components/00_modal/Modal";
 
 import ButtonComponent from "./components/BtnComponent/ButtonComponent";
+import UploadVideoButton from "./components/05_update_video/UploadVideoButton";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLightkMode, setisLightkMode] = useState(false);
   const [authUser, setAuthUser] = useState(null);
+  const [chosenExercise, setChosenExercise] = useState(null);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -80,8 +81,8 @@ function App() {
         <Steps />
         {authUser ? (
           <>
-            <ButtonComponent />
-            <UploadVideoButton />
+            <ButtonComponent handleExerciseSelect={setChosenExercise} />
+            {chosenExercise && <UploadVideoButton />}
           </>
         ) : (
           <StartButton handleOpenModal={handleOpenModal} />
