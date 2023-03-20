@@ -13,15 +13,20 @@ class ButtonComponent extends React.Component {
   }
 
   handleButtonClick(buttonNumber) {
+    const { handleExerciseSelect } = this.props;
+
+    const data = new FormData();
+    data.append("pose", buttonNumber === 1 ? "Lunges" : "Warrior");
+
     // Send a signal to the backend using an HTTP request
     fetch("/backend", {
       method: "POST",
-      body: JSON.stringify({ buttonNumber: buttonNumber }),
-      headers: { "Content-Type": "application/json" },
+      body: data,
     })
       .then((response) => {
         // Handle the response from the backend
         this.setState({ activeButton: buttonNumber });
+        handleExerciseSelect(buttonNumber === 1 ? "Lunges" : "Warrior");
       })
       .catch((error) => {
         // Handle any errors that occur during the HTTP request

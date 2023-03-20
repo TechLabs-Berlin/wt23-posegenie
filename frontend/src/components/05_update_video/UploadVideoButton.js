@@ -51,6 +51,9 @@ function UploadVideoButton() {
   return (
     <div className="uploadBtn_container">
       <div>
+        <div>
+          <h2>Upload the video</h2>
+        </div>
         <input
           type="file"
           id="video-upload"
