@@ -15,6 +15,11 @@ def upload_video():
     if request.method == 'POST':
         # Get the uploaded file
         video_file = request.files['file']
+        
+        # Get the pose
+        pose = request.form.get('pose')
+        print(f"Pose: {pose}")
+        
         # Create directory if does not exists
         if not os.path.exists(videos_directory):
             os.mkdir(videos_directory)
