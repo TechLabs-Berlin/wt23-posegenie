@@ -1,7 +1,8 @@
 # Angle Calculators
 import math 
 import numpy as np
-import scipy
+import scipy 
+from scipy import optimize
 
 class Calculations():
     def __init__(self) -> None:

@@ -1,7 +1,8 @@
-from flask import Flask, request, send_file, render_template
-import os
+from flask import Flask, request, send_file
 from hipkneeangle import hipknee
-
+from utils import convert_to_mp4, annotated_filename
+from config import videos_directory
+import os
 
 app = Flask(__name__)
 
@@ -14,34 +15,23 @@ def upload_video():
     if request.method == 'POST':
         # Get the uploaded file
         video_file = request.files['file']
-
-        # To check if directory exists, if not create it
-        directory = "uploaded_videos"  # Replace with the directory you want to create
-
-        if not os.path.exists(directory):
-            os.mkdir(directory)
-
-        # Save the file
-        video_file.save('uploaded_videos/' + video_file.filename)
-        # processed_video_bytes = video_file.content[::-1]
-        # return Response(processed_video_bytes, mimetype='video/mp4')
-
-        hipknee('uploaded_videos/' + video_file.filename)
-
-
-        # Set the new filename
-        new_filename = video_file.filename.split('.')[0] + '_annotated.mp4'
-
-        # Return the processed file for download with the new filename
-        return send_file('uploaded_videos/' + new_filename,
-                         download_name=new_filename,
-                         as_attachment=True)
-        # success_message = 'video uploaded to flask successfully!'
-        # print(success_message)
-        # return success_message
-
-    # Render the HTML form
-    return render_template('index.html')
+        
+        # Get the pose
+        pose = request.form.get('pose')
+        print(f"Pose: {pose}")
+        
+        # Create directory if does not exists
+        if not os.path.exists(videos_directory):
+            os.mkdir(videos_directory)
+            
+        # Uploads the video
+        output_path = os.path.join(videos_directory, video_file.filename)
+        video_file.save(output_path)
+        
+        # Process the video
+        hipknee(output_path)
+        converted_video = convert_to_mp4(annotated_filename(video_file.filename))
+        return send_file(converted_video, mimetype='video/mp4')
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
-from angle_calcs import Calculations
-from read_upload import readUpload 
+from .angle_calcs import Calculations
+from .read_upload import readUpload 
 import mediapipe as mp
 import numpy as np
 import cv2
@@ -92,27 +92,24 @@ class Lunge():
         # Render rep counter
         # Setup status box
         cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
-        cv2.rectangle(image, (0,867), (355,940), (245,117,16), -1)
+        cv2.rectangle(image, (0,self.height-73), (self.height-570,self.height), (245,117,16), -1)
         
         # Rep data
         cv2.putText(image, 'REPS', (15,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, str(self.reps), 
-                    (10,60), 
+        cv2.putText(image, str(self.reps), (10,60), 
                     cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
         
         # Stage data
         cv2.putText(image, 'STAGE', (65,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, self.stage, 
-                    (60,60), 
+        cv2.putText(image, self.stage, (60,60), 
                     cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
         
         # Hints & Feedback
-        cv2.putText(image, 'HINT:', (15,879), 
+        cv2.putText(image, 'HINT:', (15,self.height-61), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, self.hint, 
-                    (15,917), 
+        cv2.putText(image, self.hint, (15,self.height-13), 
                     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0,255,0), 2, cv2.LINE_AA)
         
         # Render detections
