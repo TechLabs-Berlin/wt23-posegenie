@@ -22,7 +22,6 @@ function UploadForm() {
                 },
             })
             .then((res) => {
-                console.log(res);
                 const blob = new Blob([res.data]);
                 const url = URL.createObjectURL(blob);
                 renderVideoPlayer(url);
