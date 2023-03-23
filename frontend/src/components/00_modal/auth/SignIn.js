@@ -2,28 +2,36 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "./firebase";
 
-const SignIn = () => {
+const SignIn = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const signIn = (e) => {
     e.preventDefault();
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters long.");
+      return;
+    }
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
+        onClose();
       })
       .catch((error) => {
         console.log(error);
-        setError("User not found");
+        if (error.code === "auth/user-not-found") {
+          setErrorMessage("User not found.");
+        } else {
+          setErrorMessage("Invalid email or password.");
+        }
       });
   };
 
   return (
     <div className="sign-in-container">
       <form onSubmit={signIn}>
-        <h1>Log In to your Account</h1>
-
+        <h1 className="auth-title">Log In to your Account</h1>
         <input
           type="email"
           placeholder="Enter your email"
@@ -36,8 +44,10 @@ const SignIn = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></input>
-        {error && <p className="error-auth">! {error}</p>}
-        <button type="submit">Log In</button>
+        {errorMessage && <p className="error-auth">{errorMessage}</p>}
+        <button type="submit" onClick={onClose}>
+          Log In
+        </button>
       </form>
     </div>
   );
