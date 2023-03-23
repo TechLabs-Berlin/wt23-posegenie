@@ -45,9 +45,7 @@ const SignIn = ({ onClose }) => {
           onChange={(e) => setPassword(e.target.value)}
         ></input>
         {errorMessage && <p className="error-auth">{errorMessage}</p>}
-        <button type="submit" onClick={onClose}>
-          Log In
-        </button>
+        <button type="submit">Log In</button>
       </form>
     </div>
   );
