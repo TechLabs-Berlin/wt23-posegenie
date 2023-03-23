@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./ButtonComponent.css";
 
 function PosesButtonsGroup({ onButtonClicked }) {
     const [activeButton, setActiveButton] = useState(null);
-    // TODO: get poses from the backend
-    const buttons = [
-        { id: "lunges", label: "Lunges" },
-        { id: "warrior", label: "Warrior" },
-    ];
+    const [poses, setPoses] = useState([]);
+
+    useEffect(() => {
+        axios.get("/poses").then((res) => {
+            setPoses(res.data);
+        });
+    }, []);
 
     const handleButtonClick = (value) => {
         setActiveButton(value);
@@ -20,7 +23,7 @@ function PosesButtonsGroup({ onButtonClicked }) {
                 <h2>Choose an exercise</h2>
             </div>
             <div className="btn_container">
-                {buttons.map((button) => (
+                {poses.map((button) => (
                     <button
                         key={button.id}
                         onClick={() => handleButtonClick(button.id)}
