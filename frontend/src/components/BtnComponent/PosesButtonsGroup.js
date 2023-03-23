@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import "./ButtonComponent.css";
 import WarriorComponent from "./WarriorComponent";
 import LungesComponent from "./LungesComponent";
+import ModalFeedback from "../05_update_video/ModalFeedback";
 
-function PosesButtonsGroup({ onButtonClicked }) {
+function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
   const [activeButton, setActiveButton] = useState(null);
   const [selectedPose, setSelectedPose] = useState(null);
   // TODO: get poses from the backend
@@ -18,6 +19,11 @@ function PosesButtonsGroup({ onButtonClicked }) {
     setSelectedPose(value);
   };
 
+  const resetStates = () => {
+    setActiveButton(null);
+    setSelectedPose(null);
+  };
+
   const renderPoseComponent = () => {
     if (selectedPose === "lunges") {
       return <LungesComponent />;
@@ -25,6 +31,11 @@ function PosesButtonsGroup({ onButtonClicked }) {
       return <WarriorComponent />;
     }
     return null;
+  };
+
+  const handleModalClosed = () => {
+    resetStates();
+    onModalClosed();
   };
 
   return (
@@ -44,6 +55,8 @@ function PosesButtonsGroup({ onButtonClicked }) {
         ))}
       </div>
       {renderPoseComponent()}
+
+      <ModalFeedback onModalClosed={handleModalClosed} />
     </div>
   );
 }
