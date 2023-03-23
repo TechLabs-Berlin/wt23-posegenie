@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, {useState} from "react";
 import PosesButtonsGroup from "../BtnComponent/PosesButtonsGroup";
+import "./uploadvideo.css";
 
 function UploadForm() {
     const [activeButtonId, setActiveButtonId] = useState(null);
