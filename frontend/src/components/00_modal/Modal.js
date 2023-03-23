@@ -19,7 +19,7 @@ function Modal({ isOpen, onClose }) {
     <div className="modal">
       <div className="modal-content">
         <div className="modal-header">
-          <button onClick={onClose}>X</button>
+          <button onClick={onClose}>x</button>
         </div>
         <div className="modal-body">
           {isLoginForm ? (

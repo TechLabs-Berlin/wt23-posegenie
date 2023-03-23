@@ -53,6 +53,10 @@ video {
   height: auto;
 }
 
+.upload {
+  margin: auto;
+}
+
 /* MOBILE */
 
 @media (min-width: 380px) and (max-width: 780px) {

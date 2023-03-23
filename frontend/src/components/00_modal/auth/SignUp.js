@@ -30,9 +30,15 @@ const SignUp = () => {
         <input
           type="password"
           placeholder="Enter your password"
+          autoComplete="off"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></input>
+        {password.length < 6 && (
+          <p className="error-auth">
+            Password should contain at least 6 characters.
+          </p>
+        )}
         <button type="submit">Sign Up</button>
       </form>
     </div>

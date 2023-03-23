@@ -19,3 +19,7 @@
 .status_auth {
   margin: 10px 0;
 }
+.error-auth {
+  color: red;
+  text-align: center;
+}
