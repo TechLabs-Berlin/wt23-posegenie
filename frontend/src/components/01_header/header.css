@@ -1,5 +1,5 @@
 .head {
-  height: 660px;
+  height: 560px;
   position: relative;
 }
 .head-img {
@@ -20,16 +20,33 @@
   color: #f35d6b;
 }
 
+.man-yoga {
+  width: 500px;
+  top: 150px;
+  left: 170px;
+}
+
+.woman-lift {
+  width: 680px;
+  top: 120px;
+  left: 670px;
+}
+
 /* MOBILE */
 
 @media (min-width: 380px) and (max-width: 780px) {
   .head {
-    height: 280px;
+    height: 200px;
   }
   .head-img {
     width: 160px;
     top: 40px;
     right: 0px;
+  }
+  .woman-lift {
+    width: 230px;
+    top: 55px;
+    left: 215px;
   }
   .title {
     font-size: 76px;
@@ -41,12 +58,17 @@
 
 @media (min-width: 780px) and (max-width: 1120px) {
   .head {
-    height: 380px;
+    height: 280px;
   }
   .head-img {
     width: 230px;
     top: 50px;
     right: 90px;
+  }
+  .woman-lift {
+    width: 300px;
+    top: 80px;
+    left: 450px;
   }
 
   .title {
