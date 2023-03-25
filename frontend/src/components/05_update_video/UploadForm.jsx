@@ -1,18 +1,24 @@
 import axios from 'axios'
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PosesButtonsGroup from "../BtnComponent/PosesButtonsGroup";
-
+import "./uploadvideo.css";
+import VideoInput from './VideoInput';
+import ModalFeedback from './ModalFeedback';
 function UploadForm() {
-    const [activeButtonId, setActiveButtonId] = useState(null);
-    const [file, setFile] = useState(null);
+  const [activeButtonId, setActiveButtonId] = useState(null);
+  const [file, setFile] = useState(null);
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     
         if (activeButtonId) {
           const formData = new FormData();
           formData.append("pose", activeButtonId);
           formData.append("video", file);
+          setIsUploading(true); // set isUploading to true before making the API call
 
         axios
             .post("/videos/upload", formData, {
@@ -49,41 +55,60 @@ function UploadForm() {
             uploadButton.nextSibling
         );
 
-        videoContainer.scrollIntoView({ behavior: "smooth" });
-    };
+      axios
+        .post("/videos/upload", formData, {
+          responseType: "arraybuffer",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const blob = new Blob([res.data]);
+          const url = URL.createObjectURL(blob);
+          setVideoUrl(url);
+          setIsModalOpen(true);
+          setIsUploading(false); // set isUploading to false when the API call is complete
+        })
+        .catch((error) => {
+          console.error("Error uploading video: ", error);
+          setIsUploading(false); // set isUploading to false if there's an error with the API call
+        });
+    }
+  };
 
-const handleFileUpload = (event) => {
+  const handleFileUpload = (event) => {
     setFile(event.target.files[0]);
   };
-return (
+
+  const handleCloseModal = () => {
+    setVideoUrl(null);
+    setIsModalOpen(false);
+    setActiveButtonId(null);
+    setFile(null);
+  };
+
+  return (
     <div>
       <PosesButtonsGroup onButtonClicked={setActiveButtonId} />
       <form onSubmit={handleSubmit}>
-        {/* TODO: Extract video input to a separate component */}
         {activeButtonId && (
-
-            <div className="uploadBtn_container">
-            <div>
-                <div>
-                <h2>Upload the video</h2>
-                </div>
-                <input
-                type="file"
-                id="video-upload"
-                accept=".mp4, .mov, .avi"
-                onChange={handleFileUpload}
-                />
-            </div>
-            <div className="upload_btn_container">
-                <button onClick={handleSubmit} className="uploadBtn">
-                Upload Video
-                </button>
-            </div>
-            </div>
+          <VideoInput onFileUpload={handleFileUpload} onSubmit={() => setIsModalOpen(true)} />
         )}
       </form>
+      <ModalFeedback isOpen={isModalOpen} onClose={handleCloseModal}>
+        {videoUrl ? (
+          <video src={videoUrl} controls type="video/mp4" className="video-player" />
+        ) : (
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+          </div>
+        )}
+      </ModalFeedback>
     </div>
   );
+  
+  
 }
 
 export default UploadForm;
