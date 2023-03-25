@@ -15,3 +15,18 @@
 .container button {
   margin: 15px 20px;
 }
+
+.recomdetion-container {
+  width: 700px;
+  border: 1px solid rgb(214, 227, 75);
+  padding: 15px;
+  border-radius: 15px;
+  margin: 15px 0;
+}
+.recomendation-title {
+  text-align: center;
+  margin: 15px 0;
+}
+.recomendation-p {
+  margin-bottom: 19px;
+}
