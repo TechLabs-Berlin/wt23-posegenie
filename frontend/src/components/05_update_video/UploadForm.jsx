@@ -1,7 +1,10 @@
 import axios from 'axios'
 import React, {useState} from "react";
 import PosesButtonsGroup from "../BtnComponent/PosesButtonsGroup";
-
+import "./uploadvideo.css";
+import VideoInput from './VideoInput';
+import ModalFeedback from './ModalFeedback';
+import FormData from 'form-data'
 function UploadForm() {
     const [activeButtonId, setActiveButtonId] = useState(null);
     const [file, setFile] = useState(null);
@@ -24,10 +27,13 @@ function UploadForm() {
             .then((res) => {
                 const blob = new Blob([res.data]);
                 const url = URL.createObjectURL(blob);
+                setIsModalOpen(true);
+                setIsUploading(false); // set isUploading to false when the API call is complete
                 renderVideoPlayer(url);
             })
             .catch((error) => {
                 console.error("Error uploading video: ", error);
+                setIsUploading(false); // set isUploading to false if there's an error with the API call
             });
         }
 }
@@ -48,14 +54,21 @@ function UploadForm() {
             videoContainer,
             uploadButton.nextSibling
         );
-
-        videoContainer.scrollIntoView({ behavior: "smooth" });
-    };
+    }
 
 const handleFileUpload = (event) => {
     setFile(event.target.files[0]);
   };
-return (
+
+  const handleCloseModal = () => {
+    setVideoUrl(null);
+    setIsModalOpen(false);
+    setActiveButtonId(null);
+    setFile(null);
+  };
+
+
+  return (
     <div>
       <PosesButtonsGroup onButtonClicked={setActiveButtonId} />
       <form onSubmit={handleSubmit}>
