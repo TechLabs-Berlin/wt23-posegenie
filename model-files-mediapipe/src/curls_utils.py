@@ -5,10 +5,12 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import sys
+import scipy
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+
 
 class Curls():
     def __init__(self, read_upload, filename, pose) -> None:
@@ -20,60 +22,107 @@ class Curls():
         self.height = int(self.read_upload.get_frame_height())
         self.video_fps = self.read_upload.get_video_fps()
         self.get_timestamps = self.read_upload.get_timestamps()
-        self.reps = 0 
-        self.stage = ""
+        self.left_reps = 0 
+        self.left_stage = ""
+        self.right_reps = 0 
+        self.right_stage = ""
         self.hint = ""
         self.angle_list = []
         self.timeStamp_list = []
+
 
     def angle(self, results, image):
         if results.pose_landmarks is not None:
             landmarks = results.pose_landmarks.landmark
 
-            # Get coordinates
-            shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-            elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-            wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+            # Get coordinates for left arm
+            l_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
+            l_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
+            l_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
 
-            # Calculate angle
-            sElbow_angle = round(self.calcs.calcAngle_3pts(shoulder, elbow, wrist),2)
+            # Get coordinates for right arm
+            r_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+            r_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
+            r_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
 
-            # Visualize angle
-        
-            cv2.putText(image, str(sElbow_angle), 
-                           tuple(np.multiply(elbow, [self.width, self.height]).astype(int)), 
-                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 2, cv2.LINE_AA
-                                )
+            # Calculate angles for left arm
+            l_angle = round(self.calcs.calcAngle_3pts(l_shoulder, l_elbow, l_wrist), 2)
+            round_l_angle = round(self.calcs.calcAngle_3pts(l_shoulder, l_elbow, l_wrist))
+
+            # Calculate angles for right arm
+            r_angle = round(self.calcs.calcAngle_3pts(r_shoulder, r_elbow, r_wrist), 2)
+            round_r_angle = round(self.calcs.calcAngle_3pts(r_shoulder, r_elbow, r_wrist))
+
+
+            # Update angle lists
+            self.angle_list.append(l_angle)
+            self.angle_list.append(r_angle)
+            self.timeStamp_list.append(round(float(self.read_upload.get_timestamps()) / 1000, 5))
+            self.timeStamp_list.append(round(float(self.read_upload.get_timestamps()) / 1000, 5))
             
-            
-            # Reps counter logic.
-            if sElbow_angle > 160:
-                self.stage = "down"
-            if sElbow_angle < 30 and self.stage =='down':
-                self.stage="up"
-                self.reps +=1
+
+            # Visualize angles for both arms
+            cv2.putText(image, f"L Angle: {round_l_angle}", tuple(np.multiply(l_elbow, [self.width, self.height]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2, cv2.LINE_AA)
+            cv2.putText(image, f"R Angle: {round_r_angle}", tuple(np.multiply(r_elbow, [self.width, self.height]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2, cv2.LINE_AA)
+
+            # Update reps and stage for left arm
+            if l_angle > 160:
+                self.left_stage = "L down"
+            if l_angle < 30 and self.left_stage == 'L down':
+                self.left_stage = "L up"
+                self.left_reps += 1
             else:
-                self.hint=""
+                self.hint = ""
+
+            # Update reps and stage for right arm
+            if r_angle > 160:
+                self.right_stage = "R down"
+            if r_angle < 30 and self.right_stage == 'R down':
+                self.right_stage = "R up"
+                self.right_reps += 1
+            else:
+                self.hint = ""
+
         else:
-            landmarks = None
+           landmarks = None
 
         # Render rep counter
         # Setup status box
-        cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
-        cv2.rectangle(image, (0,867), (355,940), (245,117,16), -1)
-        
-        # Rep data
-        cv2.putText(image, 'REPS', (15,12), 
+        box_width = 355 - 0 # Assuming the current coordinates in the code
+        box_height, _ = cv2.getTextSize('RIGHT ARM STAGE', cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)
+
+        cv2.rectangle(image, (0,0), (300,73), (245,117,16), -1)
+        cv2.rectangle(image, (self.width - box_width, 0), (self.width, box_height[1] + 60), (245,117,16), -1)
+
+
+
+
+        # Left arm rep data
+        cv2.putText(image, 'LEFT ARM REPS', (5,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, str(self.reps), 
+        cv2.putText(image, f'{self.left_reps}', 
                     (10,60), 
                     cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
         
-        # Stage data
-        cv2.putText(image, 'STAGE', (65,12), 
+        # Left arm stage data
+        cv2.putText(image, 'LEFT ARM STAGE', (150,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, self.stage, 
+        cv2.putText(image, f'{self.left_stage}', 
                     (60,60), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+        
+        # Right arm rep data
+        cv2.putText(image, 'RIGHT ARM REPS', (self.width-150,12), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, f'{self.right_reps}', 
+                    (self.width-300,60), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+        
+        # Right arm stage data
+        cv2.putText(image, 'RIGHT ARM STAGE', (self.width-320,12), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, f'{self.right_stage}', 
+                    (self.width-230,60), 
                     cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
         
         
@@ -105,6 +154,14 @@ class Curls():
 
             self.angle(results, image)
             out.write(image)
+            
 
         self.cap.release()
         out.release()
+
+
+
+
+
+
+        
