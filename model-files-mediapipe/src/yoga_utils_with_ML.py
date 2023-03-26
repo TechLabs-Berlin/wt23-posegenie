@@ -7,9 +7,20 @@ import matplotlib.pyplot as plt
 import sys
 import pandas as pd
 
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC, LinearSVC
+import pickle
+
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+
+## SVC WITH RBF KERNEL CLASSIFIER
+file1 = "ml_models\yoga_poses_svc.model"
+file2 = "ml_models\yoga_poses_svc.labels"
+
+loaded_model = pickle.load(open(file1, 'rb'))
+loaded_labels = pickle.load(open(file2, 'rb'))
 
 class Warrior():
     def __init__(self, read_upload, filename, pose) -> None:
@@ -38,6 +49,8 @@ class Warrior():
         self.leg_color_rec = (0,0,0)
         self.leg_correction_angle = "WAITING..."
         self.leg_ang_color_rec = (0,0,0)
+        self.pose_ml_certain = "NOT DETECTED"
+        self.pose_ml_certain_color = (0,0,0)
 
 
         #STORING FOR ANGLE ANALYZING
@@ -88,7 +101,24 @@ class Warrior():
             #right_knee_angle_ver = np.round(self.calcs.calcAngle_Horizontal(right_knee,right_ankle)).astype(int)
             right_hip_angle = np.round(self.calcs.calcAngle_3pts(right_shoulder,right_hip, right_knee)).astype(int)
             
+            markers0 = left_elbow_angle, left_elbow_angle_hor, left_knee_angle, left_knee_angle_ver, left_hip_angle, right_elbow_angle, right_elbow_angle_hor, right_knee_angle, right_knee_angle_ver, right_hip_angle
+      
+            #=============================================
+            # GET ML PREDICTION
+            #=============================================
+            predict_label = (loaded_model.predict(np.array(markers0).reshape(1, -1)))
+            pose_ml_detected = loaded_labels[predict_label[0]].upper()
+            probabilities = loaded_model.predict_proba(np.array(markers0).reshape(1, -1))
+            #probabilities.max()
 
+            if probabilities.max()>0.60:
+                self.pose_ml_certain = pose_ml_detected
+                self.pose_ml_certain_color = (0,255,0)
+            else:
+                self.pose_ml_certain = "LOW PROB"
+                self.pose_ml_certain_color = (0,0,0)
+            #===============================================
+            #===============================================  
 
          
             # VISUALIZE LANDMARSK
@@ -252,7 +282,6 @@ class Warrior():
                 self.leg_color_rec = (0,0,0)
                 self.leg_ang_color_rec = (0,0,0)
 
-
         else:
             landmarks = None
 
@@ -278,6 +307,12 @@ class Warrior():
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
         cv2.putText(image, self.pose_orientation, (350,60),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,self.pose_color,2,cv2.LINE_AA)
+        
+        #ML MODEL DETECTION
+        cv2.putText(image, "ML DETECTION (BETA)", (650,20),
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
+        cv2.putText(image, self.pose_ml_certain + " (PROB: " + np.round((probabilities.max()),2).astype(str) + ")", (650,60),
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,self.pose_ml_certain_color,2,cv2.LINE_AA)
 
 
         # Render detections
