@@ -33,7 +33,9 @@ function UploadForm() {
                 const url = URL.createObjectURL(blob);
                 setIsModalOpen(true);
                 setIsUploading(false); // set isUploading to false when the API call is complete
-                renderVideoPlayer(url);
+                setVideoUrl(url);
+                // renderVideoPlayer(url); - i removed this line
+              
             })
             .catch((error) => {
                 console.error("Error uploading video: ", error);
@@ -80,7 +82,7 @@ function UploadForm() {
           <VideoInput onFileUpload={handleFileUpload} onSubmit={() => setIsModalOpen(true)} />
         )}
       </form>
-      <ModalFeedback isOpen={isModalOpen} onClose={handleCloseModal}>
+      <ModalFeedback isOpen={isModalOpen} onClose={handleCloseModal} videoUrl={videoUrl}>
         {videoUrl ? (
           <video src={videoUrl} controls type="video/mp4" className="video-player" />
         ) : (
