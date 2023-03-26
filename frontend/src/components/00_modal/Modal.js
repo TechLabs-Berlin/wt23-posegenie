@@ -19,19 +19,19 @@ function Modal({ isOpen, onClose }) {
     <div className="modal">
       <div className="modal-content">
         <div className="modal-header">
-          <button onClick={onClose}>X</button>
+          <button onClick={onClose}>x</button>
         </div>
         <div className="modal-body">
           {isLoginForm ? (
             <>
-              <SignIn />
+              <SignIn onClose={onClose} />
               <button onClick={handleToggleForm}>
                 Don't have an account? Create an account
               </button>
             </>
           ) : (
             <>
-              <SignUp />
+              <SignUp onClose={onClose} />
               <button onClick={handleToggleForm}>
                 Already have an account? Log in
               </button>

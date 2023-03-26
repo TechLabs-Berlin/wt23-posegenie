@@ -22,10 +22,13 @@ button {
   padding: 5px 12px;
   color: #f35d6b;
 }
+
 button:hover {
+  cursor: pointer;
+}
+.btn-glow:hover {
   border-color: #f35d6b;
   box-shadow: #f35d6c91 0px 7px 29px 0px;
-  cursor: pointer;
 }
 
 /* MOBILE */

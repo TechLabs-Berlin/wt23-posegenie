@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ButtonComponent.css";
+import WarriorComponent from "./WarriorComponent";
+import LungesComponent from "./LungesComponent";
+import ModalFeedback from "../05_update_video/ModalFeedback";
 
-function PosesButtonsGroup({ onButtonClicked }) {
-    const [activeButton, setActiveButton] = useState(null);
+function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
+    const [selectedPose, setSelectedPose] = useState(null);
     const [poses, setPoses] = useState([]);
 
     useEffect(() => {
@@ -13,8 +16,26 @@ function PosesButtonsGroup({ onButtonClicked }) {
     }, []);
 
     const handleButtonClick = (value) => {
-        setActiveButton(value);
+        setSelectedPose(value);
         onButtonClicked(value);
+    };
+
+    const resetStates = () => {
+        setSelectedPose(null);
+    };
+
+    const renderPoseComponent = () => {
+        if (selectedPose === "lunges") {
+            return <LungesComponent />;
+        } else if (selectedPose === "warrior") {
+            return <WarriorComponent />;
+        }
+        return null;
+    };
+
+    const handleModalClosed = () => {
+        resetStates();
+        onModalClosed();
     };
 
     return (
@@ -27,12 +48,15 @@ function PosesButtonsGroup({ onButtonClicked }) {
                     <button
                         key={button.id}
                         onClick={() => handleButtonClick(button.id)}
-                        className={activeButton === button.id ? "active" : ""}
+                        className={selectedPose === button.id ? "active" : ""}
                     >
                         {button.label}
                     </button>
                 ))}
             </div>
+            {renderPoseComponent()}
+
+            <ModalFeedback onModalClosed={handleModalClosed} />
         </div>
     );
 }
