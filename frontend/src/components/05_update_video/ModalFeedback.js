@@ -1,7 +1,7 @@
 import React from "react";
 import "./ModalFeedback.css";
 
-function ModalFeedback({ isOpen, onClose, children }) {
+function ModalFeedback({ isOpen, onClose, children, videoUrl }) {
   const handleCloseModal = () => {
     onClose();
   };
@@ -14,7 +14,18 @@ function ModalFeedback({ isOpen, onClose, children }) {
         <div>
           <h2>Results: </h2>
         </div>
-        {children}
+        {videoUrl ? (
+          <video
+            src={videoUrl}
+            controls
+            type="video/mp4"
+            className="video-player"
+          />
+        ) : (
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+          </div>
+        )}
         <button className="close-button" onClick={handleCloseModal}>
           Close
         </button>
