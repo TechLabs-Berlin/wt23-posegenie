@@ -1,7 +1,4 @@
-# DEPRECATED!! - please use files in pose-score-service
-
-from .angle_calcs import Calculations
-from .read_upload import readUpload 
+from angle_calcs import Calculations
 import mediapipe as mp
 import numpy as np
 import cv2
@@ -277,12 +274,21 @@ class Warrior():
                                 mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
                                 mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
     
-    def visualize(self):
+    def make_output_filename(self, file_path, suffix="_annotated"):
+        print(f"out: {self.filename}")
         # Output filename
-        outdir, inputflnm = self.filename[:sys.argv[1].rfind(
-            '/')+1], sys.argv[1][sys.argv[1].rfind('/')+1:]
+        # FIXME: Replace forward slash with detection from a cross platform library
+        outdir = self.filename[:self.filename.rfind('/')+1]
+        inputflnm = self.filename[self.filename.rfind('/')+1:]
+        
         inflnm, inflext = inputflnm.split('.')
-        out_filename = f'{outdir}{inflnm}_annotated.{inflext}'
+        out_filename = f'{outdir}{inflnm}{suffix}.{inflext}'
+
+        return out_filename
+
+
+    def visualize(self):
+        out_filename = self.make_output_filename(self.filename)
 
         out = cv2.VideoWriter(out_filename, cv2.VideoWriter_fourcc(
             'm', 'p', '4', 'v'), 30, (self.width, self.height))
@@ -395,4 +401,4 @@ class Warrior():
         plt.ylim(-50,175)
         plt.ylabel("Angle")
         plt.xlabel("Time [seconds]")
-        plt.show()
+        plt.savefig(f"{self.filename}.png") 

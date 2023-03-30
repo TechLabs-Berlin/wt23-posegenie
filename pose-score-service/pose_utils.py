@@ -1,6 +1,4 @@
-# DEPRECATED!! - please use files in pose-score-service
-
-from .angle_calcs import Calculations
+from angle_calcs import Calculations
 import mediapipe as mp
 import numpy as np
 import cv2
@@ -117,8 +115,9 @@ class Lunge():
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                 mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
                                 mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
-    
+                                
     def make_output_filename(self, file_path, suffix="_annotated"):
+        print(f"out: {self.filename}")
         # Output filename
         # FIXME: Replace forward slash with detection from a cross platform library
         outdir = self.filename[:self.filename.rfind('/')+1]
@@ -131,8 +130,7 @@ class Lunge():
 
 
     def visualize(self):
-        out_filename = self.make_output_filename(file_path=self.filename)
-
+        out_filename = self.make_output_filename(self.filename)
 
         out = cv2.VideoWriter(out_filename, cv2.VideoWriter_fourcc(
             'm', 'p', '4', 'v'), 30, (self.width, self.height))
@@ -163,4 +161,4 @@ class Lunge():
         plt.title('Lunge Progression (raw)')
         plt.xlabel('Timestamp (sec)')
         plt.ylabel('HipKneeAngle')
-        plt.show()  
+        plt.savefig(f"{self.filename}.png")  

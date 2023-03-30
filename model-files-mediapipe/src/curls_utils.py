@@ -1,3 +1,5 @@
+# DEPRECATED!! - please use files in pose-score-service
+
 from .angle_calcs import Calculations
 from .read_upload import readUpload 
 import mediapipe as mp
