@@ -1,8 +1,9 @@
 # PoseGenie - TechLabs Berlin 2023
-
+# 🏁 Summary
 Poor posture and incorrect exercise form can lead to a range of health issues and performance problems. Additionally, people may not know if they're performing exercises correctly or which muscles should be involved. This can lead to muscle imbalances, reduced effectiveness of workouts, and even injury.
 
-PoseGenie is an all-in-one AI-powered workout assistant that provides feedback and suggestions for users performing exercises. It offers exercise metrics and helps users optimize their workouts to engage the correct muscles and quantify their performance.
+PoseGenie is an all-in-one AI-powered workout assistant that provides feedback and suggestions for users performing exercises. It offers exercise metrics and helps users optimize their workouts to engage the correct muscles and quantify their performance.  
+&nbsp;
 
 
 # 📚 Stack
