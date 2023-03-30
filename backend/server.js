@@ -2,16 +2,17 @@ const express = require("express");
 app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const connectDB = require("./db");
-const usersRoutes = require("./routes/users");
+
 const videosRoutes = require("./routes/videos");
 const posesRoutes = require("./routes/poses");
 
-// Start the database connection
-connectDB();
+// Start the database connection - NOT USED FOR THE TIME BEING
+// const connectDB = require("./db");
+// const usersRoutes = require("./routes/users");
+// connectDB();
 
 // Routes
-usersRoutes(app);
+// usersRoutes(app);
 app.use("/videos", videosRoutes);
 app.use("/poses", posesRoutes);
 
