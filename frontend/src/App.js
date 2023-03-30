@@ -18,76 +18,78 @@ import Modal from "./components/00_modal/Modal";
 import UploadForm from "./components/05_update_video/UploadForm";
 
 function App() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isLightkMode, setisLightkMode] = useState(false);
-    const [authUser, setAuthUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLightkMode, setisLightkMode] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
 
-    useEffect(() => {
-        const listen = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setAuthUser(user);
-            } else {
-                setAuthUser(null);
-            }
-        });
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
 
-        return () => {
-            listen();
-        };
-    }, []);
-
-    const toggleTheme = () => {
-        setisLightkMode(!isLightkMode);
+    return () => {
+      listen();
     };
+  }, []);
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
-    };
+  const toggleTheme = () => {
+    setisLightkMode(!isLightkMode);
+  };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
 
-    const userSignOut = () => {
-        signOut(auth)
-            .then(() => {
-                console.log("sign out successful");
-            })
-            .catch((error) => console.log(error));
-    };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
-    return (
-        <div className="body">
-            <div className={isLightkMode ? "light-mode" : "dark-mode"}>
-                <div className="top_bar wrapper">
-                    <button onClick={toggleTheme}>
-                        {isLightkMode ? "Dark Mode" : "Light Mode"}
-                    </button>
-                    {authUser ? (
-                        <>
-                            {/* <p>{`Signed In as ${authUser.email}`}</p> */}
-                            <button onClick={userSignOut}>Sign Out</button>
-                        </>
-                    ) : (
-                        <button onClick={handleOpenModal}>Account</button>
-                    )}
-                    <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
-                </div>
+  const userSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("sign out successful");
+      })
+      .catch((error) => console.log(error));
+  };
 
-                <Head />
-                <Quote />
-                <Steps />
-                {authUser ? (
-                    <>
-                        <UploadForm />
-                    </>
-                ) : (
-                    <StartButton handleOpenModal={handleOpenModal} />
-                )}
-                <Footer />
-            </div>
+  return (
+    <div className="body">
+      <div className={isLightkMode ? "light-mode" : "dark-mode"}>
+        <div className="top_bar wrapper">
+          <button className="btn-glow" onClick={toggleTheme}>
+            {isLightkMode ? "Dark Mode" : "Light Mode"}
+          </button>
+          {authUser ? (
+            <>
+              {/* <p>{`Signed In as ${authUser.email}`}</p> */}
+              <button onClick={userSignOut}>Sign Out</button>
+            </>
+          ) : (
+            <button className="btn-glow" onClick={handleOpenModal}>
+              Account
+            </button>
+          )}
+          <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
         </div>
-    );
+
+        <Head />
+        {authUser ? null : <Quote />}
+        {authUser ? null : <Steps />}
+        {authUser ? (
+          <>
+            <UploadForm />
+          </>
+        ) : (
+          <StartButton handleOpenModal={handleOpenModal} />
+        )}
+        <Footer />
+      </div>
+    </div>
+  );
 }
 
 export default App;
