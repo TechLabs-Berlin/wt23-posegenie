@@ -156,9 +156,32 @@ class Lunge():
         timeTotalArray  = np.array(self.timeStamp_list)
 
         res = self.calcs.fit_sin(self.timeStamp_list, self.angle_list)
-        plt.plot(timeTotalArray, angleTotalArray, color="navy", label='FirstTrial', linewidth=2.0)
-        plt.plot(timeTotalArray, res["fitfunc"](timeTotalArray), "r-", label="y fit curve", linewidth=2)
-        plt.title('Lunge Progression (raw)')
-        plt.xlabel('Timestamp (sec)')
-        plt.ylabel('HipKneeAngle')
+        val_amp    =  int(res["amp"]) * 2.1
+        val_minmax =  int(max(angleTotalArray)) - int(min(angleTotalArray))
+        val_time   = round(res["period"], 2)
+        fig, ax = plt.subplots(2, 3, figsize=(15,7))
+        ax[0, 0].title.set_text('Lunge Progression (raw)')
+        ax[0, 0].plot(timeTotalArray, angleTotalArray_savgol, color="navy", label='_nolegend_', linewidth=2.0)
+        ax[0, 0].set_ylabel('HipKneeAngle')
+        ax[0, 0].set_xlabel('Timestamp (sec)')
+
+        ax[0, 1].plot(timeTotalArray, res["fitfunc"](timeTotalArray), "r-", label='_nolegend_', linewidth=2)
+        ax[0, 1].title.set_text('Lunge Progression (best fit)')
+        ax[0, 1].set_xlabel('Timestamp (sec)')
+
+        ax[0, 2].title.set_text('Comparison')
+        ax[0, 2].plot(timeTotalArray, angleTotalArray_savgol, color="navy", label='_nolegend_', linewidth=2.0)
+        ax[0, 2].plot(timeTotalArray, res["fitfunc"](timeTotalArray), "r-", label='_nolegend_', linewidth=2)
+        ax[0, 2].set_xlabel('Timestamp (sec)')
+        txt1, txt2, txt3 = textGenerator(val_amp, val_minmax, val_time)
+        text1 = ax[1, 0].text(0, 0.9, txt1, ha='left', va='top', wrap=True, fontsize=12, transform=ax[1, 0].transAxes)
+        text1._get_wrap_line_width = lambda : 250.
+        text2 = ax[1, 1].text(0, 0.9, txt2, ha='left', va='top', wrap=True, fontsize=12, transform=ax[1, 1].transAxes)
+        text2._get_wrap_line_width = lambda : 250.
+        text3 = ax[1, 2].text(0, 0.9, txt3, ha='left', va='top', wrap=True, fontsize=12, transform=ax[1, 2].transAxes)
+        text3._get_wrap_line_width = lambda : 250.
+
+        ax[1, 0].set_axis_off()
+        ax[1, 1].set_axis_off()
+        ax[1, 2].set_axis_off()
         plt.savefig(f"{self.filename}.png")  
