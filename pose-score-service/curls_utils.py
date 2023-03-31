@@ -1,13 +1,9 @@
-# DEPRECATED!! - please use files in pose-score-service
-
-from .angle_calcs import Calculations
-from .read_upload import readUpload 
+from angle_calcs import Calculations
 import mediapipe as mp
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import sys
-import scipy
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -133,12 +129,21 @@ class Curls():
                                 mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
                                 mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
     
-    def visualize(self):
+    def make_output_filename(self, file_path, suffix="_annotated"):
+        print(f"out: {self.filename}")
         # Output filename
-        outdir, inputflnm = self.filename[:sys.argv[1].rfind(
-            '/')+1], sys.argv[1][sys.argv[1].rfind('/')+1:]
+        # FIXME: Replace forward slash with detection from a cross platform library
+        outdir = self.filename[:self.filename.rfind('/')+1]
+        inputflnm = self.filename[self.filename.rfind('/')+1:]
+        
         inflnm, inflext = inputflnm.split('.')
-        out_filename = f'{outdir}{inflnm}_annotated.{inflext}'
+        out_filename = f'{outdir}{inflnm}{suffix}.{inflext}'
+
+        return out_filename
+
+
+    def visualize(self):
+        out_filename = self.make_output_filename(self.filename)
 
         out = cv2.VideoWriter(out_filename, cv2.VideoWriter_fourcc(
             'm', 'p', '4', 'v'), 30, (self.width, self.height))
@@ -156,14 +161,17 @@ class Curls():
 
             self.angle(results, image)
             out.write(image)
-            
 
         self.cap.release()
         out.release()
 
+        angleTotalArray = np.array(self.angle_list)
+        timeTotalArray  = np.array(self.timeStamp_list)
 
-
-
-
-
-        
+        res = self.calcs.fit_sin(self.timeStamp_list, self.angle_list)
+        plt.plot(timeTotalArray, angleTotalArray, color="navy", label='FirstTrial', linewidth=2.0)
+        plt.plot(timeTotalArray, res["fitfunc"](timeTotalArray), "r-", label="y fit curve", linewidth=2)
+        plt.title('Lunge Progression (raw)')
+        plt.xlabel('Timestamp (sec)')
+        plt.ylabel('HipKneeAngle')
+        plt.savefig(f"{self.filename}.png")  

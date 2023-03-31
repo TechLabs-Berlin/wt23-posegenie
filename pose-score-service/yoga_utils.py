@@ -1,7 +1,4 @@
-# DEPRECATED!! - please use files in pose-score-service
-
-from .angle_calcs import Calculations
-from .read_upload import readUpload 
+from angle_calcs import Calculations
 import mediapipe as mp
 import numpy as np
 import cv2
@@ -209,11 +206,6 @@ class Warrior():
                 elif right_elbow_angle_hor <= 20 and right_elbow_angle_hor >= -20:
                     self.right_arm_correct = "GOOD"
                     self.right_color_rec = (0,255,0)  # GREEN COLOR
-            else:
-                self.left_arm_correct = "WAITING..."
-                self.left_color_rec = (0,0,0)
-                self.right_arm_correct = "WAITING..."
-                self.right_color_rec = (0,0,0)
 
             #CORRECTIONS LEGS AND HIPS
             #BENDED LEG: FORELEG ANGLE SHOULD BE VERTICAL, WITH ~90 DEEGREE FROM FLOOR
@@ -224,36 +216,31 @@ class Warrior():
 
             if self.pose_orientation == "RIGHT WARRIOR 2":
                 if right_knee_angle_ver > 110 or right_knee_angle_ver < 70:
-                    self.leg_correction = "FORELEG SHOULD BE VERTICAL"
+                    self.leg_correction = "FORELEG SHOULD BE CLOSER TO VERTICAL"
                     self.leg_color_rec = (255,0,0)
                 elif right_knee_angle_ver <= 110 and right_knee_angle_ver >= 70:
                     self.leg_correction = "GOOD"
                     self.leg_color_rec = (0,255,0)
                 if right_knee_angle > 140 or right_knee_angle < 60:
-                    self.leg_correction_angle = "ANGLE SHOULD BE ~115"
+                    self.leg_correction_angle = "FORELEG-THIGHT ANGLE SHOULD BE ~115"
                     self.leg_ang_color_rec = (255,0,0)
                 elif right_knee_angle <= 140 and right_knee_angle >= 60:
                     self.leg_correction_angle = "GOOD"
                     self.leg_ang_color_rec = (0,255,0)
-            elif self.pose_orientation == "LEFT WARRIOR 2":
+      
+            if self.pose_orientation == "LEFT WARRIOR 2":
                 if left_knee_angle_ver > 110 or left_knee_angle_ver < 70:
-                    self.leg_correction = "FORELEG SHOULD BE VERTICAL"
+                    self.leg_correction = "FORELEG SHOULD BE CLOSER TO VERTICAL"
                     self.leg_color_rec = (255,0,0)
                 elif left_knee_angle_ver <= 110 and left_knee_angle_ver >= 70:
                     self.leg_correction = "GOOD"
                     self.leg_color_rec = (0,255,0)
                 if left_knee_angle > 140 or left_knee_angle < 60:
-                    self.leg_correction_angle = "ANGLE SHOULD BE ~115"
+                    self.leg_correction_angle = "FORELEG-THIGHT ANGLE SHOULD BE ~115"
                     self.leg_ang_color_rec = (255,0,0)
                 elif left_knee_angle <= 140 and left_knee_angle >= 60:
                     self.leg_correction_angle = "GOOD"
                     self.leg_ang_color_rec = (0,255,0)
-            else:
-                self.leg_correction = "WAITING..."
-                self.leg_correction_angle = "WAITING..."
-                self.leg_color_rec = (0,0,0)
-                self.leg_ang_color_rec = (0,0,0)
-
 
         else:
             landmarks = None
@@ -262,23 +249,23 @@ class Warrior():
         # RENDERING OF CORRECTIONS
         #ARM CORRECTIONS MESSAGES
         cv2.putText(image, "HINT ARMS:", (10,20),
-                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),1,cv2.LINE_AA)
         cv2.putText(image, self.left_arm_correct, (10,60),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75, self.left_color_rec,2,cv2.LINE_AA)
         cv2.putText(image, self.right_arm_correct, (10,100),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75, self.right_color_rec,2,cv2.LINE_AA)
         #LEG CORRECTIONS MESSAGES
-        cv2.putText(image, "HINT FRONT LEG:", (10,200),
-                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
-        cv2.putText(image, self.leg_correction, (10,240),
+        cv2.putText(image, "HINT FRONT LEG:", (10,370),
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),1,cv2.LINE_AA)
+        cv2.putText(image, self.leg_correction, (10,410),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75, self.leg_color_rec,2,cv2.LINE_AA)
-        cv2.putText(image, self.leg_correction_angle, (10,280),
+        cv2.putText(image, self.leg_correction_angle, (10,450),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75, self.leg_ang_color_rec,2,cv2.LINE_AA)
   
         #POSE DETECTION
-        cv2.putText(image, "POSE:", (350,20),
+        cv2.putText(image, "POSE:", (450,20),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
-        cv2.putText(image, self.pose_orientation, (350,60),
+        cv2.putText(image, self.pose_orientation, (450,60),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,self.pose_color,2,cv2.LINE_AA)
 
 
@@ -287,12 +274,21 @@ class Warrior():
                                 mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
                                 mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
     
-    def visualize(self):
+    def make_output_filename(self, file_path, suffix="_annotated"):
+        print(f"out: {self.filename}")
         # Output filename
-        outdir, inputflnm = self.filename[:sys.argv[1].rfind(
-            '/')+1], sys.argv[1][sys.argv[1].rfind('/')+1:]
+        # FIXME: Replace forward slash with detection from a cross platform library
+        outdir = self.filename[:self.filename.rfind('/')+1]
+        inputflnm = self.filename[self.filename.rfind('/')+1:]
+        
         inflnm, inflext = inputflnm.split('.')
-        out_filename = f'{outdir}{inflnm}_annotated.{inflext}'
+        out_filename = f'{outdir}{inflnm}{suffix}.{inflext}'
+
+        return out_filename
+
+
+    def visualize(self):
+        out_filename = self.make_output_filename(self.filename)
 
         out = cv2.VideoWriter(out_filename, cv2.VideoWriter_fourcc(
             'm', 'p', '4', 'v'), 30, (self.width, self.height))
@@ -405,4 +401,4 @@ class Warrior():
         plt.ylim(-50,175)
         plt.ylabel("Angle")
         plt.xlabel("Time [seconds]")
-        plt.show()
+        plt.savefig(f"{self.filename}.png") 

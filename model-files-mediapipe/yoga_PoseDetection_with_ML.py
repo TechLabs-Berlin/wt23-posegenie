@@ -1,7 +1,7 @@
 import mediapipe as mp
 import cv2 
 import sys
-from src.yoga_utils import Warrior
+from src.yoga_utils_with_ML import Warrior
 from src.read_upload import readUpload
 
 ##############################

@@ -4,6 +4,7 @@ import PosesButtonsGroup from "../BtnComponent/PosesButtonsGroup";
 import "./uploadvideo.css";
 import VideoInput from './VideoInput';
 import ModalFeedback from './ModalFeedback';
+import FormData from 'form-data'
 function UploadForm() {
   const [activeButtonId, setActiveButtonId] = useState(null);
   const [file, setFile] = useState(null);
@@ -14,33 +15,52 @@ function UploadForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     
-    if (activeButtonId) {
-      const formData = new FormData();
-      formData.append("pose", activeButtonId);
-      formData.append("video", file);
-      setIsUploading(true); // set isUploading to true before making the API call
+        if (activeButtonId) {
+          const formData = new FormData();
+          formData.append("pose", activeButtonId);
+          formData.append("video", file);
+          setIsUploading(true); // set isUploading to true before making the API call
 
-      axios
-        .post("/videos/upload", formData, {
-          responseType: "arraybuffer",
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          const blob = new Blob([res.data]);
-          const url = URL.createObjectURL(blob);
-          setVideoUrl(url);
-          setIsModalOpen(true);
-          setIsUploading(false); // set isUploading to false when the API call is complete
-        })
-        .catch((error) => {
-          console.error("Error uploading video: ", error);
-          setIsUploading(false); // set isUploading to false if there's an error with the API call
-        });
+        axios
+            .post("/videos/upload", formData, {
+                responseType: "arraybuffer",
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((res) => {
+                const blob = new Blob([res.data]);
+                const url = URL.createObjectURL(blob);
+                setIsModalOpen(true);
+                setIsUploading(false); // set isUploading to false when the API call is complete
+                setVideoUrl(url);
+                // renderVideoPlayer(url); - i removed this line
+              
+            })
+            .catch((error) => {
+                console.error("Error uploading video: ", error);
+                setIsUploading(false); // set isUploading to false if there's an error with the API call
+            });
+        }
+}
+    const renderVideoPlayer = (url) => {
+        const video = document.createElement("video");
+        video.src = url;
+        video.controls = true;
+        video.type = "video/mp4";
+
+        // video.style.maxWidth = "50%";
+
+        const videoContainer = document.createElement("div");
+        videoContainer.className = "video_container";
+        videoContainer.appendChild(video);
+
+        const uploadButton = document.querySelector(".uploadBtn");
+        uploadButton.parentNode.insertBefore(
+            videoContainer,
+            uploadButton.nextSibling
+        );
     }
-  };
 
   const handleFileUpload = (event) => {
     setFile(event.target.files[0]);
@@ -53,6 +73,7 @@ function UploadForm() {
     setFile(null);
   };
 
+
   return (
     <div>
       <PosesButtonsGroup onButtonClicked={setActiveButtonId} />
@@ -61,7 +82,7 @@ function UploadForm() {
           <VideoInput onFileUpload={handleFileUpload} onSubmit={() => setIsModalOpen(true)} />
         )}
       </form>
-      <ModalFeedback isOpen={isModalOpen} onClose={handleCloseModal}>
+      <ModalFeedback isOpen={isModalOpen} onClose={handleCloseModal} videoUrl={videoUrl}>
         {videoUrl ? (
           <video src={videoUrl} controls type="video/mp4" className="video-player" />
         ) : (
