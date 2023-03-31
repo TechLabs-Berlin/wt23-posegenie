@@ -7,14 +7,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../src/components/00_modal/auth/firebase";
 import { signOut } from "firebase/auth";
 
+import Modal from "./components/00_modal/Modal";
 import Head from "./components/01_header/Head";
 import Quote from "./components/02_quote/Quote";
 import Steps from "./components/03_steps/Steps";
 import StartButton from "./components/04_start_btn/StartButton";
+import AboutUs from "./components/AboutUs/AboutUs";
 import Footer from "./components/06_footer/Footer";
-
-import Modal from "./components/00_modal/Modal";
-
 import UploadForm from "./components/05_update_video/UploadForm";
 
 function App() {
@@ -77,6 +76,7 @@ function App() {
         </div>
 
         <Head />
+        {authUser ? null : <AboutUs />}
         {authUser ? null : <Quote />}
         {authUser ? null : <Steps />}
         {authUser ? (
@@ -86,6 +86,7 @@ function App() {
         ) : (
           <StartButton handleOpenModal={handleOpenModal} />
         )}
+
         <Footer />
       </div>
     </div>

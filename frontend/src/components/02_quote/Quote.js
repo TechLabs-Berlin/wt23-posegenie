@@ -3,9 +3,8 @@ function Quote() {
   return (
     <div className="quote-box">
       <p className="quote">
-        Elevate your fitness routine <br />
-        with expert guidance and <br />
-        safety features
+        Optimize your fitness workouts <br />
+        and minimize the risk of injury
       </p>
     </div>
   );

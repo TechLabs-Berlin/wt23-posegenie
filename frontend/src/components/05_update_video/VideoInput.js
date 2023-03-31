@@ -3,7 +3,7 @@ function VideoInput({ onFileUpload, onSubmit }) {
     <div className="uploadBtn_container">
       <div>
         <div className="upload">
-          <h2>Upload the video</h2>
+          <h2 className="title-h2">Upload the video</h2>
         </div>
         <input
           type="file"

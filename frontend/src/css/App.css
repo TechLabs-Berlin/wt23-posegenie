@@ -3,6 +3,9 @@
   padding: 0;
   font-family: "Poppins", sans-serif;
 }
+.body {
+  height: 100vh;
+}
 .wrapper {
   width: 1200px;
   margin: 0 auto;
@@ -31,9 +34,20 @@ button:hover {
   box-shadow: #f35d6c91 0px 7px 29px 0px;
 }
 
+/* TABLET */
+
+@media (min-width: 800px) and (max-width: 1240px) {
+  .wrapper {
+    width: 760px;
+  }
+  button {
+    font-size: 12px;
+  }
+}
+
 /* MOBILE */
 
-@media (min-width: 370px) and (max-width: 780px) {
+@media (min-width: 410px) and (max-width: 799px) {
   .wrapper {
     width: 370px;
   }
@@ -42,13 +56,22 @@ button:hover {
   }
 }
 
-/* TABLET */
+/* XS MOBILE */
 
-@media (min-width: 780px) and (max-width: 1120px) {
+@media (min-width: 270px) and (max-width: 409px) {
   .wrapper {
-    width: 760px;
+    width: 270px;
   }
-  button {
-    font-size: 12px;
+
+  .head {
+    height: 200px;
+  }
+  .head-img {
+    display: none;
+  }
+
+  .title {
+    font-size: 76px;
+    line-height: 86px;
   }
 }

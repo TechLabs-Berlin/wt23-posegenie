@@ -5,28 +5,77 @@
   justify-content: center;
   align-items: center;
 }
+.inactive {
+  font-size: 1.2em;
+  padding: 0.5em 1em;
+}
 
 .active {
   border: 1px solid rgb(115, 243, 36);
   color: rgb(214, 227, 75);
   box-shadow: #86d744 0px 7px 29px 0px;
+  font-size: 1.2em;
+  padding: 0.5em 1em;
 }
 
 .container button {
   margin: 15px 20px;
 }
 
-.recomdetion-container {
-  width: 700px;
+.recom-container {
+  height: 270px;
   border: 1px solid rgb(214, 227, 75);
-  padding: 15px;
+  padding: 20px;
   border-radius: 15px;
-  margin: 15px 0;
+  margin: 25px 0;
 }
-.recomendation-title {
+p {
+  font-size: 1.2em;
+}
+/* .recom-title {
   text-align: center;
   margin: 15px 0;
+} */
+
+.recom-center {
+  padding-top: 5px;
+  text-align: center;
 }
-.recomendation-p {
+.recom-p {
   margin-bottom: 19px;
+}
+ol {
+  margin: 15px 0 15px 25px;
+  font-size: 1.1em;
+}
+.highlight-p {
+  background-color: #f35d6b;
+}
+
+.title-h2 {
+  margin-bottom: 20px;
+  font-size: 1.9em;
+}
+/* TABLET */
+
+@media (min-width: 800px) and (max-width: 1240px) {
+  .recom-container {
+    height: 320px;
+  }
+}
+
+/* MOBILE */
+
+@media (min-width: 410px) and (max-width: 799px) {
+  .recom-container {
+    height: 620px;
+  }
+}
+
+/* XS MOBILE */
+
+@media (min-width: 270px) and (max-width: 409px) {
+  .recom-container {
+    height: 900px;
+  }
 }

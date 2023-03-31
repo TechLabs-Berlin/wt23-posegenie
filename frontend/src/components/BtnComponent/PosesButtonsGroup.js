@@ -3,6 +3,7 @@ import axios from "axios";
 import "./ButtonComponent.css";
 import WarriorComponent from "./WarriorComponent";
 import LungesComponent from "./LungesComponent";
+import CurlsComponent from "./CurlsComponent";
 import ModalFeedback from "../05_update_video/ModalFeedback";
 
 function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
@@ -29,6 +30,8 @@ function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
       return <LungesComponent />;
     } else if (selectedPose === "Warrior") {
       return <WarriorComponent />;
+    } else if (selectedPose === "Curls") {
+      return <CurlsComponent />;
     }
     return null;
   };
@@ -41,14 +44,14 @@ function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
   return (
     <div className="container">
       <div>
-        <h2>Choose an exercise</h2>
+        <h2 className="title-h2">Choose an exercise</h2>
       </div>
       <div className="btn_container">
         {poses.map((button) => (
           <button
             key={button.id}
             onClick={() => handleButtonClick(button.id)}
-            className={selectedPose === button.id ? "active" : ""}
+            className={selectedPose === button.id ? "active" : "inactive"}
           >
             {button.label}
           </button>

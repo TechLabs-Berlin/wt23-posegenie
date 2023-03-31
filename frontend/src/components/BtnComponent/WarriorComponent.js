@@ -1,19 +1,36 @@
 function WarriorComponent() {
   return (
-    <div className="recomdetion-container">
-      <h3 className="recomendation-title">Warrior pose</h3>
-      <p className="recomendation-p">
-        Begin standing, then step your right foot forward about four feet. With
-        your foot parallel and toes pointing to the top of the mat, bend your
-        knee into a lunge. Keep your left leg straight behind you and turn your
-        left heel in at approximately 45 degrees. Raise your arms straight above
-        your head, keeping your shoulders pressed down.
-      </p>
-      <p className="recomendation-p">
-        Squeeze your shoulder blades together and downward, and lift your chin
-        to gaze at your hands overhead. Hold your pose and then repeat on the
-        left side.
-      </p>
+    <div className="wrapper">
+      <div className="recom-container">
+        <p className="recom-center">
+          Warrior pose is a great yoga posture for{" "}
+          <span className="highlight-p">building leg strength</span> and{" "}
+          <span className="highlight-p">improving balance</span>.
+        </p>
+        <ol>
+          <li className="recom-list">
+            Begin standing at the front of your mat with your feet hip-width
+            apart.
+          </li>
+          <li className="recom-list">
+            Step your left foot back about 3-4 feet and turn your left foot out
+            at a 45-degree angle.
+          </li>
+          <li className="recom-list">
+            Bend your right knee, keeping it directly above your ankle, and
+            reach your arms overhead with your palms facing each other
+          </li>
+          <li className="recom-list">Hold the pose for 5-10 deep breaths.</li>
+          <li className="recom-list">
+            Release and repeat on the other side, stepping your right foot back
+            this time.
+          </li>
+        </ol>
+        <p className="recom-center">
+          Remember to engage your core muscles and keep your gaze forward to
+          maintain your balance in this pose.
+        </p>
+      </div>
     </div>
   );
 }
