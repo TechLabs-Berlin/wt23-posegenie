@@ -1,22 +1,32 @@
+import "./VideoInput.css";
+
 function VideoInput({ onFileUpload, onSubmit }) {
   return (
-    <div className="uploadBtn_container">
-      <div>
-        <div className="upload">
-          <h2 className="title-h2">Upload the video</h2>
-        </div>
+    <div className="video-upload-container">
+      <div className="video-upload-header">
+        <h2 className="video-upload-title">Upload Your Video</h2>
+        <p className="video-upload-description">
+          To comply with our guidelines, the video length should not exceed one
+          minute.
+          <br />
+          Supported formats: .mp4, .mov, .avi
+        </p>
+      </div>
+      <div className="video-upload-input-container">
         <input
           type="file"
           id="video-upload"
           accept=".mp4, .mov, .avi"
           onChange={onFileUpload}
+          className="video-upload-input"
         />
+        <label htmlFor="video-upload" className="video-upload-label">
+          Choose File
+        </label>
       </div>
-      <div className="upload_btn_container">
-        <button onClick={onSubmit} className="uploadBtn">
-          Upload Video
-        </button>
-      </div>
+      <button onClick={onSubmit} className="video-upload-button">
+        Upload
+      </button>
     </div>
   );
 }

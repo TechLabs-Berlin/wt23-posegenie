@@ -1,0 +1,63 @@
+.video-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  /* background-color: #f2f2f2; */
+  border-radius: 10px;
+}
+
+.video-upload-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.video-upload-title {
+  font-size: 2rem;
+  font-weight: bold;
+  /* color: #333; */
+}
+
+.video-upload-description {
+  font-size: 1rem;
+  /* color: #666; */
+}
+
+.video-upload-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.video-upload-input {
+  display: none;
+}
+
+.video-upload-label {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #f35d6b;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.video-upload-button {
+  padding: 1rem 2rem;
+  background-color: #f35d6b;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border: 1px solid #f35d6b;
+}

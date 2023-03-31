@@ -42,24 +42,24 @@ function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
   };
 
   return (
-    <div className="container">
-      <div>
+    <div className="wrapper">
+      <div className="container">
         <h2 className="title-h2">Choose an exercise</h2>
-      </div>
-      <div className="btn_container">
-        {poses.map((button) => (
-          <button
-            key={button.id}
-            onClick={() => handleButtonClick(button.id)}
-            className={selectedPose === button.id ? "active" : "inactive"}
-          >
-            {button.label}
-          </button>
-        ))}
-      </div>
-      {renderPoseComponent()}
+        <div className="btn_container">
+          {poses.map((button) => (
+            <button
+              key={button.id}
+              onClick={() => handleButtonClick(button.id)}
+              className={selectedPose === button.id ? "active" : "inactive"}
+            >
+              {button.label}
+            </button>
+          ))}
+        </div>
+        {renderPoseComponent()}
 
-      <ModalFeedback onModalClosed={handleModalClosed} />
+        <ModalFeedback onModalClosed={handleModalClosed} />
+      </div>
     </div>
   );
 }

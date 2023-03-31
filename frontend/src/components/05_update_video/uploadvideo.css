@@ -1,4 +1,4 @@
-.uploadBtn {
+/* .uploadBtn {
   margin: auto;
 }
 
@@ -79,7 +79,7 @@ video {
 }
 
 /* MOBILE */
-
+/* 
 @media (min-width: 380px) and (max-width: 780px) {
   input[type="file"] {
     width: 300px;
@@ -87,9 +87,9 @@ video {
 }
 
 /* TABLET */
-
+/* 
 @media (min-width: 780px) and (max-width: 1120px) {
   input[type="file"] {
     width: 380px;
   }
-}
+} */
