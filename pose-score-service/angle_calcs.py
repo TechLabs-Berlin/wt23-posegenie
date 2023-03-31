@@ -77,7 +77,7 @@ class Calculations():
 def textGenerator(val_amp, val_minmax, val_time):
 	 if abs(val_minmax - val_amp) <= 20 and val_amp > 50:
         	txtAngleComment = ' Great result! Your exercise has a harmonic rhythm, which resulted in a good fitting.'
-        	txtAngleFeedback = 'A great form was detected in the metrics. Make sure to feel the exercise in your quads and hamstrings!.'
+        	txtAngleFeedback = ' A great form was detected in the metrics. Make sure to feel the exercise in your quads and hamstrings!.'
 	 elif abs(val_minmax - val_amp) <= 25 and 15 <= val_amp < 50:
         	txtAngleComment = ' Great result! Your exercise has a harmonic rhythm. One or two things can be improved.'
         	txtAngleFeedback =  'A good form was detected in the metrics. You may want to focus on your flexibility and increasing range of motion. Make sure to feel the exercise in your quads and hamstrings!'
