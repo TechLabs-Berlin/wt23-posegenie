@@ -166,7 +166,7 @@ class Lunge():
         ax[0, 0].set_xlabel('Timestamp (sec)')
 
         ax[0, 1].plot(timeTotalArray, res["fitfunc"](timeTotalArray), "r-", label='_nolegend_', linewidth=2)
-        ax[0, 1].title.set_text('Lunge Progression (best fit)')
+        ax[0, 1].title.set_text('Lunge Progression (Best Fit)')
         ax[0, 1].set_xlabel('Timestamp (sec)')
 
         ax[0, 2].title.set_text('Comparison')
