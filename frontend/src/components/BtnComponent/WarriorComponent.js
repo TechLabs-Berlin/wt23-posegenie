@@ -3,8 +3,8 @@ function WarriorComponent() {
     <div className="wrapper">
       <div className="recom-container">
         <p className="recom-center">
-          Warrior pose is a great yoga posture for{" "}
-          <span className="highlight-p">building leg strength</span> and{" "}
+          Warrior pose is a great yoga posture for
+          <span className="highlight-p">building leg strength</span> and
           <span className="highlight-p">improving balance</span>.
         </p>
         <ol>

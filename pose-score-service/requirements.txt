@@ -2,3 +2,5 @@ flask
 moviepy
 opencv-python
 mediapipe
+scipy
+pandas

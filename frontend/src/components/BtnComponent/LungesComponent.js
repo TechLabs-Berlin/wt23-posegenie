@@ -3,8 +3,8 @@ function LungesComponent() {
     <div className="wrapper">
       <div className="recom-container">
         <p className="recom-center">
-          Lunges are a great exercise for{" "}
-          <span className="highlight-p">strengthening</span> and{" "}
+          Lunges are a great exercise for
+          <span className="highlight-p">strengthening</span> and
           <span className="highlight-p">toning your lower body</span>.
         </p>
         <ol>

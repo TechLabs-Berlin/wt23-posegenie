@@ -56,9 +56,9 @@ ol {
   font-size: 1.1em;
 }
 
-.highlight-p {
+/* .highlight-p {
   background-color: #f35d6b;
-}
+} */
 
 .title-h2 {
   margin-bottom: 20px;
@@ -72,8 +72,9 @@ ol {
 }
 
 .recom-container .highlight-p {
-  background-color: #f35d6b;
-  color: #fff;
+  /* background-color: #f35d6b;
+  color: #fff; */
+  font-weight: bold;
   padding: 3px 5px;
 }
 

@@ -3,8 +3,8 @@ function CurlsComponent() {
     <div className="wrapper">
       <div className="recom-container">
         <p className="recom-center">
-          Curls are a great exercise for building{" "}
-          <span className="highlight-p">arm strength</span> and{" "}
+          Curls are a great exercise for building
+          <span className="highlight-p">arm strength</span> and
           <span className="highlight-p">increasing bicep definition</span>.
         </p>
         <ol>
