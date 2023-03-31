@@ -1,4 +1,5 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, make_response
+import zipfile
 import mediapipe as mp
 from hipkneeangle import hipknee
 from utils import convert_to_mp4, annotated_filename
@@ -39,30 +40,39 @@ def upload_video():
         video_file.save(output_path)
 
         # Process the video
-        # hipknee(output_path)
-        if exercise == "lunges":
+        if exercise == "Lunges":
             lunge = Lunge(read_upload=readUpload,
                           filename=output_path, pose=pose)
             lunge.visualize()
             converted_video = convert_to_mp4(
                 annotated_filename(video_file.filename))
-        if exercise == "curls":
+            image = f"uploaded_videos\{video_file.filename}.png"
+        if exercise == "Curls":
             curls = Curls(read_upload=readUpload,
                           filename=output_path, pose=pose)
             curls.visualize()
             converted_video = convert_to_mp4(
                 annotated_filename(video_file.filename))
-        if exercise == "warrior":
+            image = f"uploaded_videos\{video_file.filename}.png"
+        if exercise == "Warrior":
             warrior = Warrior(read_upload=readUpload,
                               filename=output_path, pose=pose)
             warrior.visualize()
             converted_video = convert_to_mp4(
                 annotated_filename(video_file.filename))
-
+            image = f"uploaded_videos\{video_file.filename}.png"
         else:
             pass
 
-        return send_file(converted_video, mimetype='video/mp4')
+        files = [converted_video, image]
+        # create a temporary file to store the zip archive
+        zip_filename = 'temp.zip'
+        with zipfile.ZipFile(zip_filename, 'w') as zip:
+            # add each file to the zip archive
+            for file in files:
+                zip.write(file, os.path.basename(file))
+        # send the zip archive as the response
+        return send_file(zip_filename, as_attachment=True, download_name=zip_filename)
 
 
 if __name__ == '__main__':
