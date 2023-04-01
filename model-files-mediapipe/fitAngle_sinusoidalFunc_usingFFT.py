@@ -9,6 +9,8 @@ import scipy.optimize
 #################################################
 #################################################
 
+plt.switch_backend('Agg')
+
 def calcAngle_3pts(a,b,c):
     a = np.array(a) # First
     b = np.array(b) # Mid

@@ -8,7 +8,7 @@ import os
 from pose_utils import Lunge
 from curls_utils import Curls
 from yoga_utils import Warrior
-from chair_utils import Chair
+# from chair_utils import Chair
 from read_upload import readUpload
 
 app = Flask(__name__)
