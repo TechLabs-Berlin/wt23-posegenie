@@ -8,6 +8,7 @@ import os
 from pose_utils import Lunge
 from curls_utils import Curls
 from yoga_utils import Warrior
+from chair_utils import Chair
 from read_upload import readUpload
 
 app = Flask(__name__)
@@ -44,27 +45,34 @@ def upload_video():
             lunge = Lunge(read_upload=readUpload,
                           filename=output_path, pose=pose)
             lunge.visualize()
-            converted_video = convert_to_mp4(
-                annotated_filename(video_file.filename))
-            image = f"uploaded_videos\{video_file.filename}.png"
 
+        #to change arg to Chair once done from frontend
         if exercise == "Curls":
-            curls = Curls(read_upload=readUpload,
+            curls = Chair(read_upload=readUpload,
                           filename=output_path, pose=pose)
-            curls.visualize()
-            converted_video = convert_to_mp4(
-                annotated_filename(video_file.filename))
-            image = f"uploaded_videos\{video_file.filename}.png"
+            curls.visualize()            
+                 
 
         if exercise == "Warrior":
             warrior = Warrior(read_upload=readUpload,
                               filename=output_path, pose=pose)
             warrior.visualize()
+
+        # if exercise == "Curls":
+        #     warrior = Curls(read_upload=readUpload,
+        #                       filename=output_path, pose=pose)
+        #     warrior.visualize()
+            
+
             converted_video = convert_to_mp4(
                 annotated_filename(video_file.filename))
             image = f"uploaded_videos\{video_file.filename}.png"
+
         else:
             pass
+        converted_video = convert_to_mp4(
+                annotated_filename(video_file.filename))
+        image = f"uploaded_videos\{video_file.filename}.png"
 
         files = [converted_video, image]
         # create a temporary file to store the zip archive
