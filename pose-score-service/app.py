@@ -46,43 +46,38 @@ def upload_video():
                           filename=output_path, pose=pose)
             lunge.visualize()
 
-        #to change arg to Chair once done from frontend
         if exercise == "Curls":
-            curls = Chair(read_upload=readUpload,
+            curls = Curls(read_upload=readUpload,
                           filename=output_path, pose=pose)
-            curls.visualize()            
-                 
+            curls.visualize()
 
         if exercise == "Warrior":
             warrior = Warrior(read_upload=readUpload,
                               filename=output_path, pose=pose)
             warrior.visualize()
 
-        # if exercise == "Curls":
-        #     warrior = Curls(read_upload=readUpload,
+        # if exercise == "Chair":
+        #     warrior = Chair(read_upload=readUpload,
         #                       filename=output_path, pose=pose)
-        #     warrior.visualize()
-            
-
-            converted_video = convert_to_mp4(
-                annotated_filename(video_file.filename))
-            image = f"uploaded_videos\{video_file.filename}.png"
+        #     chair.visualize()
 
         else:
             pass
         converted_video = convert_to_mp4(
-                annotated_filename(video_file.filename))
+            annotated_filename(video_file.filename))
         image = f"uploaded_videos\{video_file.filename}.png"
 
-        files = [converted_video, image]
-        # create a temporary file to store the zip archive
-        zip_filename = 'temp.zip'
-        with zipfile.ZipFile(zip_filename, 'w') as zip:
-            # add each file to the zip archive
-            for file in files:
-                zip.write(file, os.path.basename(file))
-        # send the zip archive as the response
-        return send_file(zip_filename, as_attachment=True, download_name=zip_filename)
+        return send_file(converted_video, mimetype='video/mp4')
+
+        # files = [converted_video, image]
+        # # create a temporary file to store the zip archive
+        # zip_filename = 'temp.zip'
+        # with zipfile.ZipFile(zip_filename, 'w') as zip:
+        #     # add each file to the zip archive
+        #     for file in files:
+        #         zip.write(file, os.path.basename(file))
+        # # send the zip archive as the response
+        # return send_file(zip_filename, as_attachment=True, download_name=zip_filename)
 
 
 if __name__ == '__main__':
