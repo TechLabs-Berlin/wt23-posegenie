@@ -1,22 +1,39 @@
 function LungesComponent() {
   return (
-    <div className="recomdetion-container">
-      <h3 className="recomendation-title">Lunges </h3>
-      <p className="recomendation-p">
-        Stand in a split stance with the right foot roughly 2 to 3 feet in front
-        of the left foot. Your torso is straight, the shoulders are back and
-        down, your core is engaged, and your hands are resting on your hips.
-      </p>
-      <p className="recomendation-p">
-        Bend the knees and lower your body until the back knee is a few inches
-        from the floor. At the bottom of the movement, the front thigh is
-        parallel to the ground, the back knee points toward the floor, and your
-        weight is evenly distributed between both legs.
-      </p>
-      <p className="recomendation-p">
-        Push back up to the starting position, keeping your weight on the heel
-        of the front foot.
-      </p>
+    <div className="wrapper">
+      <div className="recom-container">
+        <p className="recom-center">
+          Lunges are a great exercise for
+          <span className="highlight-p">strengthening</span> and
+          <span className="highlight-p">toning your lower body</span>.
+        </p>
+        <ol>
+          <li className="recom-list">
+            Start standing with your feet hip-width apart and your hands on your
+            hips.
+          </li>
+          <li className="recom-list">
+            Take a step forward with your right foot, bending your right knee
+            until your thigh is parallel to the ground.
+          </li>
+          <li className="recom-list">
+            Your left knee should be almost touching the ground behind you.
+          </li>
+          <li className="recom-list">
+            Push off with your right foot to return to your starting position.
+          </li>
+          <li className="recom-list">
+            Repeat on the other side, stepping forward with your left foot.
+          </li>
+          <li className="recom-list">
+            Continue alternating legs for your desired number of repetitions.
+          </li>
+        </ol>
+        <p className="recom-center">
+          Remember to keep your torso upright and your knees in line with your
+          toes to avoid injury.
+        </p>
+      </div>
     </div>
   );
 }

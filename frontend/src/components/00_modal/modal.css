@@ -83,6 +83,10 @@
   justify-content: center;
 }
 
+form {
+  text-align: center;
+}
+
 .modal-body input {
   width: 100%;
   padding: 10px;
@@ -129,11 +133,4 @@
 .auth-title {
   font-size: 32px;
   margin: 1px 0 20px 0;
-}
-
-.sign-in-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
 }

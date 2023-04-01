@@ -1,12 +1,12 @@
 .head {
-  height: 560px;
+  height: 500px;
   position: relative;
 }
 .head-img {
   position: absolute;
-  width: 460px;
-  top: 70px;
-  right: 100px;
+  width: 260px;
+  top: 110px;
+  left: 780px;
 }
 
 .title {
@@ -20,59 +20,55 @@
   color: #f35d6b;
 }
 
-.man-yoga {
-  width: 500px;
-  top: 150px;
-  left: 170px;
-}
+/* TABLET */
 
-.woman-lift {
-  width: 680px;
-  top: 120px;
-  left: 670px;
+@media (min-width: 800px) and (max-width: 1240px) {
+  .head {
+    height: 325px;
+  }
+  .head-img {
+    width: 173px;
+    top: 50px;
+
+    left: 495px;
+  }
+
+  .title {
+    font-size: 120px;
+    line-height: 128px;
+  }
 }
 
 /* MOBILE */
 
-@media (min-width: 380px) and (max-width: 780px) {
+@media (min-width: 410px) and (max-width: 799px) {
   .head {
     height: 200px;
   }
   .head-img {
-    width: 160px;
-    top: 40px;
-    right: 0px;
+    width: 100px;
+    top: 43px;
+    left: 259px;
   }
-  .woman-lift {
-    width: 230px;
-    top: 55px;
-    left: 215px;
-  }
+
   .title {
     font-size: 76px;
     line-height: 86px;
   }
 }
 
-/* TABLET */
+/* XS MOBILE */
 
-@media (min-width: 780px) and (max-width: 1120px) {
+@media (min-width: 270px) and (max-width: 409px) {
   .head {
-    height: 280px;
+    height: 200px;
   }
   .head-img {
-    width: 230px;
-    top: 50px;
-    right: 90px;
-  }
-  .woman-lift {
-    width: 300px;
-    top: 80px;
-    left: 450px;
+    display: none;
   }
 
   .title {
-    font-size: 120px;
-    line-height: 128px;
+    font-size: 76px;
+    line-height: 86px;
   }
 }

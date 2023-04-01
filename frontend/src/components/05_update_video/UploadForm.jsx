@@ -86,8 +86,11 @@ function UploadForm() {
         {videoUrl ? (
           <video src={videoUrl} controls type="video/mp4" className="video-player" />
         ) : (
+          <div>
+            <p>Analyzing your workout, measuring your movements, and calculating your performance. Please wait while we gather the data to give you personalized feedback and insights.</p>
           <div className="loading-spinner">
             <div className="spinner"></div>
+          </div>
           </div>
         )}
       </ModalFeedback>

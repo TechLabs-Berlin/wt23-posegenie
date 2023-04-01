@@ -1,25 +1,31 @@
 .quote {
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 600;
   font-style: italic;
   text-align: center;
   margin-bottom: 60px;
 }
 
-/* MOBILE */
+/* TABLET */
 
-@media (min-width: 380px) and (max-width: 780px) {
+@media (min-width: 800px) and (max-width: 1240px) {
   .quote {
-    font-size: 22px;
-    margin-bottom: 60px;
+    font-size: 31px;
   }
 }
 
-/* TABLET */
+/* MOBILE */
 
-@media (min-width: 780px) and (max-width: 1120px) {
+@media (min-width: 410px) and (max-width: 799px) {
   .quote {
-    font-size: 28px;
-    margin-bottom: 60px;
+    font-size: 22px;
+  }
+}
+
+/* XS MOBILE */
+
+@media (min-width: 270px) and (max-width: 409px) {
+  .quote {
+    font-size: 18px;
   }
 }

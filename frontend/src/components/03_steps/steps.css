@@ -24,9 +24,14 @@
   font-size: 16px;
 }
 
+/* TABLET */
+
+@media (min-width: 800px) and (max-width: 1240px) {
+}
+
 /* MOBILE */
 
-@media (min-width: 380px) and (max-width: 780px) {
+@media (min-width: 410px) and (max-width: 799px) {
   .step-card:nth-child(2) {
     margin: 0;
     margin-bottom: 25px;
@@ -39,7 +44,17 @@
   }
 }
 
-/* TABLET */
+/* XS MOBILE */
 
-@media (min-width: 780px) and (max-width: 1120px) {
+@media (min-width: 270px) and (max-width: 409px) {
+  .step-card:nth-child(2) {
+    margin: 0;
+    margin-bottom: 25px;
+  }
+  .step-card {
+    margin-bottom: 25px;
+  }
+  .steps {
+    margin-bottom: 30px;
+  }
 }
