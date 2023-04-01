@@ -1,4 +1,5 @@
 from angle_calcs import Calculations
+from feedbackText import textGenerator
 import mediapipe as mp
 import numpy as np
 import cv2
@@ -173,7 +174,7 @@ class Lunge():
         ax[0, 2].plot(timeTotalArray, angleTotalArray, color="navy", label='_nolegend_', linewidth=2.0)
         ax[0, 2].plot(timeTotalArray, res["fitfunc"](timeTotalArray), "r-", label='_nolegend_', linewidth=2)
         ax[0, 2].set_xlabel('Timestamp (sec)')
-        txt1, txt2, txt3 = self.calcs.textGenerator(val_amp, val_minmax, val_time)
+        txt1, txt2, txt3 = textGenerator(val_amp, val_minmax, val_time)
         text1 = ax[1, 0].text(0, 0.9, txt1, ha='left', va='top', wrap=True, fontsize=12, transform=ax[1, 0].transAxes)
         text1._get_wrap_line_width = lambda : 250.
         text2 = ax[1, 1].text(0, 0.9, txt2, ha='left', va='top', wrap=True, fontsize=12, transform=ax[1, 1].transAxes)
