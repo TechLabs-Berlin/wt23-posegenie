@@ -74,34 +74,34 @@ class Calculations():
         fitfunc = lambda t: A * np.sin(w*t + p) + c
         return {"amp": A, "omega": w, "phase": p, "offset": c, "freq": f, "period": 1./f, "fitfunc": fitfunc, "maxcov": np.max(pcov), "rawres": (guess,popt,pcov)}
    
-def textGenerator(val_amp, val_minmax, val_time):
-	 if abs(val_minmax - val_amp) <= 20 and val_amp > 50:
-        	txtAngleComment = ' Great result! Your exercise has a harmonic rhythm, which resulted in a good fitting.'
-        	txtAngleFeedback = ' A great form was detected in the metrics. Make sure to feel the exercise in your quads and hamstrings!.'
-	 elif abs(val_minmax - val_amp) <= 25 and 15 <= val_amp < 50:
-        	txtAngleComment = ' Great result! Your exercise has a harmonic rhythm. One or two things can be improved.'
-        	txtAngleFeedback =  'A good form was detected in the metrics. You may want to focus on your flexibility and increasing range of motion. Make sure to feel the exercise in your quads and hamstrings!'
-	 elif abs(val_minmax - val_amp) > 25 and 15 <= val_amp < 50:
-        	txtAngleComment = ' Good result! A rhtyhm was detected in the red curve.'
-        	txtAngleFeedback = ' A big difference between min and max angle, but not so great harmonicity.'
-     elif abs(val_minmax - val_amp) > 25 and val_amp < 15:
-        	txtAngleComment = ' Max-min angle vary, but no harmonicity detected.'
-        	txtAngleFeedback = ' Something looks fishy. Please check the general guidelines and suggestions first.'
+    def textGenerator(val_amp, val_minmax, val_time):
+        if abs(val_minmax - val_amp) <= 20 and val_amp > 50:
+                txtAngleComment = ' Great result! Your exercise has a harmonic rhythm, which resulted in a good fitting.'
+                txtAngleFeedback = ' A great form was detected in the metrics. Make sure to feel the exercise in your quads and hamstrings!.'
+        elif abs(val_minmax - val_amp) <= 25 and 15 <= val_amp < 50:
+                txtAngleComment = ' Great result! Your exercise has a harmonic rhythm. One or two things can be improved.'
+                txtAngleFeedback =  'A good form was detected in the metrics. You may want to focus on your flexibility and increasing range of motion. Make sure to feel the exercise in your quads and hamstrings!'
+        elif abs(val_minmax - val_amp) > 25 and 15 <= val_amp < 50:
+                txtAngleComment = ' Good result! A rhtyhm was detected in the red curve.'
+                txtAngleFeedback = ' A big difference between min and max angle, but not so great harmonicity.'
+        elif abs(val_minmax - val_amp) > 25 and val_amp < 15:
+                txtAngleComment = ' Max-min angle vary, but no harmonicity detected.'
+                txtAngleFeedback = ' Something looks fishy. Please check the general guidelines and suggestions first.'
 
-	if val_time < 1.0:
-        	txtTimeComment = ' No need to rush! An optimal time period per rep would be 1-3 seconds.'
-        	txtTimeFeedback = ' Try to spend more time in one rep. This will increase your endurance!'
-	elif 1.0 <= val_time < 3.0:
-        	txtTimeComment = ' Great timing per rep!'
-        	txtTimeFeedback = ' You can increase your time per rep to increase your endurance, or use weights to add challenge!'
-	elif val_time > 3.0:
-        	txtTimeComment = ' You stay a bit long during each rep.'
-        	txtTimeFeedback = ' As long as there is no pain, it is OK to have long reps.'
-	txtMaxMin  = 'The maximum - minimum angle reached throughout the exercise is ' + str(val_minmax) + '.'
-	txtFitting = 'Your harmonic angle progression throughout the exercise is ' + str(val_amp) + '.'
-	txtTime = 'The time spent on one rep:' + str(val_time)
+        if val_time < 1.0:
+                txtTimeComment = ' No need to rush! An optimal time period per rep would be 1-3 seconds.'
+                txtTimeFeedback = ' Try to spend more time in one rep. This will increase your endurance!'
+        elif 1.0 <= val_time < 3.0:
+                txtTimeComment = ' Great timing per rep!'
+                txtTimeFeedback = ' You can increase your time per rep to increase your endurance, or use weights to add challenge!'
+        elif val_time > 3.0:
+                txtTimeComment = ' You stay a bit long during each rep.'
+                txtTimeFeedback = ' As long as there is no pain, it is OK to have long reps.'
+        txtMaxMin  = 'The maximum - minimum angle reached throughout the exercise is ' + str(val_minmax) + '.'
+        txtFitting = 'Your harmonic angle progression throughout the exercise is ' + str(val_amp) + '.'
+        txtTime = 'The time spent on one rep:' + str(val_time)
 
-	txt1 = r"$\bf{" + 'Definition:' + "}$" + '\nHere is a recording of your hip-knee angle. When you perform a lunge exercise, your hip and knee joints move in a rhythmic pattern. This harmonic up and down motion of your joints over time can be mapped onto the curve of a sine wave. By analyzing the angle of your hip and knee joints throughout the workout and fitting a sine wave to that data, we can see how consistent your movements are and how well you are maintaining the correct form. This information can help you improve your technique and get the most out of your workouts.'
-	txt2 =  r"$\bf{" + 'Analysis:' + "}$" + '\nHere I fit your recording to a sine wave. This is an estimation for your workout.\n' + txtMaxMin + txtFitting + txtAngleComment + txtTime + txtTimeComment
-	txt3 = r"$\bf{" + 'Feedback:' + "}$" + "\n"+  txtAngleFeedback + txtTimeFeedback
-	return txt1, txt2, txt3
+        txt1 = r"$\bf{" + 'Definition:' + "}$" + '\nHere is a recording of your hip-knee angle. When you perform a lunge exercise, your hip and knee joints move in a rhythmic pattern. This harmonic up and down motion of your joints over time can be mapped onto the curve of a sine wave. By analyzing the angle of your hip and knee joints throughout the workout and fitting a sine wave to that data, we can see how consistent your movements are and how well you are maintaining the correct form. This information can help you improve your technique and get the most out of your workouts.'
+        txt2 =  r"$\bf{" + 'Analysis:' + "}$" + '\nHere I fit your recording to a sine wave. This is an estimation for your workout.\n' + txtMaxMin + txtFitting + txtAngleComment + txtTime + txtTimeComment
+        txt3 = r"$\bf{" + 'Feedback:' + "}$" + "\n"+  txtAngleFeedback + txtTimeFeedback
+        return txt1, txt2, txt3
