@@ -7,6 +7,7 @@ import os
 from pose_utils import Lunge
 from curls_utils import Curls
 from yoga_utils import Warrior
+from chair_utils import Chair
 from read_upload import readUpload
 
 app = Flask(__name__)
@@ -40,27 +41,30 @@ def upload_video():
 
         # Process the video
         # hipknee(output_path)
-        if exercise == "lunges":
+        if exercise == "Lunges":
             lunge = Lunge(read_upload=readUpload,
                           filename=output_path, pose=pose)
             lunge.visualize()
-            converted_video = convert_to_mp4(
-                annotated_filename(video_file.filename))
-        if exercise == "curls":
-            curls = Curls(read_upload=readUpload,
+        #to change arg to Chair once done from frontend
+        if exercise == "Curls":
+            curls = Chair(read_upload=readUpload,
                           filename=output_path, pose=pose)
             curls.visualize()
-            converted_video = convert_to_mp4(
-                annotated_filename(video_file.filename))
-        if exercise == "warrior":
+        if exercise == "Warrior":
             warrior = Warrior(read_upload=readUpload,
                               filename=output_path, pose=pose)
             warrior.visualize()
-            converted_video = convert_to_mp4(
-                annotated_filename(video_file.filename))
+        # if exercise == "Curls":
+        #     warrior = Curls(read_upload=readUpload,
+        #                       filename=output_path, pose=pose)
+        #     warrior.visualize()
+            
 
         else:
             pass
+        converted_video = convert_to_mp4(
+                annotated_filename(video_file.filename))
+        image = f"uploaded_videos\{video_file.filename}.png"
 
         return send_file(converted_video, mimetype='video/mp4')
 
