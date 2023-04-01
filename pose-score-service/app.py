@@ -40,19 +40,19 @@ def upload_video():
 
         # Process the video
         # hipknee(output_path)
-        if exercise == "lunges":
+        if exercise == "Lunges":
             lunge = Lunge(read_upload=readUpload,
                           filename=output_path, pose=pose)
             lunge.visualize()
             converted_video = convert_to_mp4(
                 annotated_filename(video_file.filename))
-        if exercise == "curls":
+        if exercise == "Curls":
             curls = Curls(read_upload=readUpload,
                           filename=output_path, pose=pose)
             curls.visualize()
             converted_video = convert_to_mp4(
                 annotated_filename(video_file.filename))
-        if exercise == "warrior":
+        if exercise == "Warrior":
             warrior = Warrior(read_upload=readUpload,
                               filename=output_path, pose=pose)
             warrior.visualize()
