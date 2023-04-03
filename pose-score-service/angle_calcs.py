@@ -73,3 +73,5 @@ class Calculations():
         f = w/(2.*np.pi)
         fitfunc = lambda t: A * np.sin(w*t + p) + c
         return {"amp": A, "omega": w, "phase": p, "offset": c, "freq": f, "period": 1./f, "fitfunc": fitfunc, "maxcov": np.max(pcov), "rawres": (guess,popt,pcov)}
+   
+

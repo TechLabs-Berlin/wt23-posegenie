@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from "react";
 import PosesButtonsGroup from "../BtnComponent/PosesButtonsGroup";
-import "./uploadvideo.css";
+
 import VideoInput from './VideoInput';
 import ModalFeedback from './ModalFeedback';
 import FormData from 'form-data'
