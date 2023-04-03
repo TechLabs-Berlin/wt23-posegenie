@@ -61,9 +61,16 @@ class Warrior():
 
         self.pose_list = []
 
+        self.timestamps_list = [0.0]
+        self.time_left_warrior = [0.0]
+        self.time_right_warrior = [0.0]
+
     def angle(self, results, image):
         if results.pose_landmarks is not None:
             landmarks = results.pose_landmarks.landmark
+
+            timestamps_now = self.cap.get(cv2.CAP_PROP_POS_MSEC)
+            self.timestamps_list.append(timestamps_now)
 
             # GET COORDINATES OF JOINTS
             left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
@@ -189,6 +196,18 @@ class Warrior():
                     self.pose_orientation = "UNKNOWN"
                     self.pose_color = (0,0,0)
 
+            if self.pose_orientation == "LEFT WARRIOR 2":
+                time_left_warrior_now = self.timestamps_list[-1]-self.timestamps_list[-2]
+                self.time_left_warrior.append(time_left_warrior_now)
+                total_time = (np.round(np.sum(self.time_left_warrior)/1000,1))
+
+            elif self.pose_orientation == "RIGHT WARRIOR 2":
+                time_right_warrior_now = self.timestamps_list[-1]-self.timestamps_list[-2]
+                self.time_right_warrior.append(time_right_warrior_now)
+                total_time = (np.round(np.sum(self.time_right_warrior)/1000,1))
+            else:
+                total_time = 0
+
             # ==================================================
             # STORE AND EXPAND LISTS
             # ==================================================
@@ -305,6 +324,11 @@ class Warrior():
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
         cv2.putText(image, self.pose_orientation, (350,60),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,self.pose_color,2,cv2.LINE_AA)
+        #IN POSE timestamps_calc_now
+        cv2.putText(image, "TIME IN POSE: " + str(total_time) + " secs", (350,100),
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
+
+
         #ML MODEL DETECTION
         cv2.putText(image, "ML DETECTION (BETA)", (650,20),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
@@ -444,11 +468,11 @@ class Warrior():
 
         plt.text(0,front_leg_ang_expect+4," advanced", fontsize=9)
         plt.text(0,front_leg_ang_expect+17," intermediate",fontsize=9)
-        plt.text(0,front_leg_ang_expect+32," begginer",fontsize=9)
+        plt.text(0,front_leg_ang_expect+32," beginner",fontsize=9)
 
         plt.text(0,back_leg_ver_expect+3," advanced", fontsize=9)
         plt.text(0,back_leg_ver_expect+13," intermediate",fontsize=9)
-        plt.text(0,back_leg_ver_expect+22," begginer",fontsize=9)
+        plt.text(0,back_leg_ver_expect+22," beginner",fontsize=9)
 
         plt.text(0,expected_arm_angle+4," advanced", fontsize=9)
         plt.text(0,expected_arm_angle+13," intermediate",fontsize=9)
