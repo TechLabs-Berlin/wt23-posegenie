@@ -4,6 +4,7 @@ import "./ButtonComponent.css";
 import WarriorComponent from "./WarriorComponent";
 import LungesComponent from "./LungesComponent";
 import CurlsComponent from "./CurlsComponent";
+import ChairComponent from "./ChairComponent";
 import ModalFeedback from "../05_update_video/ModalFeedback";
 
 function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
@@ -32,8 +33,9 @@ function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
       return <WarriorComponent />;
     } else if (selectedPose === "Curls") {
       return <CurlsComponent />;
+    } else if (selectedPose === "'Chair' pose") {
+      return <ChairComponent />;
     }
-    return null;
   };
 
   const handleModalClosed = () => {

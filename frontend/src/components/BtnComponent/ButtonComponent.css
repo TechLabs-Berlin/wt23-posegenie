@@ -103,7 +103,7 @@ ol {
 
 @media (min-width: 800px) and (max-width: 1240px) {
   .recom-container {
-    height: 418px;
+    height: 470px;
   }
 }
 
@@ -111,7 +111,7 @@ ol {
 
 @media (min-width: 410px) and (max-width: 799px) {
   .recom-container {
-    height: 690px;
+    height: 815px;
   }
 }
 
@@ -119,6 +119,6 @@ ol {
 
 @media (min-width: 270px) and (max-width: 409px) {
   .recom-container {
-    height: 900px;
+    height: 1060px;
   }
 }
