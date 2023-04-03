@@ -8,7 +8,7 @@ import os
 from pose_utils import Lunge
 from curls_utils import Curls
 from yoga_utils import Warrior
-# from chair_utils import Chair
+from chair_utils import Chair
 from read_upload import readUpload
 
 app = Flask(__name__)
@@ -47,7 +47,7 @@ def upload_video():
             lunge.visualize()
 
         if exercise == "Curls":
-            curls = Curls(read_upload=readUpload,
+            curls = Chair(read_upload=readUpload,
                           filename=output_path, pose=pose)
             curls.visualize()
 
@@ -57,7 +57,7 @@ def upload_video():
             warrior.visualize()
 
         # if exercise == "Chair":
-        #     warrior = Chair(read_upload=readUpload,
+        #     chair = Chair(read_upload=readUpload,
         #                       filename=output_path, pose=pose)
         #     chair.visualize()
 
