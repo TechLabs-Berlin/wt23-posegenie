@@ -9,7 +9,7 @@ function ChairComponent() {
         </p>
         <ol>
           <li className="recom-list">
-            Begin standing with your feet together and your arms at your sides.
+            Begin standing with your feet together and raise your arms.
           </li>
           <li className="recom-list">
             Inhale deeply and raise your arms above your head, palms facing each
