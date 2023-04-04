@@ -6,8 +6,8 @@ function VideoInput({ onFileUpload, onSubmit }) {
       <div className="video-upload-header">
         <h2 className="video-upload-title">Upload Your Video</h2>
         <p className="video-upload-description">
-          To comply with our guidelines, the video length should not exceed one
-          minute.
+          To comply with our guidelines, ensure that you're fully in the frame
+          while recording. <br /> Please keep the video under one minute length.
           <br />
           Supported formats: .mp4, .mov, .avi
         </p>

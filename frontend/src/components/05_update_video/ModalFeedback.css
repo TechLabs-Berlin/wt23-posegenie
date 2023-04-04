@@ -22,3 +22,37 @@
 .title-h2 {
   font-size: 1.9em;
 }
+
+.video_container {
+  border: 1px solid white;
+  padding: 6px 3px 0 3px;
+  margin-top: 40px;
+  box-shadow: #f35d6cae 0px 1px 0px, #f35d6cae 0px 8px 24px,
+    #f35d6c6a 0px 16px 58px;
+}
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #f35d6b;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

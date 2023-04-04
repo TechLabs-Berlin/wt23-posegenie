@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from "react";
 import PosesButtonsGroup from "../BtnComponent/PosesButtonsGroup";
-import "./uploadvideo.css";
+
 import VideoInput from './VideoInput';
 import ModalFeedback from './ModalFeedback';
 import FormData from 'form-data'
@@ -67,9 +67,10 @@ function UploadForm() {
         {videoUrl ? (
           <video src={videoUrl} controls type="video/mp4" className="video-player" />
         ) : (
-          <div>
-            <p>Analyzing your workout, measuring your movements, and calculating your performance. Please wait while we gather the data to give you personalized feedback and insights.</p>
+          <div className='waiting'>
           <div className="loading-spinner">
+          <p className='waiting-p'>Analyzing your workout, measuring your movements, and calculating your performance. Please wait while we gather the data to give you personalized feedback and insights.</p>
+
             <div className="spinner"></div>
           </div>
           </div>

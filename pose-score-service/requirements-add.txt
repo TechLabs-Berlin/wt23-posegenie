@@ -1,0 +1,9 @@
+flask
+moviepy
+opencv-python
+mediapipe
+scipy
+pandas
+tensorflow
+wget
+sklearn
