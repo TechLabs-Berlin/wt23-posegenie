@@ -22,12 +22,6 @@ function LungesComponent() {
           <li className="recom-list">
             Push off with your right foot to return to your starting position.
           </li>
-          <li className="recom-list">
-            Repeat on the other side, stepping forward with your left foot.
-          </li>
-          <li className="recom-list">
-            Continue alternating legs for your desired number of repetitions.
-          </li>
         </ol>
         <p className="recom-center">
           Remember to keep your torso upright and your knees in line with your
