@@ -17,8 +17,8 @@ class Lunge():
         self.filename = filename
         self.calcs = Calculations()
         self.cap = self.read_upload.cap
-        self.width = int(self.read_upload.get_self.width())
-        self.height = int(self.read_upload.get_self.height())
+        self.width = int(self.read_upload.get_frame.width())
+        self.height = int(self.read_upload.get_frame.height())
         self.video_fps = self.read_upload.get_video_fps()
         self.get_timestamps = self.read_upload.get_timestamps()
         self.reps = 0 
