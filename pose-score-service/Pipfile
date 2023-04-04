@@ -8,6 +8,9 @@ flask = "*"
 moviepy = "*"
 opencv-python = "*"
 mediapipe = "*"
+scipy = "*"
+pandas = "*"
+scikit-learn = "*"
 
 [dev-packages]
 
