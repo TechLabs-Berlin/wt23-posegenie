@@ -6,6 +6,7 @@ const multer = require("multer");
 const upload = multer();
 const axios = require("axios");
 const FormData = require("form-data");
+const AdmZip = require("adm-zip");
 
 router.post("/upload", upload.single("video"), (req, frontendResponse) => {
     console.log("/videos/upload POST request");
@@ -33,7 +34,21 @@ router.post("/upload", upload.single("video"), (req, frontendResponse) => {
             },
         })
         .then((res) => {
-            frontendResponse.send(res.data);
+            const zip = new AdmZip(res.data);
+            const zipEntries = zip.getEntries();
+
+            let videoBuffer;
+            let imageBuffer;
+
+            zipEntries.forEach((zipEntry) => {
+                if (zipEntry.entryName.endsWith(".mp4")) {
+                    videoBuffer = zipEntry.getData();
+                } else if (zipEntry.entryName.endsWith(".png")) {
+                    imageBuffer = zipEntry.getData();
+                }
+            });
+
+            frontendResponse.send(videoBuffer);
         })
         .catch((err) => console.log(err));
 

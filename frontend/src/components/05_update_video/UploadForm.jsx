@@ -34,7 +34,6 @@ function UploadForm() {
                 setIsModalOpen(true);
                 setIsUploading(false); // set isUploading to false when the API call is complete
                 setVideoUrl(url);
-                // renderVideoPlayer(url); - i removed this line
               
             })
             .catch((error) => {
@@ -43,24 +42,6 @@ function UploadForm() {
             });
         }
 }
-    const renderVideoPlayer = (url) => {
-        const video = document.createElement("video");
-        video.src = url;
-        video.controls = true;
-        video.type = "video/mp4";
-
-        // video.style.maxWidth = "50%";
-
-        const videoContainer = document.createElement("div");
-        videoContainer.className = "video_container";
-        videoContainer.appendChild(video);
-
-        const uploadButton = document.querySelector(".uploadBtn");
-        uploadButton.parentNode.insertBefore(
-            videoContainer,
-            uploadButton.nextSibling
-        );
-    }
 
   const handleFileUpload = (event) => {
     setFile(event.target.files[0]);
