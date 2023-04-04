@@ -6,11 +6,21 @@ import matplotlib.pyplot as plt
 import sys
 import pandas as pd
 
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC, LinearSVC
+import pickle
+
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
-plt.switch_backend('Agg')
 
+
+## SVC WITH RBF KERNEL CLASSIFIER
+file1 = "yoga_poses_svc.model"
+file2 = "yoga_poses_svc.labels"
+
+loaded_model = pickle.load(open(file1, 'rb'))
+loaded_labels = pickle.load(open(file2, 'rb'))
 class Warrior():
     def __init__(self, read_upload, filename, pose) -> None:
         self.read_upload = read_upload(filename, pose)
@@ -38,7 +48,8 @@ class Warrior():
         self.leg_color_rec = (0,0,0)
         self.leg_correction_angle = "WAITING..."
         self.leg_ang_color_rec = (0,0,0)
-
+        self.pose_ml_certain = "NOT DETECTED"
+        self.pose_ml_certain_color = (0,0,0)
 
         #STORING FOR ANGLE ANALYZING
         self.left_arm_angle_list = []
@@ -50,9 +61,16 @@ class Warrior():
 
         self.pose_list = []
 
+        self.timestamps_list = [0.0]
+        self.time_left_warrior = [0.0]
+        self.time_right_warrior = [0.0]
+
     def angle(self, results, image):
         if results.pose_landmarks is not None:
             landmarks = results.pose_landmarks.landmark
+
+            timestamps_now = self.cap.get(cv2.CAP_PROP_POS_MSEC)
+            self.timestamps_list.append(timestamps_now)
 
             # GET COORDINATES OF JOINTS
             left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
@@ -88,8 +106,24 @@ class Warrior():
             #right_knee_angle_ver = np.round(self.calcs.calcAngle_Horizontal(right_knee,right_ankle)).astype(int)
             right_hip_angle = np.round(self.calcs.calcAngle_3pts(right_shoulder,right_hip, right_knee)).astype(int)
             
+            markers0 = left_elbow_angle, left_elbow_angle_hor, left_knee_angle, left_knee_angle_ver, left_hip_angle, right_elbow_angle, right_elbow_angle_hor, right_knee_angle, right_knee_angle_ver, right_hip_angle
+      
+            #=============================================
+            # GET ML PREDICTION
+            #=============================================
+            predict_label = (loaded_model.predict(np.array(markers0).reshape(1, -1)))
+            pose_ml_detected = loaded_labels[predict_label[0]].upper()
+            probabilities = loaded_model.predict_proba(np.array(markers0).reshape(1, -1))
+            #probabilities.max()
 
-
+            if probabilities.max()>0.60:
+                self.pose_ml_certain = pose_ml_detected
+                self.pose_ml_certain_color = (0,255,0)
+            else:
+                self.pose_ml_certain = "LOW PROB"
+                self.pose_ml_certain_color = (0,0,0)
+            #===============================================
+            #===============================================  
          
             # VISUALIZE LANDMARSK
             # LEFT ARM
@@ -162,6 +196,18 @@ class Warrior():
                     self.pose_orientation = "UNKNOWN"
                     self.pose_color = (0,0,0)
 
+            if self.pose_orientation == "LEFT WARRIOR 2":
+                time_left_warrior_now = self.timestamps_list[-1]-self.timestamps_list[-2]
+                self.time_left_warrior.append(time_left_warrior_now)
+                total_time = (np.round(np.sum(self.time_left_warrior)/1000,1))
+
+            elif self.pose_orientation == "RIGHT WARRIOR 2":
+                time_right_warrior_now = self.timestamps_list[-1]-self.timestamps_list[-2]
+                self.time_right_warrior.append(time_right_warrior_now)
+                total_time = (np.round(np.sum(self.time_right_warrior)/1000,1))
+            else:
+                total_time = 0
+
             # ==================================================
             # STORE AND EXPAND LISTS
             # ==================================================
@@ -207,6 +253,11 @@ class Warrior():
                 elif right_elbow_angle_hor <= 20 and right_elbow_angle_hor >= -20:
                     self.right_arm_correct = "GOOD"
                     self.right_color_rec = (0,255,0)  # GREEN COLOR
+            else:
+                self.left_arm_correct = "WAITING..."
+                self.left_color_rec = (0,0,0)
+                self.right_arm_correct = "WAITING..."
+                self.right_color_rec = (0,0,0)     
 
             #CORRECTIONS LEGS AND HIPS
             #BENDED LEG: FORELEG ANGLE SHOULD BE VERTICAL, WITH ~90 DEEGREE FROM FLOOR
@@ -217,31 +268,36 @@ class Warrior():
 
             if self.pose_orientation == "RIGHT WARRIOR 2":
                 if right_knee_angle_ver > 110 or right_knee_angle_ver < 70:
-                    self.leg_correction = "FORELEG SHOULD BE CLOSER TO VERTICAL"
+                    self.leg_correction = "FORELEG SHOULD BE VERTICAL"
                     self.leg_color_rec = (255,0,0)
                 elif right_knee_angle_ver <= 110 and right_knee_angle_ver >= 70:
                     self.leg_correction = "GOOD"
                     self.leg_color_rec = (0,255,0)
                 if right_knee_angle > 140 or right_knee_angle < 60:
-                    self.leg_correction_angle = "FORELEG-THIGHT ANGLE SHOULD BE ~115"
+                    self.leg_correction_angle = "ANGLE SHOULD BE ~115"
                     self.leg_ang_color_rec = (255,0,0)
                 elif right_knee_angle <= 140 and right_knee_angle >= 60:
                     self.leg_correction_angle = "GOOD"
                     self.leg_ang_color_rec = (0,255,0)
       
-            if self.pose_orientation == "LEFT WARRIOR 2":
+            elif self.pose_orientation == "LEFT WARRIOR 2":
                 if left_knee_angle_ver > 110 or left_knee_angle_ver < 70:
-                    self.leg_correction = "FORELEG SHOULD BE CLOSER TO VERTICAL"
+                    self.leg_correction = "FORELEG SHOULD BE VERTICAL"
                     self.leg_color_rec = (255,0,0)
                 elif left_knee_angle_ver <= 110 and left_knee_angle_ver >= 70:
                     self.leg_correction = "GOOD"
                     self.leg_color_rec = (0,255,0)
                 if left_knee_angle > 140 or left_knee_angle < 60:
-                    self.leg_correction_angle = "FORELEG-THIGHT ANGLE SHOULD BE ~115"
+                    self.leg_correction_angle = "ANGLE SHOULD BE ~115"
                     self.leg_ang_color_rec = (255,0,0)
                 elif left_knee_angle <= 140 and left_knee_angle >= 60:
                     self.leg_correction_angle = "GOOD"
                     self.leg_ang_color_rec = (0,255,0)
+            else:
+                self.leg_correction = "WAITING..."
+                self.leg_correction_angle = "WAITING..."
+                self.leg_color_rec = (0,0,0)
+                self.leg_ang_color_rec = (0,0,0)     
 
         else:
             landmarks = None
@@ -250,25 +306,34 @@ class Warrior():
         # RENDERING OF CORRECTIONS
         #ARM CORRECTIONS MESSAGES
         cv2.putText(image, "HINT ARMS:", (10,20),
-                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),1,cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
         cv2.putText(image, self.left_arm_correct, (10,60),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75, self.left_color_rec,2,cv2.LINE_AA)
         cv2.putText(image, self.right_arm_correct, (10,100),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75, self.right_color_rec,2,cv2.LINE_AA)
         #LEG CORRECTIONS MESSAGES
-        cv2.putText(image, "HINT FRONT LEG:", (10,370),
-                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),1,cv2.LINE_AA)
-        cv2.putText(image, self.leg_correction, (10,410),
+        cv2.putText(image, "HINT FRONT LEG:", (10,200),
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
+        cv2.putText(image, self.leg_correction, (10,240),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75, self.leg_color_rec,2,cv2.LINE_AA)
-        cv2.putText(image, self.leg_correction_angle, (10,450),
+        cv2.putText(image, self.leg_correction_angle, (10,280),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75, self.leg_ang_color_rec,2,cv2.LINE_AA)
   
         #POSE DETECTION
-        cv2.putText(image, "POSE:", (450,20),
+        cv2.putText(image, "POSE:", (350,20),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
-        cv2.putText(image, self.pose_orientation, (450,60),
+        cv2.putText(image, self.pose_orientation, (350,60),
                 cv2.FONT_HERSHEY_SIMPLEX,0.75,self.pose_color,2,cv2.LINE_AA)
+        #IN POSE timestamps_calc_now
+        cv2.putText(image, "TIME IN POSE: " + str(total_time) + " secs", (350,100),
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
 
+
+        #ML MODEL DETECTION
+        cv2.putText(image, "ML DETECTION (BETA)", (650,20),
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,(0,0,0),2,cv2.LINE_AA)
+        cv2.putText(image, self.pose_ml_certain + " (PROB: " + np.round((probabilities.max()),2).astype(str) + ")", (650,60),
+                cv2.FONT_HERSHEY_SIMPLEX,0.75,self.pose_ml_certain_color,2,cv2.LINE_AA)
 
         # Render detections
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
@@ -385,6 +450,9 @@ class Warrior():
             plt.axvspan(timeTotalArray[filt_pose1].min(), timeTotalArray[filt_pose1].max() , color='gray', alpha=0.25)
             plt.text(timeTotalArray[filt_pose1].min(),165,"DETECTED POSE:")
             plt.text(timeTotalArray[filt_pose1].min(),155,df[filt_pose1]["Pose"].iloc[0],fontweight='bold')
+            pose1_count =np.sum(np.diff(timeTotalArray[filt_pose1]))
+            time_string1 = " Total time spent in correct Left Warrior 2 pose is " + str(pose1_count.astype(int)) + " seconds, which is " + str(((pose1_count/max(timeTotalArray))*100).astype(int)) + "% of total video time"
+            plt.text(0,-110,time_string1,fontsize=15, color="black")
         except:
             pass
         
@@ -392,14 +460,51 @@ class Warrior():
             plt.axvspan(timeTotalArray[filt_pose2].min(), timeTotalArray[filt_pose2].max() , color='gray', alpha=0.25)
             plt.text(timeTotalArray[filt_pose2].min(),165,"DETECTED POSE:")
             plt.text(timeTotalArray[filt_pose2].min(),155,df[filt_pose2]["Pose"].iloc[0],fontweight='bold')
+            pose2_count = np.sum(np.diff(timeTotalArray[filt_pose2]))
+            time_string2 = " Total time spent in correct Right Warrior 2 pose is " + str(pose2_count.astype(int)) + " seconds, which is " + str(((pose2_count/max(timeTotalArray))*100).astype(int)) + "% of total video time"
+            plt.text(0,-130,time_string2 ,fontsize=15, color="black")
         except:
             pass
 
-        plt.text(0,expected_arm_angle+1,"ARMS ANGLE", fontsize=10)
-        plt.text(0,front_leg_ang_expect+1,"FRONT LEG",fontsize=10)
-        plt.text(0,back_leg_ver_expect+1,"BACK LEG",fontsize=10)
+        plt.text(0,front_leg_ang_expect+4," advanced", fontsize=9)
+        plt.text(0,front_leg_ang_expect+17," intermediate",fontsize=9)
+        plt.text(0,front_leg_ang_expect+32," beginner",fontsize=9)
+
+        plt.text(0,back_leg_ver_expect+3," advanced", fontsize=9)
+        plt.text(0,back_leg_ver_expect+13," intermediate",fontsize=9)
+        plt.text(0,back_leg_ver_expect+22," beginner",fontsize=9)
+
+        plt.text(0,expected_arm_angle+4," advanced", fontsize=9)
+        plt.text(0,expected_arm_angle+13," intermediate",fontsize=9)
+        plt.text(0,expected_arm_angle+23," beginner",fontsize=9)
+        plt.text(0,expected_arm_angle-6," advanced", fontsize=9)
+        plt.text(0,expected_arm_angle-16," intermediate",fontsize=9)
+        plt.text(0,expected_arm_angle-26," beginner",fontsize=9)
+
+
+        plt.text(0,-46," LEFT ARM IN BLUE",fontsize=10, color="blue")
+
+        plt.annotate("FRONT LEG ANGLE\nOptimal = 115°", xy=(0,115),xycoords="data",
+             xytext=(-0.12,0.7325), textcoords='axes fraction', fontsize = 10,
+            va='center', ha='left',
+            arrowprops=dict(facecolor='black', shrink=0.00, width=1))
+
+        plt.annotate("BACK LEG ANGLE\nOptimal = 45°", xy=(0,45),xycoords="data",
+             xytext=(-0.12,0.423), textcoords='axes fraction', fontsize = 10,
+            va='center', ha='left',
+            arrowprops=dict(facecolor='black', shrink=0.00, width=1))
+
+        plt.annotate("ARMS ANGLE\nOptimal = 0°", xy=(0,0),xycoords="data",
+             xytext=(-0.12,0.225), textcoords='axes fraction', fontsize = 10,
+            va='center', ha='left',
+            arrowprops=dict(facecolor='black', shrink=0.00, width=1))
+
 
         plt.ylim(-50,175)
-        plt.ylabel("Angle")
-        plt.xlabel("Time [seconds]")
-        plt.savefig(f"{self.filename}.png") 
+        plt.xlim(0,max(timeTotalArray))
+
+        plt.title("WARRIOR 2: Legs & Arms Angle Progression", fontsize = 15)
+        plt.xlabel("Time [seconds]",fontsize = 15)
+
+
+        plt.savefig(f"{self.filename}.png",  bbox_inches="tight") 

@@ -2,3 +2,11 @@ node_modules
 model-files-mediapipe/videos/
 model-files-mediapipe/google_images/
 model-files-mediapipe/unseen_images/
+pose-score-service/flow2.mp4
+pose-score-service/flow2.mp4.png
+pose-score-service/flow2_annotated.mp4
+pose-score-service/warrior.mp4
+pose-score-service/warrior.mp4.png
+pose-score-service/warrior_annotated.mp4
+pose-score-service/yoga_PoseDetection.py
+yoga_PoseDetection.py
