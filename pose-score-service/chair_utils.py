@@ -116,7 +116,7 @@ class Chair():
             # text = f'Prediction: {pred_class}'
             org = (50, 50)
             org2 = (50, 100)
-            cv2.rectangle(image, (0,0), (500,125), (245,117,16), -1)
+            cv2.rectangle(image, (0,0), (500,125), (0,0,0), -1)
             image = cv2.putText(image, text, org, font, fontScale, color, thickness, cv2.LINE_AA)
             image = cv2.putText(image, f'Time in Pose: {sec} seconds', org2, font, fontScale, color, thickness, cv2.LINE_AA)
 
