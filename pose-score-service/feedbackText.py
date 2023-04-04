@@ -47,7 +47,7 @@ def textGenerator(val_amp, val_minmax, val_time):
 def textGeneratorCurl(val_amp, val_minmax, val_time):
 	if abs(val_amp) > 30:
 		txtAngleComment = ' Excellent! Your exercise has a harmonic rhythm, which resulted in a good fitting.'
-        	txtAngleFeedback = 'Great job on your form! Make sure to focus on your biceps and not let your shoulders do the work.'
+		txtAngleFeedback = 'Great job on your form! Make sure to focus on your biceps and not let your shoulders do the work.'
 	elif 20 <= abs(val_amp) <= 30:
 		txtAngleComment = ' Great! Your exercise has a harmonic rhythm. One or two things can be improved.'
 		txtAngleFeedback = 'Good form was detected in the metrics. Try to focus on squeezing your biceps at the top of the curl.'

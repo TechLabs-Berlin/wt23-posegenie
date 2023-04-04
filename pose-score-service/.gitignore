@@ -1,3 +1,4 @@
 .venv
 uploaded_videos
 __pycache__
+*.zip
