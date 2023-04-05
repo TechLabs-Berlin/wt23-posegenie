@@ -1,5 +1,6 @@
 const express = require("express");
 const fs = require("fs");
+const path = require("path");
 const router = express.Router();
 
 const multer = require("multer");
@@ -37,18 +38,36 @@ router.post("/upload", upload.single("video"), (req, frontendResponse) => {
             const zip = new AdmZip(res.data);
             const zipEntries = zip.getEntries();
 
-            let videoBuffer;
-            let imageBuffer;
-
+            let videoUrl, imageUrl;
             zipEntries.forEach((zipEntry) => {
                 if (zipEntry.entryName.endsWith(".mp4")) {
-                    videoBuffer = zipEntry.getData();
+                    const publicPath = path.join(__dirname, "../public/videos");
+                    if (!fs.existsSync(publicPath)) {
+                        fs.mkdirSync(publicPath, { recursive: true });
+                    }
+                    const filename = `video_${Date.now()}.mp4`;
+                    fs.writeFileSync(
+                        `${publicPath}/${filename}`,
+                        zipEntry.getData()
+                    );
+                    videoUrl = `/videos/${filename}`;
                 } else if (zipEntry.entryName.endsWith(".png")) {
-                    imageBuffer = zipEntry.getData();
+                    const publicPath = path.join(__dirname, "../public/images");
+                    if (!fs.existsSync(publicPath)) {
+                        fs.mkdirSync(publicPath, { recursive: true });
+                    }
+                    const filename = `image_${Date.now()}.png`;
+                    fs.writeFileSync(
+                        `${publicPath}/${filename}`,
+                        zipEntry.getData()
+                    );
+                    imageUrl = `/images/${filename}`;
                 }
             });
 
-            frontendResponse.send(videoBuffer);
+            const responseData = { videoUrl, imageUrl };
+            console.log(responseData);
+            frontendResponse.send(responseData);
         })
         .catch((err) => console.log(err));
 
