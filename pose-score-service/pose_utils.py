@@ -61,26 +61,36 @@ class Lunge():
             self.angle_list.append(hipKnee_angle)
             self.timeStamp_list.append(round(float(self.read_upload.get_timestamps())/1000, 5))
 
-            # Visualize angle
-            # cv2.putText(image, str(rKnee_angle), 
-            #                tuple(np.multiply(right_knee, [frame_width, frame_height]).astype(int)), 
-            #                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
-            #                     )
-        
-            cv2.putText(image, str(hipKnee_angle), 
+            # Visualize angles
+            cv2.putText(image, str(rKnee_angle), 
                            tuple(np.multiply(right_knee, [self.width, self.height]).astype(int)), 
-                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 2, cv2.LINE_AA
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2, cv2.LINE_AA
+                                )
+        
+            cv2.putText(image, str(lKnee_angle), 
+                           tuple(np.multiply(left_knee, [self.width, self.height]).astype(int)), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2, cv2.LINE_AA
                                 )
             
-            # cv2.putText(image, str(back_angle), 
-            #                tuple(np.multiply(right_hip, [frame_width, frame_height]).astype(int)), 
-            #                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
-            #                     )
+            cv2.putText(image, "KneeAnkle: "+str(lKnee_trailing), 
+                           tuple(np.multiply(left_ankle, [self.width, self.height]).astype(int)), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2, cv2.LINE_AA
+                                )
+
+            cv2.putText(image, "KneeAnkle: "+str(rKnee_trailing),  #ESMAS vid 140-170
+                           tuple(np.multiply(right_ankle, [self.width, self.height]).astype(int)), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2, cv2.LINE_AA
+                                )
+
+            cv2.putText(image, "HipKnee: "+str(hipKnee_angle), 
+                           tuple(np.multiply(left_hip, [self.width, self.height]).astype(int)), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2, cv2.LINE_AA
+                                )
             
             # Reps counter logic.
-            if (lKnee_angle < 130 and (abs(rKnee_trailing) > 130 or abs(rKnee_trailing) < 10) and back_angle > 75 and back_angle < 110 and hipKnee_angle > 60) or (rKnee_angle < 130 and (abs(lKnee_trailing) > 130 or abs(lKnee_trailing) < 10) and back_angle > 75 and back_angle < 110 and hipKnee_angle > 60): #and knee_angle > 50 and knee_angle < 140:
+            if (lKnee_angle < 130 and (rKnee_trailing < -100) and back_angle > 75 and back_angle < 110 and hipKnee_angle > 60) or (rKnee_angle < 130 and lKnee_trailing < -100 and back_angle > 75 and back_angle < 110 and hipKnee_angle > 60):
                 self.stage = "down"
-            if (lKnee_angle > 130 and abs(rKnee_trailing) <= 130 and back_angle > 75 and back_angle < 110 and self.stage =='down') or (rKnee_angle > 160 and abs(lKnee_trailing) <= 160 and back_angle > 75 and back_angle < 110 and hipKnee_angle <= 60 and self.stage =='down'):
+            if (lKnee_angle > 130 and abs(rKnee_trailing) <= 150 and back_angle > 75 and back_angle < 110 and self.stage =='down') or (rKnee_angle > 130 and abs(lKnee_trailing) <= 160 and back_angle > 75 and back_angle < 110 and self.stage =='down'):
                 self.stage="up"
                 self.reps +=1
             if back_angle < 75 or back_angle > 110:
@@ -92,26 +102,31 @@ class Lunge():
 
         # Render rep counter
         # Setup status box
-        cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
-        cv2.rectangle(image, (0,self.height-73), (self.height-570,self.height), (245,117,16), -1)
+        cv2.rectangle(image, (0,0), (250,73), (0,0,0), -1)
+        cv2.rectangle(image, (0,self.height-68), (380,self.height), (0,0,0), -1)
         
         # Rep data
         cv2.putText(image, 'REPS', (15,12), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
         cv2.putText(image, str(self.reps), (10,60), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+                    cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 2, cv2.LINE_AA)
         
         # Stage data
-        cv2.putText(image, 'STAGE', (65,12), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, self.stage, (60,60), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+        cv2.putText(image, 'STAGE', (90,12), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(image, self.stage, (90,60), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 2, cv2.LINE_AA)
         
         # Hints & Feedback
-        cv2.putText(image, 'HINT:', (15,self.height-61), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(image, 'HINT:', (15,self.height-56), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
         cv2.putText(image, self.hint, (15,self.height-13), 
                     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0,255,0), 2, cv2.LINE_AA)
+        
+        cv2.putText(image, "Back Angle: "+str(back_angle), 
+                           (240,self.height-56), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 1, cv2.LINE_AA
+                                )    
         
         # Render detections
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
