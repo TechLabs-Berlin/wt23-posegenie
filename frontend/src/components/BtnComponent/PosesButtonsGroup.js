@@ -33,7 +33,7 @@ function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
       return <WarriorComponent />;
     } else if (selectedPose === "Curls") {
       return <CurlsComponent />;
-    } else if (selectedPose === "'Chair' pose") {
+    } else if (selectedPose === "Chair") {
       return <ChairComponent />;
     }
   };

@@ -68,30 +68,10 @@ function UploadForm() {
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 videoUrl={videoUrl}
-            >
-                {videoUrl ? (
-                    <video
-                        src={videoUrl}
-                        controls
-                        type="video/mp4"
-                        className="video-player"
-                    />
-                ) : (
-                    <div className="waiting">
-                        <div className="loading-spinner">
-                            <p className="waiting-p">
-                                Analyzing your workout, measuring your
-                                movements, and calculating your performance.
-                                Please wait while we gather the data to give you
-                                personalized feedback and insights.
-                            </p>
-
-                            <div className="spinner"></div>
-                        </div>
-                    </div>
-                )}
-            </ModalFeedback>
-            {imageUrl && <img src={imageUrl} alt="feedback" />}
+                imageUrl={imageUrl}
+            
+            />
+           
         </div>
     );
 }
