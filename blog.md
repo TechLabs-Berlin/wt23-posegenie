@@ -1,3 +1,91 @@
+Are you tired of suffering from poor posture and feeling frustrated with incorrect exercise form? These issues can cause a range of health problems and limit your performance. Not to mention, it can be difficult to determine if you’re executing exercises properly or which muscles should be targeted. This can lead to muscle imbalances, reduced workout effectiveness, and even painful injuries.
+
+Thankfully, there’s a high-tech solution that will leave you feeling confident and energized during your workouts. Introducing PoseGenie - the all-in-one workout assistant that uses advanced human pose estimation technology to detect your exercise and provide you with valuable feedback and customized suggestions to enhance your performance. This incredible tool offers exercise metrics and helps you optimize your workouts by engaging the correct muscles, allowing you to quantify your progress and achieve your goals.
+
+Say goodbye to frustrating workouts and hello to your new personal trainer - PoseGenie!
+
+&nbsp;
+
+# All tracks: initial phase
+This section outlines the common discussion points that involved all track members at the initial stage:
+
+-Which poses/exercises to implement, why and how
+
+-How to learn the mechanics of the poses/exercises
+
+-Which human pose estimation model to use
+
+-Webapp or mobile app
+
+-No UX designer team member in the team: how to proceed
+
+-Realtime detection or prerecorded video
+
+-To what extent the assistance/feedback/suggestions can be provided to the user in general
+
+-To what extent the assistance/feedback/suggestions can be provided to the user in our MVP
+
+-Audio feedback or written feedback
+
+-A final report or an analysis on the fly
+
+-A rep counter tool
+
+-Which ML/DL models can be used on the data obtained from the user
+
+-Trimming videos, detecting when the exercise starts
+
+
+# Data Science and Artificial Intelligence tracks: common points
+Most of the time in our project phase, AI and DS teams worked together and this section outlines the common tasks of AI and DS.
+
+- DS: Esma B. Boydas, Naiara Fernandez
+- AI: Rashmi C. Dsouza, Ignatio C. Hidayat
+- Tech Stack:Jupyter Notebook, Python, Mediapipe, Pandas, NumPy, Matplotlib, Scikit-learn
+
+### Learning about 3D human pose estimation
+At the initial stage of the project we have started to look into the dynamics of 3D human pose estimation models in Python. We have gathered important sources outlining the capabilities and uses of different computer vision models, such as the links below:
+
+-A comprehensive guide to Human Pose Estimation:
+https://www.v7labs.com/blog/human-pose-estimation-guide
+
+-Human Pose Estimation Technology Capabilities and use cases:
+https://mobidev.biz/blog/human-pose-estimation-technology-guide
+
+-3D Human Pose Estimation Experiments and Analysis:
+https://www.kdnuggets.com/2020/08/3d-human-pose-estimation-experiments-analysis.html
+
+-An easy guide for pose estimation with MediaPipe:
+https://medium.com/mlearning-ai/an-easy-guide-for-pose-estimation-with-googles-mediapipe-a7962de0e944
+
+-Squat analyzer with MediaPipe:
+https://learnopencv.com/ai-fitness-trainer-using-mediapipe/
+
+-Deadlift analyzer I:
+https://saketshirsath.github.io/cv.github.io/
+
+-Deadlift analyzer II:
+https://github.com/SravB/Computer-Vision-Weightlifting-Coach
+
+-Deep Learning approaches for workout repetition counting and validation:
+https://www.sciencedirect.com/science/article/abs/pii/S016786552100324X#!
+
+-Yoga Pose Estimation and Feedback Generation using Deep Learning:
+https://www.hindawi.com/journals/cin/2022/4311350/
+
+-Validity of an artificial intelligence, human pose estimation model for measuring single-leg squat kinematics:
+https://pubmed.ncbi.nlm.nih.gov/36198251/
+
+After taken a quick look at these resources, we have discussed the potential capabilities of our MVP from a python-backend perspective. 
+
+### Decision of the AI-model
+We have started testing the Mediapipe landmarks. Everyone in these two teams made use of real-life examples and observed the motion detection. To test the limitations, we have also resorted to videos in which the human body parts moved out of frame. We have discussed the detection confidence and used different thresholds to check the best setting in terms of computational cost vs. accuracy. The consensus was to proceed with mediapipe since it provides a collection of pre-built components that can be easily customized, combined, and extended to develop computer vision and ML models.
+
+(The picture from the ppt showing examples of the tests)
+
+### Implementation phase
+We have implemented common calculator functions which would be regularly used by means of all exercises. Angle calculations are the most crucial steps in pose detection, and we resorted to different techniques to calculate them, such as angle between two lines (4 landmark points) vs between three points (3 landmarks).
+
 # 🕸 Web Development
 
 ## ⚙ Backend
@@ -70,3 +158,8 @@ As the frontend developer, I used my React knowledges to create an intuitive and
 ### 👩‍👧‍👦 Teamwork: I worked closely with the backend developer to ensure successful project completion. This included merging changes to the GitHub repository and optimizing the codebase for a successful MVP.
 
 &nbsp;
+
+
+
+
+
