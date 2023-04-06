@@ -65,7 +65,8 @@ def upload_video():
             pass
         converted_video = convert_to_mp4(
             annotated_filename(video_file.filename))
-        image = f"uploaded_videos\{video_file.filename}.png"
+        # image = f"uploaded_videos\{video_file.filename}.png"
+        image = f"uploaded_videos/{video_file.filename}.png"
 
         # return send_file(converted_video, mimetype='video/mp4')
 

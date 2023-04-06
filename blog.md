@@ -139,23 +139,33 @@ Since our solution required a lot of API requests, I had to make sure all the ca
 
 As the frontend developer, I used my React knowledges to create an intuitive and engaging interface for the application. I implemented several features to enhance user experience, including:
 
-### 🌓 Dark mode by default: I made dark mode the default viewing option in recognition of its growing popularity. However, I also provided users with the option to switch to light mode for their comfort and convenience.
+### 🌓 Dark mode by default:
+
+I made dark mode the default viewing option in recognition of its growing popularity. However, I also provided users with the option to switch to light mode for their comfort and convenience.
 
 &nbsp;
 
-### 🖥 Modal windows: I used modal windows for two purposes: user authentication and displaying feedback on user workouts. This allowed for secure and seamless login, as well as a non-intrusive way for users to track their progress.
+### 🖥 Modal windows:
+
+I used modal windows for two purposes: user authentication and displaying feedback on user workouts. This allowed for secure and seamless login, as well as a non-intrusive way for users to track their progress.
 
 &nbsp;
 
-### 🔌 Connecting with Backend: my primary responsibility was to ensure the frontend displayed data correctly from the backend. I collaborated with Andrey to optimize communication between the frontend and NodeJS server, requiring an understanding of API requests and responses.
+### 🔌 Connecting with Backend:
+
+my primary responsibility was to ensure the frontend displayed data correctly from the backend. I collaborated with Andrey to optimize communication between the frontend and NodeJS server, requiring an understanding of API requests and responses.
 
 &nbsp;
 
-### 🔒 Firebase: I implemented user authentication via Firebase to ensure secure and reliable protection of users' personal information and data. This allowed for smooth login and logout and user verification.
+### 🔒 Firebase:
+
+I implemented user authentication via Firebase to ensure secure and reliable protection of users' personal information and data. This allowed for smooth login and logout and user verification.
 
 &nbsp;
 
-### 👩‍👧‍👦 Teamwork: I worked closely with the backend developer to ensure successful project completion. This included merging changes to the GitHub repository and optimizing the codebase for a successful MVP.
+### 👩‍👧‍👦 Teamwork:
+
+I worked closely with the backend developer to ensure successful project completion. This included merging changes to the GitHub repository and optimizing the codebase for a successful MVP.
 
 &nbsp;
 

@@ -2,6 +2,7 @@ const express = require("express");
 app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 const videosRoutes = require("./routes/videos");
 const posesRoutes = require("./routes/poses");
