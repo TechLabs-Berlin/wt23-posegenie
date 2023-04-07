@@ -201,4 +201,4 @@ class Lunge():
         ax[1, 0].set_axis_off()
         ax[1, 1].set_axis_off()
         ax[1, 2].set_axis_off()
-        plt.savefig(f"{self.filename}.png")  
+        plt.savefig(f"{self.filename}.png",  bbox_inches="tight") 
