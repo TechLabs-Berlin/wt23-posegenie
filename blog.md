@@ -36,7 +36,7 @@ This section outlines the common discussion points that involved all track membe
 -Trimming videos, detecting when the exercise starts
 
 
-# Data Science and Artificial Intelligence tracks: common points
+# 👩 Data Science and 🤖 Artificial Intelligence tracks: common points
 Most of the time in our project phase, AI and DS teams worked together and this section outlines the common tasks of AI and DS.
 
 - DS: Esma B. Boydas, Naiara Fernandez
@@ -85,6 +85,29 @@ We have started testing the Mediapipe landmarks. Everyone in these two teams mad
 
 ### Implementation phase
 We have implemented common calculator functions which would be regularly used by means of all exercises. Angle calculations are the most crucial steps in pose detection, and we resorted to different techniques to calculate them, such as angle between two lines (4 landmark points) vs between three points (3 landmarks).
+
+We distinguished between *dynamic exercises* that are based on repeats and counts, (e.g. lunges, curls) and *static exercises* that require holding a position for a certain time (e.g. yoga poses). Depending on the specific exercise, different data analysis approach was taken. Each exercise is implemented  as a separate class.
+
+## Static Exercises
+
+### Class Warrior (Warrior 2 yoga pose)
+
+#### Data Analysis
+
+To analyze Warrior 2 pose, 10 different indicative angles, calculated from the Mediapipe landmarks, are used: angles at elbows, knees and hips (6 angles), and angles arms and legs from horizontal (4 angles).
+
+Given Warrior 2 pose is an asymmetric pose, user can be facing right or left, it first required a preliminary analysis on the leg position to determine if the user is performing a left or right warrior. Then, angles are analized to check if they are within predefined ranges for the pose to be considered "detected", if yes a timer is started. To implement the timer, CV2 timestamps of video frames are used, which gives approximate duration. In addition, feedback is given to users to get their angles closer to the "optimal" expected angles and to "improve" their pose.
+
+All indicative angles and calculations are internally stored in Numpy Arrays and Python lists, then at the end of video they are converted to Pandas DataFrame for final analysis and graph plotting with MatplotLib.
+
+#### Machine Learning Model
+
+The initial approach described above, relies on "hard-coded" angle ranges to detect the pose. But this would have been a limitation if we wanted to easily expand the app to many more yoga poses (ideally an entire yoga flow sequence).
+
+A basic Machine Learning (ML) model was implemented to detect additional poses. For the training of the ML model, >300 images downloaded from internet are used. The ML model data preparation and training is done in a Jupyter notebook, where from each image, 10 indicative angles are stored as features with a label (pose name). The ML model was trained with SciKitLearn, using Decision Trees, Random Forest, and SVC (linear and rbc kernel) models. Trained models are saved and can be loaded in the main python app. At the moment of submission, few poses were contained in the model, mountain pose, tree pose, and warrior 1 and 2 poses. A similar approach, but using Deep Learning algorithms is implemented in the different class "Chair" pose.
+
+Right now, feedback is only given for Warrior 2 pose. Ideally, the app, would detect any of the poses within the ML model, and would provide also feedback to the app user. One caveat of a model trained with arbitrary images downloaded from the internet is that, the images do not necesarily represent an optimally-performed yoga pose, but instead provides a broad range of angles for pose detection in the app. Ideally two different set of images would be used to train two different models: 1) a broad range of arbitrary images representing of all levels of performers to detect the pose in the app (as implemented right now). 2) A second set of images with the poses performed by advanced practitioner, coaches, or instructurs, for a model used as a benchmark to provide feedback to user.
+
 
 # 🕸 Web Development
 
