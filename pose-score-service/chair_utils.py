@@ -122,6 +122,7 @@ class Chair():
 
             # image = cv2.putText(image, text, org, font,
             #                     fontScale, color, thickness, cv2.LINE_AA)
+        
 
             self.angle(results, image)
             out.write(image)

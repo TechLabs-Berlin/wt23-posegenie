@@ -47,7 +47,7 @@ def upload_video():
             lunge.visualize()
 
         if exercise == "Curls":
-            curls = Chair(read_upload=readUpload,
+            curls = Curls(read_upload=readUpload,
                           filename=output_path, pose=pose)
             curls.visualize()
 
@@ -56,10 +56,10 @@ def upload_video():
                               filename=output_path, pose=pose)
             warrior.visualize()
 
-        # if exercise == "Chair":
-        #     chair = Chair(read_upload=readUpload,
-        #                       filename=output_path, pose=pose)
-        #     chair.visualize()
+        if exercise == "Chair":
+            chair = Chair(read_upload=readUpload,
+                              filename=output_path, pose=pose)
+            chair.visualize()
 
         else:
             pass
@@ -70,7 +70,10 @@ def upload_video():
 
         # return send_file(converted_video, mimetype='video/mp4')
 
-        files = [converted_video, image]
+        if exercise == "Chair":
+            files = [converted_video]
+        else:
+            files = [converted_video, image]
         # create a temporary file to store the zip archive
         zip_filename = 'temp.zip'
         with zipfile.ZipFile(zip_filename, 'w') as zip:
