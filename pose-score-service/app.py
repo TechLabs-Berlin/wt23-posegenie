@@ -1,7 +1,6 @@
 from flask import Flask, request, send_file, make_response
 import zipfile
 import mediapipe as mp
-from hipkneeangle import hipknee
 from utils import convert_to_mp4, annotated_filename
 from config import videos_directory
 import os
