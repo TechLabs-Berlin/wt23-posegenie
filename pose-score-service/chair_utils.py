@@ -73,6 +73,7 @@ class Chair():
         out = cv2.VideoWriter(out_filename, cv2.VideoWriter_fourcc(
             'm', 'p', '4', 'v'), 30, (self.width, self.height))
 
+        sec = 0
         while self.cap.isOpened():
             ret, frame = self.cap.read()
             if not ret:
@@ -94,20 +95,34 @@ class Chair():
             pred_class_prob = prediction[0][pred_class]
             print(pred_class_prob)
 
+            if int(pred_class) == 0:
+                hint = "Chair"
+                sec = sec + 1
+            else:
+                hint = 'Waiting'
+                sec = 0
+
+
             # Draw prediction on image
             font = cv2.FONT_HERSHEY_SIMPLEX
             fontScale = 1
             thickness = 2
-            color = (0, 255, 0)
+            color = (255, 255, 255)
             if pred_class_prob >= 0.98:
                 # print predicted class
-                text = f'Prediction: {pred_class}'
+                text = f'Prediction: {hint}'
             else:
-                text = 'Prediction is not confident enough'
+                text = f'Prediction: {hint}'
             # text = f'Prediction: {pred_class}'
             org = (50, 50)
-            image = cv2.putText(image, text, org, font,
-                                fontScale, color, thickness, cv2.LINE_AA)
+            org2 = (50, 100)
+            cv2.rectangle(image, (0,0), (500,125), (0,0,0), -1)
+            image = cv2.putText(image, text, org, font, fontScale, color, thickness, cv2.LINE_AA)
+            image = cv2.putText(image, f'Time in Pose: {sec} seconds', org2, font, fontScale, color, thickness, cv2.LINE_AA)
+
+            # image = cv2.putText(image, text, org, font,
+            #                     fontScale, color, thickness, cv2.LINE_AA)
+        
 
             self.angle(results, image)
             out.write(image)
