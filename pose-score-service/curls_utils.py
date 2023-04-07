@@ -173,13 +173,13 @@ class Curls():
         val_minmax =  int(max(angleTotalArray)) - int(min(angleTotalArray))
         val_time   = round(res["period"], 2)
         fig, ax = plt.subplots(2, 3, figsize=(15,7))
-        ax[0, 0].title.set_text('Lunge Progression (raw)')
+        ax[0, 0].title.set_text('Bicep Curl Progression (raw)')
         ax[0, 0].plot(timeTotalArray, angleTotalArray, color="navy", label='_nolegend_', linewidth=2.0)
-        ax[0, 0].set_ylabel('HipKneeAngle')
+        ax[0, 0].set_ylabel('Elbow Angle')
         ax[0, 0].set_xlabel('Timestamp (sec)')
 
         ax[0, 1].plot(timeTotalArray, res["fitfunc"](timeTotalArray), "r-", label='_nolegend_', linewidth=2)
-        ax[0, 1].title.set_text('Lunge Progression (Best Fit)')
+        ax[0, 1].title.set_text('Bicep Curl Progression (Best Fit)')
         ax[0, 1].set_xlabel('Timestamp (sec)')
 
         ax[0, 2].title.set_text('Comparison')
