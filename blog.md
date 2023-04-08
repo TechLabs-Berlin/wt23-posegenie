@@ -224,7 +224,7 @@ Since our solution required a lot of API requests, I had to make sure all the ca
 
 ## Frontend
 
-As the frontend developer, I used my React knowledges to create an intuitive and engaging interface for the application. I implemented several features to enhance user experience, including:
+As the frontend developer, I used my React knowledges to create an intuitive and engaging responsive interface for the application. I implemented several features to enhance user experience, including:
 
 ### 🌓 Dark mode by default:
 
@@ -240,7 +240,7 @@ I used modal windows for two purposes: user authentication and displaying feedba
 
 ### 🔌 Connecting with Backend:
 
-my primary responsibility was to ensure the frontend displayed data correctly from the backend. I collaborated with Andrey to optimize communication between the frontend and NodeJS server, requiring an understanding of API requests and responses.
+My primary responsibility was to ensure the frontend displayed data correctly from the backend. I collaborated with Andrey to optimize communication between the frontend and NodeJS server, requiring an understanding of API requests and responses.
 
 &nbsp;
 
