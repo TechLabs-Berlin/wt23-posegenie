@@ -382,10 +382,16 @@ class Warrior():
         df_pose = pd.DataFrame(self.pose_list, columns=["Pose"])
         df=pd.concat([df_pose, pd.Series(self.left_arm_angle_list), pd.Series(self.right_arm_angle_list), pd.Series(self.left_knee_angle_list),pd.Series(self.right_knee_angle_list), pd.Series(self.left_knee_ver_list),pd.Series(self.right_knee_ver_list)],axis=1).rename(columns={0:"left arm", 1:"right arm", 2:"left knee ang", 3:"right knee ang", 4:"left knee ver",5:"right knee ver"})
         
-        # PLOT GRAPHS FOR IMPLEMENTED POSES: Warrior 2
+        # FILTER DATA FOR IMPLEMENTED POSES: Warrior 2
         df["Pose Code"] = pd.Categorical(df["Pose"],ordered=True, categories=["UNKNOWN", "LEFT WARRIOR 2", "RIGHT WARRIOR 2"]).codes
         filt_pose1 = df["Pose Code"] == 1 # LEFT WARRIOR 2
         filt_pose2 = df["Pose Code"] == 2 # RIGHT WARRIOR 2
+
+
+        # PLOT DATA FOR IMPLEMENTED POSES: Warrior 2
+
+        # close/clear existing plt plot in case opening after other exercises
+        plt.close()
 
         plt.rcParams['figure.figsize'] = [18, 6]
         plt.rcParams['figure.dpi'] = 100 # 200 e.g. is really fine, but slower
