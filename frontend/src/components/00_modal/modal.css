@@ -119,14 +119,14 @@ form {
 .user-auth button {
   padding: 2px 4px;
   border-radius: 5px;
-  background-color: white;
+  background-color: #fff;
   margin: auto;
 }
 .status_auth {
   margin: 10px 0;
 }
 .error-auth {
-  color: red;
+  color: rgb(255, 0, 0);
   text-align: center;
   margin-left: 5px;
 }

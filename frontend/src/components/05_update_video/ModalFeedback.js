@@ -1,7 +1,7 @@
 import React from "react";
 import "./ModalFeedback.css";
 
-function ModalFeedback({ isOpen, onClose, children, videoUrl }) {
+function ModalFeedback({ isOpen, onClose, videoUrl, imageUrl }) {
   const handleCloseModal = () => {
     onClose();
   };
@@ -9,21 +9,33 @@ function ModalFeedback({ isOpen, onClose, children, videoUrl }) {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-container">
-      <div className="modal-content">
+    <div className="modal-overlay">
+      <div className="modal-container">
         <div>
-          <h2>Results: </h2>
+          <h2 className="results">Results: </h2>
         </div>
         {videoUrl ? (
-          <video
-            src={videoUrl}
-            controls
-            type="video/mp4"
-            className="video-player"
-          />
+          <div>
+            <video
+              src={videoUrl}
+              controls
+              type="video/mp4"
+              className="video-player"
+            />
+            <div className="image-container">
+              <img src={imageUrl} className="image-feedback" />
+            </div>
+          </div>
         ) : (
-          <div className="loading-spinner">
-            <div className="spinner"></div>
+          <div className="loading-container">
+            <div className="loading-spinner">
+              <h3>
+                Analyzing your workout and measuring your movements.
+                <br /> Please wait while we gather the data to give you <br />
+                personalized feedback and insights.
+              </h3>
+              <div className="spinner"></div>
+            </div>
           </div>
         )}
         <button className="close-button" onClick={handleCloseModal}>
