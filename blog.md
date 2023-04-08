@@ -1,39 +1,43 @@
+# **poseGenie: AI powered form-feedback tool in fitness and yoga **
+
 Are you tired of suffering from poor posture and feeling frustrated with incorrect exercise form? These issues can cause a range of health problems and limit your performance. Not to mention, it can be difficult to determine if you’re executing exercises properly or which muscles should be targeted. This can lead to muscle imbalances, reduced workout effectiveness, and even painful injuries.
 
 Thankfully, there’s a high-tech solution that will leave you feeling confident and energized during your workouts. Introducing PoseGenie - the all-in-one workout assistant that uses advanced human pose estimation technology to detect your exercise and provide you with valuable feedback and customized suggestions to enhance your performance. This incredible tool offers exercise metrics and helps you optimize your workouts by engaging the correct muscles, allowing you to quantify your progress and achieve your goals.
 
-Say goodbye to frustrating workouts and hello to your new personal trainer - PoseGenie!
+Say goodbye to frustrating workouts and hello to your new personal trainer & workout optimizer - PoseGenie!
+
+_This project was carried out as part of TechLabs in Berlin (winter term 2023)_
 
 &nbsp;
 
 # All tracks: initial phase
-This section outlines the common discussion points that involved all track members at the initial stage:
+This section outlines the common discussion points that involved all track members at the planning phase:
 
--Which poses/exercises to implement, why and how
+- Which poses/exercises to implement, why and how
 
--How to learn the mechanics of the poses/exercises
+- How to learn the mechanics of the poses/exercises
 
--Which human pose estimation model to use
+- Which human pose estimation model to use
 
--Webapp or mobile app
+- Webapp or mobile app
 
--No UX designer team member in the team: how to proceed
+- No UX designer team member in the team: how to proceed
 
--Realtime detection or prerecorded video
+- Realtime detection or prerecorded video
 
--To what extent the assistance/feedback/suggestions can be provided to the user in general
+- To what extent the assistance/feedback/suggestions can be provided to the user in general
 
--To what extent the assistance/feedback/suggestions can be provided to the user in our MVP
+- To what extent the assistance/feedback/suggestions can be provided to the user in our MVP
 
--Audio feedback or written feedback
+- Audio feedback or written feedback
 
--A final report or an analysis on the fly
+- A final report or an analysis on the fly
 
--A rep counter tool
+- A rep counter tool
 
--Which ML/DL models can be used on the data obtained from the user
+- Which ML/DL models can be used on the data obtained from the user
 
--Trimming videos, detecting when the exercise starts
+- Trimming videos, detecting when the exercise starts
 
 
 # 👩 Data Science and 🤖 Artificial Intelligence tracks: common points
@@ -46,42 +50,40 @@ Most of the time in our project phase, AI and DS teams worked together and this 
 ### Learning about 3D human pose estimation
 At the initial stage of the project we have started to look into the dynamics of 3D human pose estimation models in Python. We have gathered important sources outlining the capabilities and uses of different computer vision models, such as the links below:
 
--A comprehensive guide to Human Pose Estimation:
+- A comprehensive guide to Human Pose Estimation:
 https://www.v7labs.com/blog/human-pose-estimation-guide
 
--Human Pose Estimation Technology Capabilities and use cases:
+- Human Pose Estimation Technology Capabilities and use cases:
 https://mobidev.biz/blog/human-pose-estimation-technology-guide
 
--3D Human Pose Estimation Experiments and Analysis:
+- 3D Human Pose Estimation Experiments and Analysis:
 https://www.kdnuggets.com/2020/08/3d-human-pose-estimation-experiments-analysis.html
 
--An easy guide for pose estimation with MediaPipe:
+- An easy guide for pose estimation with MediaPipe:
 https://medium.com/mlearning-ai/an-easy-guide-for-pose-estimation-with-googles-mediapipe-a7962de0e944
 
--Squat analyzer with MediaPipe:
+- Squat analyzer with MediaPipe:
 https://learnopencv.com/ai-fitness-trainer-using-mediapipe/
 
--Deadlift analyzer I:
+- Deadlift analyzer I:
 https://saketshirsath.github.io/cv.github.io/
 
--Deadlift analyzer II:
+- Deadlift analyzer II:
 https://github.com/SravB/Computer-Vision-Weightlifting-Coach
 
--Deep Learning approaches for workout repetition counting and validation:
+- Deep Learning approaches for workout repetition counting and validation:
 https://www.sciencedirect.com/science/article/abs/pii/S016786552100324X#!
 
--Yoga Pose Estimation and Feedback Generation using Deep Learning:
+- Yoga Pose Estimation and Feedback Generation using Deep Learning:
 https://www.hindawi.com/journals/cin/2022/4311350/
 
--Validity of an artificial intelligence, human pose estimation model for measuring single-leg squat kinematics:
+- Validity of an artificial intelligence, human pose estimation model for measuring single-leg squat kinematics:
 https://pubmed.ncbi.nlm.nih.gov/36198251/
 
 After taken a quick look at these resources, we have discussed the potential capabilities of our MVP from a python-backend perspective. 
 
 ### Decision of the AI-model
 We have started testing the Mediapipe landmarks. Everyone in these two teams made use of real-life examples and observed the motion detection. To test the limitations, we have also resorted to videos in which the human body parts moved out of frame. We have discussed the detection confidence and used different thresholds to check the best setting in terms of computational cost vs. accuracy. The consensus was to proceed with mediapipe since it provides a collection of pre-built components that can be easily customized, combined, and extended to develop computer vision and ML models.
-
-(The picture from the ppt showing examples of the tests)
 
 ### Implementation phase
 We have implemented common calculator functions which would be regularly used by means of all exercises. Angle calculations are the most crucial steps in pose detection, and we resorted to different techniques to calculate them, such as angle between two lines (4 landmark points) vs between three points (3 landmarks).
@@ -152,6 +154,24 @@ Loss: 0.015103639103472233
 
 Through this experiment, adding convolutional and pooling layers to a neural network may not always improve its performance. The reason for this could be due to various factors such as the complexity of the dataset, with ours being very simple, the size of the network, the number of training examples, and the hyperparameters used in the model.
 
+## Dynamic Exercises
+Dynamic exercises involves repetitions and a higher degree of movement, which adds another layer of complexity regarding the landmark detection, data collection, and post-processing of the user exercise. For this purpose, we have resorted to detecting & recording & processing the most important landmarks for the exercise.
+
+*How does this work?* For instance, a lunge exercise is a lower body exercise that involves stepping forward or backward with one leg and bending both knees to lower the body. The key points for this dynamic exercise are thus the upper legs, which should be actively detected by the detection model. We call it *the hip-knee angle* and record it progressively throughout the exercise.
+
+*What comes after recording the key landmarks?* Following the detection and storing the important angles, we apply an initial parameter-free sinusoidal fit as the repetitive move resembles a sine wave. After fitting, there are three important parameters come into play:
+
+- val_minmax: the difference between the maximum and minimum angle reached during the exercise
+- val_amp: the amplitude of the sine wave calculated after sinusoidal fitting
+- val_time: the period calculated after sinusoidal fitting
+
+Based on these parameters, the feedback is generated in three parts and plotted by matplotlib along with the 2D graphs involving the measurements:
+
+- Definition: This part explains the concept of the hip-knee angle and how it can be analyzed to assess the user's form during the lunge exercise.
+- Analysis: This part provides a detailed analysis of the user's performance during the exercise, including their range of motion (val_minmax), consistency of movements (val_amp), and timing per rep (val_time). The workout assistant also provides specific comments and feedback based on these parameters.
+- Feedback: This part provides specific feedback to the user based on their performance, including suggestions for improvement and areas to focus on during future workouts.
+
+&nbsp;
 
 # 🕸 Web Development
 
