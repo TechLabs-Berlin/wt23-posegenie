@@ -15,7 +15,7 @@ function PosesButtonsGroup({ onButtonClicked, onModalClosed }) {
 
     const handleButtonClick = (value) => {
         setSelectedPose(value);
-        onButtonClicked(value);
+        onButtonClicked(value.id);
     };
 
     const resetStates = () => {
