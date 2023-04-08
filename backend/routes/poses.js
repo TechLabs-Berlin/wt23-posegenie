@@ -10,6 +10,7 @@ router.get("/", (req, res) => {
         poses.push({
             id: pose.name,
             label: pose.name,
+            componentName: pose.componentName,
         });
     });
     res.send(poses);
