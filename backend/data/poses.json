@@ -1,14 +1,18 @@
 [
     {
-        "name": "Lunges"
+        "name": "Lunges",
+        "componentName": "Lunges"
     },
     {
-        "name": "Warrior"
+        "name": "Warrior",
+        "componentName": "Warrior"
     },
     {
-        "name": "Chair"
+        "name": "Chair",
+        "componentName": "Chair"
     },
     {
-        "name": "Curls"
+        "name": "Bicep Curls",
+        "componentName": "Curls"
     }
 ]
