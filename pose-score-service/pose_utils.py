@@ -123,10 +123,10 @@ class Lunge():
         cv2.putText(image, self.hint, (15,self.height-13), 
                     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0,255,0), 2, cv2.LINE_AA)
         
-        cv2.putText(image, "Back Angle: "+str(back_angle), 
-                           (240,self.height-56), 
-                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 1, cv2.LINE_AA
-                                )    
+        #cv2.putText(image, "Back Angle: "+str(back_angle), 
+        #                   (240,self.height-56), 
+        #                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 1, cv2.LINE_AA
+        #                        )    
         
         # Render detections
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
