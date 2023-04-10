@@ -110,19 +110,26 @@ A basic Machine Learning (ML) model was implemented to detect additional poses. 
 
 Right now, feedback is only given for Warrior 2 pose. Ideally, the app, would detect any of the poses within the ML model, and would provide also feedback to the app user. One caveat of a model trained with arbitrary images downloaded from the internet is that, the images do not necesarily represent an optimally-performed yoga pose, but instead provides a broad range of angles for pose detection in the app. Ideally two different set of images would be used to train two different models: 1) a broad range of arbitrary images representing of all levels of performers to detect the pose in the app (as implemented right now). 2) A second set of images with the poses performed by advanced practitioner, coaches, or instructurs, for a model used as a benchmark to provide feedback to user.
 
-## AI - Neural Net Model to Predict Stationary Poses
+### Class Chair (Chair pose)
 
-Similar to the machine learning model above, instead of hard-coding the angles to detect whether the desired pose is achieved, we utilized Deep Learning using Neural Networks to make pose detection more polished and refined. We have trained it for detecting 5 yoga poses, of which only one is currently implemented in the app. Implementations of the 4 other poses will be done in the future.
+#### AI - Neural Net Model to Predict Stationary Poses
 
-### Data
+Similar to the machine learning model above, instead of hard-coding the angles to detect whether the desired pose is achieved, we utilized Deep Learning using Neural Networks to make pose detection more polished and refined. We have trained it for detecting 5 yoga poses, of which only one i.e the Chair pose is currently implemented in the app. Implementations of the 4 other poses will be done in the future.
 
-For the prediction models, pictures readily available online and separated them into train and test folders, specifically using Lawrence Moroney’s Yoga Pose Classification datasets which are computer generated 300x300 full color images in 5 different poses, using Daz3D, were used. This image set contains all the five poses For further information: https://laurencemoroney.com/2021/08/23/yogapose-dataset.html
+#### Data
 
-### Model
+For the prediction models, there are pictures readily available online and we separated them into train and test folders, specifically using Lawrence Moroney’s Yoga Pose Classification datasets which are computer generated 300x300 full color images in 5 different poses, using Daz3D, were used. This image set contains all the five poses For further information: https://laurencemoroney.com/2021/08/23/yogapose-dataset.html. We used MoveNet, a TensorFlow Lite model, for human pose estimation. The model detects key points on a person's body and their movements in a video. We preprocessed the input images to detect the key points, and save those keypoints in CSV files using OpenCV and NumPy libraries. 
 
-For the model, we used took a pre-trained neural network built using keras from https://github.com/harshbhatt7585/YogaIntelliJ. The model uses 3 dense layers (2 used for input and output) and 2 dropout layers and achieved a perfect accuracy score on both training and validation sets which had 1513 and 878 images respectively, each having 5 classes. 
+To preprocess the images, we used a Preprocessor class that takes the input folder of images and the output path for CSV files. It processes each pose class in the folder and writes the landmark coordinates to its CSV file. It also checks for invalid images and ignores them, skips images with scores below the threshold, and generates an error message for them. Finally, it merges all CSV files for each class into a single CSV file with a label, class name, and pose coordinates.
 
-Alternatively, we tried adding a convolutional and max-pooling layer on top of the original model. Convolutional layers are a type of layer that are commonly used in Deep Learning models for image processing tasks. These layers operate on small regions of the input image, called kernels or filters, and extract local features such as edges, shapes, and textures. By applying multiple convolutional layers in a network, we can learn more complex and abstract features of the image hierarchy. Since we inputs we are passing into the model are one-dimensional arrays containing the landmark keypoints, a one-dimensional convolutional layer was used. 
+Once we had the CSV files with the key points, we use them to train a deep learning model to classify different poses. This model was able to identify different movements based on the keypoints extracted from the input video.
+
+
+#### Model
+
+For the model, we built a neural network using keras. The model uses 3 dense layers (2 used for input and output) and 2 dropout layers and achieved a perfect accuracy score on both training and validation sets which had 1513 and 878 images respectively, each having 5 classes. 
+
+Alternatively, we tried adding a convolutional and max-pooling layer on top of the original model. Convolutional layers are a type of layer that are commonly used in Deep Learning models for image processing tasks. These layers operate on small regions of the input image, called kernels or filters, and extract local features such as edges, shapes, and textures. By applying multiple convolutional layers in a network, we can learn more complex and abstract features of the image hierarchy. Since the inputs we are passing into the model are one-dimensional arrays containing the landmark keypoints, a one-dimensional convolutional layer was used. 
 
 The result of this layers might be that the extracted features include information about the position, orientation, and movement of the different joints, as well as more abstract features such as the overall pose of the person and the context in which the pose occurs.
 
@@ -130,7 +137,7 @@ Pooling layers operate on the output of convolutional layers by reducing the spa
 
 We experimented with adding a convolutional and max-pooling layer on top of the model. However, it had slightly less accuracy than the original model. The optimizer we used was adam, a popular optimizer that uses adaptive learning rates to update the weights of the neural network during training.
 
-### Original Model 
+#### Original Model 
 ![Untitled](https://user-images.githubusercontent.com/50834160/230712925-01290a20-2213-4bac-81a0-670a7561fc9c.png)
 ![Untitled](https://user-images.githubusercontent.com/50834160/230713121-3786f375-171b-428d-b343-23c78a9b483c.png)
 
@@ -138,7 +145,7 @@ Accuracy: 0.9977194666862488
 
 Loss: 0.004214226733893156
 
-### Original Model (with 1 Convolutional Layer & 1 MaxPooling Layer)
+#### Original Model (with 1 Convolutional Layer & 1 MaxPooling Layer)
 ![output](https://user-images.githubusercontent.com/50834160/230713201-2475cb4a-7d6e-4671-81dd-32cf95c4d5de.png)
 ![output](https://user-images.githubusercontent.com/50834160/230713209-51f71d3d-d266-4e6a-b178-e9e5d8d6ede6.png)
 
@@ -146,7 +153,7 @@ Accuracy: 0.998859703540802
 
 Loss: 0.008410756476223469
 
-### Original Model (with 2 Convolutional Layers & 2 MaxPooling Layers)
+#### Original Model (with 2 Convolutional Layers & 2 MaxPooling Layers)
 
 Accuracy: 0.9965792298316956
 
@@ -154,8 +161,13 @@ Loss: 0.015103639103472233
 
 Through this experiment, adding convolutional and pooling layers to a neural network may not always improve its performance. The reason for this could be due to various factors such as the complexity of the dataset, with ours being very simple, the size of the network, the number of training examples, and the hyperparameters used in the model.
 
+The neural network part of the project was heavily inspired by https://github.com/harshbhatt7585/YogaIntelliJ.
+
 ## Dynamic Exercises
+
 Dynamic exercises involves repetitions and a higher degree of movement, which adds another layer of complexity regarding the landmark detection, data collection, and post-processing of the user exercise. For this purpose, we have resorted to detecting & recording & processing the most important landmarks for the exercise.
+
+### Class Lunge (Lunges)
 
 *How does this work?* For instance, a lunge exercise is a lower body exercise that involves stepping forward or backward with one leg and bending both knees to lower the body. The key points for this dynamic exercise are thus the upper legs, which should be actively detected by the detection model. We call it *the hip-knee angle* and record it progressively throughout the exercise.
 
@@ -170,6 +182,10 @@ Based on these parameters, the feedback is generated in three parts and plotted 
 - Definition: This part explains the concept of the hip-knee angle and how it can be analyzed to assess the user's form during the lunge exercise.
 - Analysis: This part provides a detailed analysis of the user's performance during the exercise, including their range of motion (val_minmax), consistency of movements (val_amp), and timing per rep (val_time). The workout assistant also provides specific comments and feedback based on these parameters.
 - Feedback: This part provides specific feedback to the user based on their performance, including suggestions for improvement and areas to focus on during future workouts.
+
+### Class Curls (Bicep Curls)
+
+For Bicep curls, it works exactly like how the lunge exercise part of the project. However, during a bicep curl exercise, the key points of focus are the biceps, which need to be actively detected by the detection model. This is done by monitoring the angle of the elbow joint during the exercise. 
 
 &nbsp;
 
