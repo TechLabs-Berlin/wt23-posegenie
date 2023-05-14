@@ -88,12 +88,24 @@ class Lunge():
                                 )
             
             # Reps counter logic.
-            if (lKnee_angle < 130 and (rKnee_trailing < -100) and back_angle > 75 and back_angle < 110 and hipKnee_angle > 60) or (rKnee_angle < 130 and lKnee_trailing < -100 and back_angle > 75 and back_angle < 110 and hipKnee_angle > 60):
+
+            is_back_straight = back_angle > 60 and back_angle < 110
+            is_left_leg_rep_down = (lKnee_angle < 130) and (rKnee_trailing < -10)
+            is_right_leg_rep_down = (rKnee_angle < 130) and (lKnee_trailing < -10)
+            is_hipknee = hipKnee_angle > 60
+
+
+            if (is_left_leg_rep_down and is_back_straight and is_hipknee) or (is_right_leg_rep_down and is_back_straight and is_hipknee):
                 self.stage = "down"
-            if (lKnee_angle > 130 and abs(rKnee_trailing) <= 150 and back_angle > 75 and back_angle < 110 and self.stage =='down') or (rKnee_angle > 130 and abs(lKnee_trailing) <= 160 and back_angle > 75 and back_angle < 110 and self.stage =='down'):
+            # Simply if condition, print each of the conditional blocks to see which one is failing
+            
+
+            is_left_leg_rep_up = lKnee_angle > 130 and abs(rKnee_trailing) <= 150
+            is_right_leg_rep_up = rKnee_angle > 130 and abs(lKnee_trailing) <= 160
+            if (is_left_leg_rep_up and is_back_straight and self.stage =='down') or (is_right_leg_rep_up and is_back_straight and self.stage =='down'):
                 self.stage="up"
                 self.reps +=1
-            if back_angle < 75 or back_angle > 110:
+            if not is_back_straight:
                 self.hint = "Keep back straight"
             else:
                 self.hint=""

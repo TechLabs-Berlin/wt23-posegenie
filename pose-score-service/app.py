@@ -45,7 +45,7 @@ def upload_video():
                           filename=output_path, pose=pose)
             lunge.visualize()
 
-        if exercise == "Curls":
+        if exercise == "Bicep Curls":
             curls = Curls(read_upload=readUpload,
                           filename=output_path, pose=pose)
             curls.visualize()
