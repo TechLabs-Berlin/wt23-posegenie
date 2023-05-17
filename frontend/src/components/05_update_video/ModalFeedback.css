@@ -115,3 +115,24 @@ h2 {
 .modal-container {
   text-align: center;
 }
+
+@media (min-width: 800px) {
+  .feedback-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .feedback-container__no-image {
+    justify-content: center;
+  }
+
+  .modal-container .feedback-container video {
+    max-width: 650px;
+    max-height: 800px;
+  }
+
+  .modal-container .feedback-container__no-image video {
+    max-width: 640px;
+  }
+}

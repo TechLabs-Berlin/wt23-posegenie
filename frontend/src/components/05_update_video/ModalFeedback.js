@@ -1,12 +1,48 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./ModalFeedback.css";
 
-function ModalFeedback({ isOpen, onClose, videoUrl, imageUrl }) {
+const getVideoDimensionsOf = (url) => {
+  return new Promise(resolve => {
+      // create the video element
+      const video = document.createElement('video');
+
+      // place a listener on it
+      video.addEventListener( "loadedmetadata", function () {
+          // retrieve dimensions
+          const height = this.videoHeight;
+          const width = this.videoWidth;
+
+          // send back result
+          resolve({height, width});
+      }, false);
+
+      // start download meta-datas
+      video.src = url;
+  });
+}
+
+const ModalFeedback = ({ isOpen, onClose, videoUrl, imageUrl }) => {
+  const [dimensions, setDimensions] = useState(null);
+  
+  useEffect(() => {
+    if(videoUrl) {
+      const getVideoDimensions = async () => {
+        const dimensions = await getVideoDimensionsOf(videoUrl);
+        setDimensions(dimensions)
+      }
+
+      getVideoDimensions();
+    }
+    
+  }, [videoUrl]);
+
   const handleCloseModal = () => {
     onClose();
   };
 
   if (!isOpen) return null;
+
+  const feedbackContainerClass = `feedback-container ${!imageUrl ? 'feedback-container__no-image' : ''}`
 
   return (
     <div className="modal-overlay">
@@ -15,7 +51,7 @@ function ModalFeedback({ isOpen, onClose, videoUrl, imageUrl }) {
           <h2 className="results">Results: </h2>
         </div>
         {videoUrl ? (
-          <div>
+          <div className={feedbackContainerClass}>
             <video
               src={videoUrl}
               controls
