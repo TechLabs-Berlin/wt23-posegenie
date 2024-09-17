@@ -47,7 +47,7 @@ Jinja2==3.1.2
 jmespath==1.0.1
 joblib==1.1.0
 jsonschema==4.15.0
-keras==2.10.0
+keras==2.11.0
 Keras-Preprocessing==1.1.2
 keyring==23.8.2
 kiwisolver==1.4.4
